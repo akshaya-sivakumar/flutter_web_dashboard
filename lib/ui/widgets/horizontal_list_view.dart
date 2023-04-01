@@ -35,7 +35,7 @@ Widget horizontalListView({
             : value.textSize(
                 value,
                 Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).canvasColor,
                     ),
               );
         return GestureDetector(
