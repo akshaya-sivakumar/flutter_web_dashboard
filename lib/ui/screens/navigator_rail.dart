@@ -86,7 +86,15 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
         builder: (BuildContext context, BoxConstraints constraints) {
       return constraints.maxWidth > 730
           ? Scaffold(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(1),
+                    child: Divider(
+                      height: 1,
+                      color: Theme.of(context).dividerColor,
+                    )),
                 toolbarHeight: 40,
                 automaticallyImplyLeading: false,
                 actions: [

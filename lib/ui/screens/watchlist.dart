@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
@@ -7,6 +8,7 @@ import 'package:webviewx/webviewx.dart';
 
 import '../../bloc/watchlist/watchlist_bloc.dart';
 import '../widgets/horizontal_list_view.dart';
+import '../widgets/marketDepth_widget.dart';
 import '../widgets/text_widget.dart';
 import 'navigator_rail.dart';
 
@@ -155,80 +157,177 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
               return loadData(context);
             },
           ),
-          Column(
-            children: [
-              WebViewX(
-                initialContent:
-                    "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=light&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
-                width: MediaQuery.of(context).size.width * 0.6 + 70,
-                height: MediaQuery.of(context).size.height * 0.5 - 20,
-              ),
-              Container(
-                  margin: const EdgeInsets.only(top: 10, left: 10),
-                  width: MediaQuery.of(context).size.width * 0.6 + 70,
-                  height: MediaQuery.of(context).size.height * 0.45 - 20,
-                  child: Column(
-                    children: [
-                      horizontalListView(
-                        values: [
-                          "Overview",
-                          "Technicals",
-                          "Futures",
-                          "Options",
-                          "News"
-                        ],
-                        selectedIndex: selectedindex.value,
-                        isEnabled: true,
-                        isRectShape: false,
-                        callback: (value, index) {},
-                        highlighterColor: Theme.of(context).primaryColor,
-                        context: context,
-                      ),
-                      ValueListenableBuilder<int>(
-                          valueListenable: selectedindex,
-                          builder: (context, index, _) {
-                            return index == 0
-                                ? const TextWidget("overview")
-                                : index == 1
-                                    ? const TextWidget("Technical")
-                                    : index == 3
-                                        ? const TextWidget("Futures")
-                                        : index == 4
-                                            ? const TextWidget("Technical")
-                                            : const TextWidget("News");
-                          })
-                    ],
-                  ) /* DefaultTabController(
-                  length: 2,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const TabBar(
-                        tabs: [
-                          Tab(icon: Text('Tab ONE')),
-                          Tab(icon: Text('Tab TWO')),
-                        ],
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            Container(
-                              child: const Text("tab 1"),
-                            ),
-                            Container(
-                              child: const Text("tab 2"),
-                            )
+          Container(
+            color: Theme.of(context).dividerColor.withOpacity(0.3),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: WebViewX(
+                    initialContent:
+                        "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=light&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                    width: MediaQuery.of(context).size.width * 0.6 + 70,
+                    height: MediaQuery.of(context).size.height * 0.6 - 20,
+                  ),
+                ),
+                Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    margin: const EdgeInsets.only(top: 10, left: 10),
+                    width: MediaQuery.of(context).size.width * 0.6 + 70,
+                    height: MediaQuery.of(context).size.height * 0.35 - 20,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        horizontalListView(
+                          fontSize: 14,
+                          values: [
+                            "Overview",
+                            "Technicals",
+                            "Futures",
+                            "Options",
+                            "News"
+                          ],
+                          selectedIndex: selectedindex.value,
+                          isEnabled: true,
+                          isRectShape: false,
+                          callback: (value, index) {},
+                          highlighterColor: Theme.of(context).primaryColor,
+                          context: context,
+                        ),
+                        ValueListenableBuilder<int>(
+                            valueListenable: selectedindex,
+                            builder: (context, index, _) {
+                              return index == 0
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const MarketDepthwidget(),
+                                        SizedBox(
+                                          width: 10,
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.3 -
+                                              30,
+                                          child: DottedLine(
+                                            direction: Axis.vertical,
+                                            lineLength: double.infinity,
+                                            lineThickness: 1.0,
+                                            dashLength: 4.0,
+                                            dashColor:
+                                                Theme.of(context).dividerColor,
+                                            dashRadius: 0.0,
+                                            dashGapLength: 4.0,
+                                            dashGapColor: Colors.transparent,
+                                            dashGapRadius: 0.0,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.28,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 10),
+                                                child: TextWidget(
+                                                  "Details",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleLarge
+                                                      ?.copyWith(fontSize: 16),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 10),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    detailColumn(
+                                                        "Prev.Close", "202.70"),
+                                                    detailColumn(
+                                                        "Open", "205.90"),
+                                                    detailColumn(
+                                                        "High", "206.20"),
+                                                    detailColumn(
+                                                        "Low", "197.35"),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : index == 1
+                                      ? const TextWidget("Technical")
+                                      : index == 3
+                                          ? const TextWidget("Futures")
+                                          : index == 4
+                                              ? const TextWidget("Technical")
+                                              : const TextWidget("News");
+                            })
+                      ],
+                    ) /* DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const TabBar(
+                          tabs: [
+                            Tab(icon: Text('Tab ONE')),
+                            Tab(icon: Text('Tab TWO')),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ), */
-                  )
-            ],
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              Container(
+                                child: const Text("tab 1"),
+                              ),
+                              Container(
+                                child: const Text("tab 2"),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ), */
+                    )
+              ],
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Column detailColumn(String title, String value) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        TextWidget(
+          title,
+          style: Theme.of(context).textTheme.labelSmall,
+        ),
+        TextWidget(value)
+      ],
     );
   }
 
