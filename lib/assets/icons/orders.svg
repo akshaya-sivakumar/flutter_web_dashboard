@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-orders">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="orders" clip-path="url(#clip-orders)">
+    <g id="order" transform="translate(-72.5 -26.5)">
+      <rect id="square_1_" data-name="square(1)" width="18" height="18" rx="2" transform="translate(75.5 29.5)" fill="none" stroke="#2b2b2b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="Line_253" data-name="Line 253" y2="18" transform="translate(79.5 29.5)" fill="none" stroke="#2b2b2b" stroke-linecap="round" stroke-width="1"/>
+      <line id="Line_254" data-name="Line 254" x2="6" transform="translate(82.5 44.5)" fill="none" stroke="#2b2b2b" stroke-linecap="round" stroke-width="1"/>
+      <line id="Line_255" data-name="Line 255" x2="2" transform="translate(82.5 41.5)" fill="none" stroke="#2b2b2b" stroke-linecap="round" stroke-width="1"/>
+      <path id="Path_31444" data-name="Path 31444" d="M49.5,35.5v5.188l3.075-1.537,2.985,1.537V35.5Z" transform="translate(33 -5.688)" fill="none" stroke="#2b2b2b" stroke-linecap="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

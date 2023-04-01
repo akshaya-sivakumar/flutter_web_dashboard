@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-portfolio">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="portfolio" clip-path="url(#clip-portfolio)">
+    <g id="portfolio-2" data-name="portfolio" transform="translate(-115 -26.5)">
+      <rect id="square_1_" data-name="square(1)" width="18" height="18" rx="2" transform="translate(118 29.5)" fill="none" stroke="#2b2b2b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <g id="india-rupee-currency-symbol" transform="translate(57.541 34)">
+        <path id="Path_31442" data-name="Path 31442" d="M71.481,1.938H70.85A2.194,2.194,0,0,0,70.478.9h1a.435.435,0,0,0,.435-.447A.44.44,0,0,0,71.481,0H66.394a.44.44,0,0,0-.435.453A.436.436,0,0,0,66.394.9h1.929a1.407,1.407,0,0,1,1.416,1.038H66.394a.45.45,0,0,0-.435.464.45.45,0,0,0,.435.464h3.3a1.518,1.518,0,0,1-1.554.941H66.77a.453.453,0,0,0,0,.9h1.292c.855.035,1.236.43,1.454,1.511.171.8.3,1.326.4,1.639a2.316,2.316,0,0,0,.475.987.491.491,0,0,0,.725-.015.571.571,0,0,0,.019-.731.046.046,0,0,0,0-.008,13.724,13.724,0,0,1-.575-2.184,2.094,2.094,0,0,0-1.043-1.62,2.11,2.11,0,0,0,1.274-1.424h.7a.45.45,0,0,0,.435-.464A.45.45,0,0,0,71.481,1.938Z" fill="#2b2b2b"/>
+      </g>
+    </g>
+  </g>
+</svg>
