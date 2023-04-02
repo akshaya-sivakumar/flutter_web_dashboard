@@ -1,5 +1,3 @@
-
-
 class AppConstants {
   static const String watchlistLogin = "MSIL WatchList Login";
   static const String enterMobileNo = "Enter Your Mobile number";
@@ -8,8 +6,8 @@ class AppConstants {
   static const String phNo = "Phone Number";
   static const String agreeTerms = "Agree to our Terms and Conditions";
   static const String generateOtp = "Generate OTP";
-  static const String otpVerify = "OTP Verification";
-  static const String otpVerified = "OTP will be automatically verified";
+  static const String otpVerify = "Please enter the OTP to Login";
+  static const String otpVerified = "A OTP has been sent to ";
   static const String resendOtp = "Resend OTP";
   static const String pleaseWait = "Please wait...";
   static const String watchlist = "MSIL WatchLIST";
@@ -28,8 +26,5 @@ class AppConstants {
   static const String pleaseAgree = "Please agree to our terms and conditons";
   static const String watchlistTitle = "WATCHLIST";
   static const String pageNotfound = "Page Not Found";
-    static const String isDark = "isDark";
-
-
-    
+  static const String isDark = "isDark";
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoaderWidget {
   void showLoader(BuildContext context,
@@ -8,34 +9,29 @@ class LoaderWidget {
         : showDialog(
             context: context,
             barrierDismissible: false,
+            barrierColor: Colors.black.withOpacity(0.7),
             builder: (BuildContext context) {
               return WillPopScope(
-                  onWillPop: () async => false,
-                  child: AlertDialog(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                    backgroundColor: Colors.white,
-                    content: Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(right: 10.0),
-                          child: CircularProgressIndicator(
-                              strokeWidth: 4,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.black)),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          text ?? "",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: const Size.fromHeight(19).height),
-                        )
-                      ],
+                onWillPop: () async => false,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SpinKitDoubleBounce(
+                      color: Theme.of(context).primaryColor,
+                      size: 50.0,
                     ),
-                  ));
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    /* Text(
+                      text ?? "",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: const Size.fromHeight(19).height),
+                    ) */
+                  ],
+                ),
+              );
             },
           );
   }

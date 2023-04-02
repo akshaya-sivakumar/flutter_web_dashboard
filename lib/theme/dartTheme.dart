@@ -3,8 +3,8 @@ import 'package:flutter_dashboard_web/constants/sbi_constants.dart';
 
 import '../constants/appwidget_size.dart';
 
-const Color appPrimarycolor = Color(0xFFFFFFFF);
-const Color appPrimaryLightcolor = Color(0xFF242533);
+const Color appPrimarycolor = Color(0xFF5E50AD);
+const Color appPrimaryLightcolor = Color(0xFFCFCBE7);
 const Color appBackgroundcolor = Color(0xFF1C1D28);
 const Color appBackgroundcolorSecondary = Color(0xFF242533);
 const Color appTextcolor = Color(0xFFFFFFFF);
@@ -283,6 +283,6 @@ ThemeData darkTheme() {
         return null;
       }),
     ),
-    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: appAccentcolor),
+    // colorScheme: ColorScheme.fromSwatch().copyWith(secondary: appAccentcolor),
   );
 }

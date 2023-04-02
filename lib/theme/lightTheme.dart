@@ -288,6 +288,6 @@ ThemeData lightTheme() {
         return null;
       }),
     ),
-    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: appAccentcolor),
+   // colorScheme: ColorScheme.fromSwatch().copyWith(secondary: appAccentcolor),
   );
 }

@@ -1,5 +1,7 @@
+import 'dart:html';
 import 'dart:math';
 
+import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,7 +52,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   width: MediaQuery.of(context).size.width * 0.3,
-                  color: Theme.of(context).cardColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -163,16 +165,95 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: WebViewX(
-                    initialContent:
-                        "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=light&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
-                    width: MediaQuery.of(context).size.width * 0.6 + 70,
-                    height: MediaQuery.of(context).size.height * 0.6 - 20,
+                  child: Stack(
+                    children: [
+                      WebViewX(
+                        initialContent:
+                            "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${window.localStorage["flutter.isDark"] == "true" ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                        width: MediaQuery.of(context).size.width * 0.6 + 70,
+                        height: MediaQuery.of(context).size.height * 0.6 - 20,
+                      ),
+                      Positioned(
+                        top: 5,
+                        right: 50,
+                        child: GestureDetector(
+                          onTap: () {
+                            print("testing");
+                          },
+                          child: Row(
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontStyle: FontStyle.normal),
+                                ),
+                                onPressed: () {
+                                  print("testing");
+                                  showAlignedDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                            height: 300,
+                                            color: Colors.green,
+                                            child: const Text("dialog"));
+                                      },
+                                      followerAnchor: Alignment.topLeft,
+                                      isGlobal: true,
+                                      transitionsBuilder: (BuildContext context,
+                                          Animation<double> animation,
+                                          Animation<double> secondaryAnimation,
+                                          Widget child) {
+                                        return SlideTransition(
+                                          position: Tween(
+                                                  begin: const Offset(-1, 0),
+                                                  end: const Offset(0, 0))
+                                              .animate(animation),
+                                          child: FadeTransition(
+                                            opacity: CurvedAnimation(
+                                              parent: animation,
+                                              curve: Curves.easeOut,
+                                            ),
+                                            child: child,
+                                          ),
+                                        );
+                                      });
+                                },
+                                child: TextWidget(
+                                  "BUY",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontStyle: FontStyle.normal),
+                                ),
+                                onPressed: () {},
+                                child: TextWidget(
+                                  "SELL",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     margin: const EdgeInsets.only(top: 10, left: 10),
+                    padding: const EdgeInsets.only(left: 20),
                     width: MediaQuery.of(context).size.width * 0.6 + 70,
                     height: MediaQuery.of(context).size.height * 0.35 - 20,
                     child: Column(
@@ -199,6 +280,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                             builder: (context, index, _) {
                               return index == 0
                                   ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -326,7 +409,14 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           title,
           style: Theme.of(context).textTheme.labelSmall,
         ),
-        TextWidget(value)
+        Padding(
+          padding: const EdgeInsets.only(top: 5.0),
+          child: TextWidget(
+            value,
+            style:
+                Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 11),
+          ),
+        )
       ],
     );
   }
@@ -339,7 +429,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Theme.of(context).primaryColorLight)),
+            border: Border.all(
+                color: Theme.of(context).primaryColorLight, width: 0.3)),
         alignment: Alignment.center,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

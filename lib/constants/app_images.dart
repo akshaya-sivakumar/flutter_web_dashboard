@@ -9,7 +9,7 @@ class AppImages {
   static SvgPicture getSVGImage(
     String url,
     BuildContext context, {
-    required Color color,
+    Color? color,
     dynamic width,
     dynamic height,
     String? iconName,
@@ -284,7 +284,7 @@ class AppImages {
   static SvgPicture darkThemeIcon(BuildContext context,
       {required Color color, required double width, required double height}) {
     return getSVGImage(
-      'lib/assets/images/dark_theme.svg',
+      'lib/assets/icons/dark_theme.svg',
       context,
       color: color,
       width: width,
@@ -295,7 +295,7 @@ class AppImages {
   static SvgPicture lightThemeIcon(BuildContext context,
       {required Color color, required double width, required double height}) {
     return getSVGImage(
-      'lib/assets/images/light_theme.svg',
+      'lib/assets/icons/light_theme.svg',
       context,
       color: color,
       width: width,

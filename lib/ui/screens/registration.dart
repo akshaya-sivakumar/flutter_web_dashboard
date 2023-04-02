@@ -1,13 +1,18 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dashboard_web/constants/sbi_constants.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dashboard_web/main.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
+import '../../bloc/otp_validation/otp_validation_bloc.dart';
 import '../../bloc/registration/registration_bloc.dart';
-import '../../main.dart';
+import '../../constants/app_constants.dart';
+import '../../model/login_request.dart';
+import '../../model/registration_request.dart' as reg;
 import '../widgets/loader_widget.dart';
 import '../widgets/text_widget.dart';
 
@@ -20,10 +25,14 @@ class RegistrationScreen extends StatefulWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(context) {
-    return BlocProvider(
-      create: (context) => RegistrationBloc(),
-      child: this, // this as the child Important!
-    );
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (context) => RegistrationBloc(),
+      ),
+      BlocProvider(
+        create: (context) => OtpvalidationBloc(),
+      )
+    ], child: const RegistrationScreen());
   }
 }
 
@@ -31,6 +40,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late RegistrationBloc registrationBloc;
   TextEditingController phoneNo = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  //===otp=======
+  int otpCodeLength = 4;
+  String? _otpCode;
+
+  TextEditingController textEditingController = TextEditingController(text: "");
+  late OtpvalidationBloc otpvalidationBloc;
+
+  ValueNotifier valueNotifier = ValueNotifier("");
 
   @override
   void initState() {
@@ -42,8 +60,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           log(state.response.response.infoMsg);
           LoaderWidget().showLoader(context, stopLoader: true);
 
-          /*  Navigator.pushNamed(context, RouteName.otpvalidationScreen,
-              arguments: (ccode.text + phoneNo.text)); */
+          _showMyDialog();
         }
         if (state is RegistrationError) {
           log(state.error);
@@ -51,7 +68,40 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           //   Fluttertoast.showToast(msg: state.error, backgroundColor: Colors.red);
         }
       });
+    otpvalidationBloc = BlocProvider.of<OtpvalidationBloc>(context)
+      ..stream.listen((state) {
+        if (state is OtpvalidationDone) {
+          LoaderWidget().showLoader(context, stopLoader: true);
+          appRoute.pushNamed("/dashboard?index=0");
+        }
+        if (state is OtpvalidationError) {
+          LoaderWidget().showLoader(context, stopLoader: true);
+        }
+      });
     registrationBloc.add(AgreeEvent(false));
+  }
+
+  _onOtpCallBack(String otpCode, bool isAutofill) {
+    _otpCode = otpCode;
+    if (otpCode.length == otpCodeLength) {
+      LoaderWidget().showLoader(context, text: "Please wait..");
+
+      _verifyOtpCode();
+    }
+  }
+
+  _verifyOtpCode() {
+    FocusScope.of(context).requestFocus(FocusNode());
+    Timer(const Duration(milliseconds: 4000), () {
+      context.read<OtpvalidationBloc>().add(OtpvalidationRequestEvent(
+          OtpvalidationRequest(
+              request: Request(
+                  data: Data(
+                      mobNo: phoneNo.text,
+                      otp: _otpCode ?? "",
+                      userType: "virtual"),
+                  appID: "45370504ab27eed7327a1df46403a30a"))));
+    });
   }
 
   @override
@@ -59,147 +109,280 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Form(
       key: formKey,
       child: Scaffold(
-        body: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 400),
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    /*  Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: AppImages.logoSmall(context,
-                          color: AppColors.primaryColor),
-                    ), */
-                    Expanded(child: Container()),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Login",
-                      style: GoogleFonts.roboto(
-                          fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    TextWidget(
-                      "Welcome back to the Traditional Login.",
-                      color: SbiConstants().lightGrey,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                /*  TextField(
-                  controller: userIDController,
-                  style: const TextStyle(fontSize: 16),
-                  decoration: InputDecoration(
-                    labelText: "User ID",
-                    hintStyle: const TextStyle(fontSize: 16),
-                    labelStyle: const TextStyle(fontSize: 16),
-                    hintText: "11110111",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+        backgroundColor: Theme.of(context).primaryColorLight,
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(color: HexColor("#e3d9f2")),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.network(
+                    "https://www.resolutesoftware.com/assets/imgs/posts/what-is-ux-design.jpg",
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width * 0.5,
                   ),
-                ), */
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: phoneNo,
-                  style: const TextStyle(fontSize: 16),
-                  obscureText: false,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: "Mobile Number",
-                    hintText: "",
-                    hintStyle: const TextStyle(fontSize: 16),
-                    labelStyle: const TextStyle(fontSize: 16),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    TextWidget(
-                      "Forgot password?",
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                InkWell(
-                  onTap: () {
-                    appRoute.pushNamed("/dashboard?index=0");
-                    /* if (formKey.currentState!.validate()) {
-                      LoaderWidget()
-                          .showLoader(context, text: AppConstants.pleaseWait);
-                      context.read<RegistrationBloc>().add(
-                          RegistrationRequestEvent(RegistrationRequest(
-                              request: Request(
-                                  data: Data(mobNo: phoneNo.text),
-                                  appID: "f79f65f1b98e116f40633dbb46fd5e21"))));
-                    } else {
-                      /*  Fluttertoast.showToast(
-                                      msg: AppConstants.pleaseAgree,
-                                      backgroundColor: Colors.red); */
-                    } */
-                  },
-                  child: Container(
+                  Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: SbiConstants().active,
-                    ),
-                    alignment: Alignment.center,
-                    width: double.maxFinite,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: const TextWidget(
-                      "Login",
-                      color: Colors.white,
+                        color: HexColor("#e3d9f2"),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(context).primaryColor, //New
+                            blurRadius: 20.0,
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                            color: Theme.of(context).primaryColor, width: 0.3)),
+                    constraints:
+                        const BoxConstraints(maxWidth: 400, maxHeight: 400),
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          "Login",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontSize: 20),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextWidget(
+                          "Welcome! Let's get started !!!",
+                          color: Theme.of(context)
+                              .inputDecorationTheme
+                              .labelStyle
+                              ?.color,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                          controller: phoneNo,
+                          style: const TextStyle(fontSize: 16),
+                          obscureText: false,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: "Mobile Number",
+                            hintText: "",
+                            hintStyle: const TextStyle(fontSize: 10),
+                            
+                            labelStyle: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).canvasColor),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 10),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+
+                            /*  suffixIcon: const SizedBox(
+                              width: 400,
+                              height: 60,
+                              child: CountryCodePicker(
+                                onChanged: print,
+                                hideMainText: true,
+                                showFlagMain: true,
+                                showFlag: false,
+                                initialSelection: 'TF',
+                                hideSearch: true,
+                                showCountryOnly: true,
+                                showOnlyCountryWhenClosed: true,
+                                alignLeft: true,
+                              ),
+                            ), */
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            // appRoute.push(Otpvalidation(mobileNumber: phoneNo.text));
+                            //  appRoute.pushNamed("/dashboard?index=0");
+                            if (formKey.currentState!.validate()) {
+                              LoaderWidget().showLoader(context,
+                                  text: AppConstants.pleaseWait);
+                              context.read<RegistrationBloc>().add(
+                                  RegistrationRequestEvent(reg.RegistrationRequest(
+                                      request: reg.Request(
+                                          data: reg.Data(mobNo: phoneNo.text),
+                                          appID:
+                                              "f79f65f1b98e116f40633dbb46fd5e21"))));
+                            } else {
+                              /*  Fluttertoast.showToast(
+                                              msg: AppConstants.pleaseAgree,
+                                              backgroundColor: Colors.red); */
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            alignment: Alignment.center,
+                            width: double.maxFinite,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: const TextWidget(
+                              "Login",
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                RichText(
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(text: "Do not have credentials? "),
-                      TextSpan(
-                          text: "Request Credentials! ", style: TextStyle())
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+
+      barrierColor: Colors.black.withOpacity(0.5),
+      barrierDismissible:
+          false, //this means the user must tap a button to exit the Alert Dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              side: BorderSide(color: Theme.of(context).primaryColor),
+              borderRadius: BorderRadius.circular(10)),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    appRoute.pop();
+                  },
+                  child: const Icon(Icons.close))
+            ],
+          ),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.3,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextWidget(
+                  AppConstants.otpVerify,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontSize: 17),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 7),
+                  child: TextWidget(
+                    AppConstants.otpVerified + phoneNo.text,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: ValueListenableBuilder(
+                    valueListenable: valueNotifier,
+                    builder: (context, value, child) {
+                      return TextFieldPin(
+                          textController: textEditingController,
+                          autoFocus: true,
+                          codeLength: otpCodeLength,
+                          alignment: MainAxisAlignment.center,
+                          defaultBoxSize: 46.0,
+                          margin: 10,
+                          selectedBoxSize: 46.0,
+                          textStyle: const TextStyle(fontSize: 16),
+                          defaultDecoration: _pinPutDecoration.copyWith(
+                              border: Border.all(color: Colors.grey)),
+                          selectedDecoration: _pinPutDecoration,
+                          onChange: (code) {
+                            valueNotifier.value = code;
+                            _onOtpCallBack(code, false);
+                          });
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: () {
+                      appRoute.pop();
+                      appRoute.pushNamed("/dashboard?index=0");
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: const TextWidget(
+                        "Validate OTP",
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                    child: TextButton(
+                        onPressed: () {
+                          LoaderWidget().showLoader(context,
+                              text: AppConstants.pleaseWait);
+                          context.read<RegistrationBloc>().add(
+                              RegistrationRequestEvent(reg.RegistrationRequest(
+                                  request: reg.Request(
+                                      data: reg.Data(mobNo: phoneNo.text),
+                                      appID:
+                                          "f79f65f1b98e116f40633dbb46fd5e21"))));
+                        },
+                        child: TextWidget(
+                          AppConstants.resendOtp,
+                          size: 15,
+                          color: Theme.of(context).primaryColor,
+                        )))
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  BoxDecoration get _pinPutDecoration {
+    return BoxDecoration(
+      border: Border.all(color: Colors.grey),
+      borderRadius: BorderRadius.circular(10.0),
     );
   }
 }

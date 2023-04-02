@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,11 +29,12 @@ class NavigatorRailwidget extends StatefulWidget {
 }
 
 class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
+  ValueNotifier<bool> expanded = ValueNotifier<bool>(false);
   NavigationRailLabelType labelType = NavigationRailLabelType.none;
   bool showLeading = false;
   bool showTrailing = false;
   double groupAligment = -1.0;
-  bool expanded = false;
+
   bool theme = false;
   @override
   void initState() {
@@ -103,7 +106,11 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                         BlocProvider.of<ThemeBloc>(context)
                             .add(ThemechangeEvent(!theme));
                       },
-                      icon: const Icon(Icons.brightness_5_rounded))
+                      icon: window.localStorage["flutter.isDark"] == "true"
+                          ? AppImages.darkThemeIcon(context,
+                              color: Colors.white, width: 50, height: 50)
+                          : AppImages.lightThemeIcon(context,
+                              color: Colors.black, width: 50, height: 50))
                 ],
               ),
               body: Center(
@@ -111,41 +118,48 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
                     MouseRegion(
-                      onEnter: (_) => setState(() => expanded = true),
-                      onExit: (_) => setState(() => expanded = false),
-                      child: NavigationRail(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          selectedIndex: widget.selectedindex,
-                          unselectedLabelTextStyle: GoogleFonts.salsa(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                          selectedLabelTextStyle: GoogleFonts.salsa(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                          groupAlignment: groupAligment,
-                          extended: expanded,
-                          minWidth: 70,
-                          useIndicator: true,
-                          indicatorColor: Colors.white,
-                          onDestinationSelected: (int index) {
-                            appRoute.pushNamed('/dashboard?index=$index');
-                          },
-                          labelType: labelType,
-                          destinations: navigationIcons
-                              .map((e) => NavigationRailDestination(
-                                    icon: SizedBox(
-                                      height: 35,
-                                      child: e.icon,
-                                    ),
-                                    selectedIcon: SizedBox(
-                                      height: 35,
-                                      child: true
-                                          ? e.selectedLighticon
-                                          : e.selectedDarkicon,
-                                    ),
-                                    label: Text(
-                                      e.label,
-                                    ),
-                                  ))
-                              .toList()),
+                      onEnter: (_) => expanded.value = true,
+                      onExit: (_) => expanded.value = false,
+                      child: ValueListenableBuilder<bool>(
+                          valueListenable: expanded,
+                          builder: (context, snapshot, _) {
+                            return NavigationRail(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                selectedIndex: widget.selectedindex,
+                                unselectedLabelTextStyle: GoogleFonts.salsa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                selectedLabelTextStyle: GoogleFonts.salsa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                groupAlignment: groupAligment,
+                                extended: expanded.value,
+                                minWidth: 70,
+                                useIndicator: true,
+                                indicatorColor:
+                                    Theme.of(context).primaryColorLight,
+                                onDestinationSelected: (int index) {
+                                  appRoute.pushNamed('/dashboard?index=$index');
+                                },
+                                labelType: labelType,
+                                destinations: navigationIcons
+                                    .map((e) => NavigationRailDestination(
+                                          icon: SizedBox(
+                                            height: 35,
+                                            child: e.icon,
+                                          ),
+                                          selectedIcon: SizedBox(
+                                            height: 35,
+                                            child: true
+                                                ? e.selectedLighticon
+                                                : e.selectedDarkicon,
+                                          ),
+                                          label: Text(
+                                            e.label,
+                                          ),
+                                        ))
+                                    .toList());
+                          }),
                     ),
 
                     // This is the main content.

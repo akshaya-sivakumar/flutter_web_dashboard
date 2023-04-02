@@ -11,15 +11,24 @@ class MarketDepthwidget extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.28,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          TextWidget(
+            "Market Depth",
+            style:
+                Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 14),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextWidget("BID",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall
-                      ?.copyWith(fontSize: 12, fontWeight: FontWeight.w600)),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: TextWidget("BID",
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelSmall
+                        ?.copyWith(fontSize: 12, fontWeight: FontWeight.w600)),
+              ),
               TextWidget("OFFER",
                   style: Theme.of(context)
                       .textTheme
