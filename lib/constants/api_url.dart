@@ -1,5 +1,5 @@
 class ApiUrls {
-   static const String regUrl =
+  static const String regUrl =
       "https://dev.gwcindia.in/msil-gwc-webservice-dev/User/GenerateOTP/1.0.0";
 
   static const String loginUrl =

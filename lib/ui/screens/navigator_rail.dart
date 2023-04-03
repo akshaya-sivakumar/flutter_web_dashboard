@@ -2,6 +2,8 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dashboard_web/auto_route/router.gr.dart';
+import 'package:flutter_dashboard_web/utils/app_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/theme/theme_bloc.dart';
@@ -78,6 +80,20 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           AppImages.portfolioSelected(),
           AppImages.portfolioSelectedDark(),
           "Portfolio"),
+      NavigationIcon(
+          Icon(Icons.logout,
+              size: 30, color: Theme.of(context).scaffoldBackgroundColor),
+          Icon(
+            Icons.logout,
+            size: 30,
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
+          Icon(
+            Icons.logout,
+            size: 30,
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
+          "Logout"),
     ];
     super.didChangeDependencies();
   }
@@ -139,7 +155,13 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                                 indicatorColor:
                                     Theme.of(context).primaryColorLight,
                                 onDestinationSelected: (int index) {
-                                  appRoute.pushNamed('/dashboard?index=$index');
+                                  if (index == 3) {
+                                    AppUtils().clearsession();
+                                    appRoute.push(const Registration());
+                                  } else {
+                                    appRoute
+                                        .pushNamed('/dashboard?index=$index');
+                                  }
                                 },
                                 labelType: labelType,
                                 destinations: navigationIcons
@@ -150,7 +172,9 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                                           ),
                                           selectedIcon: SizedBox(
                                             height: 35,
-                                            child: true
+                                            child: window.sessionStorage[
+                                                        "isDark"] !=
+                                                    "true"
                                                 ? e.selectedLighticon
                                                 : e.selectedDarkicon,
                                           ),

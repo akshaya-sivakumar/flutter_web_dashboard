@@ -27,4 +27,8 @@ class AppConstants {
   static const String watchlistTitle = "WATCHLIST";
   static const String pageNotfound = "Page Not Found";
   static const String isDark = "isDark";
+    static const String welcometext =  "Welcome! Let's get started !!!";
+
+    static const String loginCap =  "LOGIN";
+    static const String login =  "LOGIN";
 }

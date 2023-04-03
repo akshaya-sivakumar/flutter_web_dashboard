@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
 
-
-
 import '../constants/api_url.dart';
 import '../model/login_request.dart';
 import '../model/login_response.dart';
@@ -12,6 +10,8 @@ class OtpvalidationRepository {
   Future<LoginResponse> login(OtpvalidationRequest product) async {
     var response = await ApiBaseHelper()
         .postMethod(ApiUrls.loginUrl, json.encode(product));
+
+    print(response.body);
 
     LoginResponse regResponse =
         LoginResponse.fromJson(json.decode(response.body));

@@ -80,7 +80,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ..stream.listen((state) {
         if (state is OtpvalidationDone) {
           LoaderWidget().showLoader(context, stopLoader: true);
-          Navigator.pop(context);
+          appRoute.pop(context);
           appRoute.pushNamed("/dashboard?index=0");
         }
         if (state is OtpvalidationError) {
@@ -93,13 +93,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   _onOtpCallBack(String otpCode, bool isAutofill) {
     _otpCode = otpCode;
     if (otpCode.length == otpCodeLength) {
-      LoaderWidget().showLoader(context, text: "Please wait..");
+      //   LoaderWidget().showLoader(context, text: "Please wait..");
 
-      _verifyOtpCode();
+      //  _verifyOtpCode();
     }
   }
 
   _verifyOtpCode() {
+    LoaderWidget().showLoader(context, text: "Please wait..");
     FocusScope.of(context).requestFocus(FocusNode());
     Timer(const Duration(milliseconds: 4000), () {
       context.read<OtpvalidationBloc>().add(OtpvalidationRequestEvent(
@@ -136,7 +137,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextWidget(
-                          "Welcome! Let's get started !!!",
+                          AppConstants.welcometext,
                           style: GoogleFonts.cuteFont(
                               fontSize: 60,
                               fontWeight: FontWeight.bold,
@@ -172,12 +173,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             Theme.of(context).primaryColor.withOpacity(0.6),
                           ],
                         ),
-                        /*  boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(context).primaryColor, //New
-                            blurRadius: 20.0,
-                          )
-                        ], */
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                             color: Theme.of(context).primaryColor, width: 0.3)),
@@ -192,7 +187,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           height: 30,
                         ),
                         Text(
-                          "Login",
+                          AppConstants.login,
                           style: GoogleFonts.adamina(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -290,9 +285,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            // appRoute.push(Otpvalidation(mobileNumber: phoneNo.text));
-                            //  appRoute.pushNamed("/dashboard?index=0");
-                            if (formKey.currentState!.validate()) {
+                            appRoute.pushNamed("/dashboard?index=0");
+                            /*  if (formKey.currentState!.validate()) {
                               LoaderWidget().showLoader(context,
                                   text: AppConstants.pleaseWait);
                               context.read<RegistrationBloc>().add(
@@ -302,10 +296,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           appID:
                                               "f79f65f1b98e116f40633dbb46fd5e21"))));
                             } else {
-                              /*  Fluttertoast.showToast(
-                                              msg: AppConstants.pleaseAgree,
-                                              backgroundColor: Colors.red); */
-                            }
+                           
+                            } */
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -407,8 +399,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   alignment: Alignment.center,
                   child: InkWell(
                     onTap: () {
-                      appRoute.pop();
-                      appRoute.pushNamed("/dashboard?index=0");
+                      _verifyOtpCode();
                     },
                     child: Container(
                       decoration: BoxDecoration(

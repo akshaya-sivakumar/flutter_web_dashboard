@@ -5,6 +5,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
+import 'package:flutter_dashboard_web/ui/screens/popup_window.dart';
 import 'package:webviewx/webviewx.dart';
 
 import '../../bloc/theme/theme_bloc.dart';
@@ -164,9 +165,77 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Stack(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                    fontStyle: FontStyle.normal),
+                              ),
+                              onPressed: () {
+                                showAlignedDialog(
+                                    barrierColor: Colors.transparent,
+                                    context: context,
+                                    builder: (context) {
+                                      return const PopupWindow();
+                                    },
+                                    followerAnchor: Alignment.topRight,
+                                    isGlobal: true,
+                                    transitionsBuilder: (BuildContext context,
+                                        Animation<double> animation,
+                                        Animation<double> secondaryAnimation,
+                                        Widget child) {
+                                      return SlideTransition(
+                                        position: Tween(
+                                                begin: const Offset(1, 0),
+                                                end: const Offset(0, 0))
+                                            .animate(animation),
+                                        child: FadeTransition(
+                                          opacity: CurvedAnimation(
+                                            parent: animation,
+                                            curve: Curves.easeOut,
+                                          ),
+                                          child: child,
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: TextWidget(
+                                "BUY",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                    fontStyle: FontStyle.normal),
+                              ),
+                              onPressed: () {},
+                              child: TextWidget(
+                                "SELL",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       BlocBuilder<ThemeBloc, ThemeState>(
                         builder: (context, state) {
                           return WebViewX(
@@ -174,81 +243,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
                             width: MediaQuery.of(context).size.width * 0.6 + 70,
                             height:
-                                MediaQuery.of(context).size.height * 0.6 - 20,
+                                MediaQuery.of(context).size.height * 0.55 - 20,
                           );
                         },
                       ),
-                      Positioned(
-                        top: 5,
-                        right: 50,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
-                                  textStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontStyle: FontStyle.normal),
-                                ),
-                                onPressed: () {
-                                  showAlignedDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Container(
-                                            height: 300,
-                                            color: Colors.green,
-                                            child: const Text("dialog"));
-                                      },
-                                      followerAnchor: Alignment.topLeft,
-                                      isGlobal: true,
-                                      transitionsBuilder: (BuildContext context,
-                                          Animation<double> animation,
-                                          Animation<double> secondaryAnimation,
-                                          Widget child) {
-                                        return SlideTransition(
-                                          position: Tween(
-                                                  begin: const Offset(-1, 0),
-                                                  end: const Offset(0, 0))
-                                              .animate(animation),
-                                          child: FadeTransition(
-                                            opacity: CurvedAnimation(
-                                              parent: animation,
-                                              curve: Curves.easeOut,
-                                            ),
-                                            child: child,
-                                          ),
-                                        );
-                                      });
-                                },
-                                child: TextWidget(
-                                  "BUY",
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  textStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontStyle: FontStyle.normal),
-                                ),
-                                onPressed: () {},
-                                child: TextWidget(
-                                  "SELL",
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
                     ],
                   ),
                 ),

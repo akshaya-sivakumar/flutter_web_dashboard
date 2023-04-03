@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dashboard_web/auto_route/router.gr.dart';
 import 'package:flutter_dashboard_web/theme/dartTheme.dart';
 import 'package:flutter_dashboard_web/theme/lightTheme.dart';
+import 'package:flutter_dashboard_web/utils/app_utils.dart';
 
 import 'auto_route/router.dart';
 import 'bloc/theme/theme_bloc.dart';
@@ -39,8 +39,14 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: state.theme == true ? darkTheme() : lightTheme(),
-          routerDelegate:
-              appRoute.delegate(initialRoutes: [const Registration()]),
+          routerDelegate: appRoute.delegate(
+            initialDeepLink: AppUtils().isLoginned()
+                ? "/dashboard?index=0"
+                : "/registration",
+            /* initialRoutes: [
+            AppUtils().isLoginned() ? const Dashboard() : const Registration()
+          ] */
+          ),
           routeInformationParser: appRoute.defaultRouteParser(),
         );
       },
