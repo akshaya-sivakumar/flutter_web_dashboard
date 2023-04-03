@@ -36,12 +36,14 @@ class AuthGuard extends AutoRouteGuard {
     } else {
       router.push(const Registration());
       Fluttertoast.showToast(
-          msg: "This is Center Short Toast",
+          msg: "Session Expired.Please Login again",
           gravity: ToastGravity.BOTTOM_RIGHT,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 5,
           webPosition: "right",
+          webShowClose: true,
+          toastLength: Toast.LENGTH_LONG,
           webBgColor: "linear-gradient(to right, #F8313E, #F8313E)",
-          fontSize: 16.0);
+          fontSize: 20.0);
     }
   }
 }

@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:fl_toast/fl_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
@@ -65,14 +65,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         }
         if (state is RegistrationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
-          await showPlatformToast(
-            alignment: Alignment.topCenter,
-            child: TextWidget(
-              state.error,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            context: context,
-          );
+          Fluttertoast.showToast(
+              msg: state.error,
+              gravity: ToastGravity.BOTTOM_RIGHT,
+              timeInSecForIosWeb: 5,
+              webPosition: "right",
+              webShowClose: true,
+              toastLength: Toast.LENGTH_LONG,
+              webBgColor: "linear-gradient(to right, #F8313E, #F8313E)",
+              fontSize: 20.0);
           //   Fluttertoast.showToast(msg: state.error, backgroundColor: Colors.red);
         }
       });
@@ -85,6 +86,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         }
         if (state is OtpvalidationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
+          Fluttertoast.showToast(
+              msg: state.error,
+              gravity: ToastGravity.BOTTOM_RIGHT,
+              timeInSecForIosWeb: 5,
+              webPosition: "right",
+              webShowClose: true,
+              toastLength: Toast.LENGTH_LONG,
+              webBgColor: "linear-gradient(to right, #F8313E, #F8313E)",
+              fontSize: 20.0);
         }
       });
     registrationBloc.add(AgreeEvent(false));
@@ -259,8 +269,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 borderSide: BorderSide(
                                     width: 0,
                                     color: Theme.of(context).canvasColor)),
-
-                          
                           ),
                         ),
                         const SizedBox(
@@ -272,7 +280,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         InkWell(
                           onTap: () {
                             //appRoute.pushNamed("/dashboard?index=0");
-                         if (formKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
                               LoaderWidget().showLoader(context,
                                   text: AppConstants.pleaseWait);
                               context.read<RegistrationBloc>().add(
@@ -281,9 +289,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           data: reg.Data(mobNo: phoneNo.text),
                                           appID:
                                               "f79f65f1b98e116f40633dbb46fd5e21"))));
-                            } else {
-                           
-                            } 
+                            } else {}
                           },
                           child: Container(
                             decoration: BoxDecoration(
