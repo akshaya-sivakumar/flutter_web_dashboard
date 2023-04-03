@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:math';
 
 import 'package:aligned_dialog/aligned_dialog.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 import 'package:webviewx/webviewx.dart';
 
+import '../../bloc/theme/theme_bloc.dart';
 import '../../bloc/watchlist/watchlist_bloc.dart';
 import '../widgets/horizontal_list_view.dart';
 import '../widgets/marketDepth_widget.dart';
@@ -167,19 +167,22 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: Stack(
                     children: [
-                      WebViewX(
-                        initialContent:
-                            "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${window.localStorage["flutter.isDark"] == "true" ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
-                        width: MediaQuery.of(context).size.width * 0.6 + 70,
-                        height: MediaQuery.of(context).size.height * 0.6 - 20,
+                      BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, state) {
+                          return WebViewX(
+                            initialContent:
+                                "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                            width: MediaQuery.of(context).size.width * 0.6 + 70,
+                            height:
+                                MediaQuery.of(context).size.height * 0.6 - 20,
+                          );
+                        },
                       ),
                       Positioned(
                         top: 5,
                         right: 50,
                         child: GestureDetector(
-                          onTap: () {
-                            print("testing");
-                          },
+                          onTap: () {},
                           child: Row(
                             children: [
                               ElevatedButton(
@@ -191,7 +194,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                       fontStyle: FontStyle.normal),
                                 ),
                                 onPressed: () {
-                                  print("testing");
                                   showAlignedDialog(
                                       context: context,
                                       builder: (context) {

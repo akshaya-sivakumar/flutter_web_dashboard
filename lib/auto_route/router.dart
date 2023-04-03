@@ -16,12 +16,7 @@ class AppRouter extends $AppRouter {
         transitionsBuilder: TransitionsBuilders.noTransition,
         durationInMilliseconds: 100,
         reverseDurationInMilliseconds: 0),
-    CustomRoute(
-        path: "/otpvalidation",
-        page: Otpvalidation.page,
-        transitionsBuilder: TransitionsBuilders.noTransition,
-        durationInMilliseconds: 100,
-        reverseDurationInMilliseconds: 0),
+
     /* CustomRoute(
         page: Watchlist.page,
         transitionsBuilder: TransitionsBuilders.noTransition,

@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:fl_toast/fl_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/main.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
 import '../../bloc/otp_validation/otp_validation_bloc.dart';
@@ -55,7 +56,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     super.initState();
 
     registrationBloc = BlocProvider.of<RegistrationBloc>(context)
-      ..stream.listen((state) {
+      ..stream.listen((state) async {
         if (state is RegistrationDone) {
           log(state.response.response.infoMsg);
           LoaderWidget().showLoader(context, stopLoader: true);
@@ -63,8 +64,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           _showMyDialog();
         }
         if (state is RegistrationError) {
-          log(state.error);
-          Navigator.pop(context);
+          LoaderWidget().showLoader(context, stopLoader: true);
+          await showPlatformToast(
+            alignment: Alignment.topCenter,
+            child: TextWidget(
+              state.error,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            context: context,
+          );
           //   Fluttertoast.showToast(msg: state.error, backgroundColor: Colors.red);
         }
       });
@@ -72,6 +80,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ..stream.listen((state) {
         if (state is OtpvalidationDone) {
           LoaderWidget().showLoader(context, stopLoader: true);
+          Navigator.pop(context);
           appRoute.pushNamed("/dashboard?index=0");
         }
         if (state is OtpvalidationError) {
@@ -109,30 +118,66 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Form(
       key: formKey,
       child: Scaffold(
-        backgroundColor: Theme.of(context).primaryColorLight,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Container(
-          height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: HexColor("#e3d9f2")),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
           child: Center(
             child: SingleChildScrollView(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.network(
-                    "https://www.resolutesoftware.com/assets/imgs/posts/what-is-ux-design.jpg",
+                  Container(
+                    color: Theme.of(context).primaryColorLight,
                     height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                          "Welcome! Let's get started !!!",
+                          style: GoogleFonts.cuteFont(
+                              fontSize: 60,
+                              fontWeight: FontWeight.bold,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: const Offset(10.0, 10.0),
+                                  blurRadius: 3.0,
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(0.4),
+                                ),
+                              ],
+                              color: Theme.of(context).primaryColor),
+                        ),
+                        Image.asset(
+                          "lib/assets/icons/login_illus.png",
+                          width: MediaQuery.of(context).size.width * 0.6,
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 50),
                     decoration: BoxDecoration(
-                        color: HexColor("#e3d9f2"),
-                        boxShadow: [
+                        gradient: LinearGradient(
+                          stops: const [0.0, 1.0],
+                          begin: FractionalOffset.topLeft,
+                          end: FractionalOffset.topRight,
+                          colors: [
+                            Theme.of(context)
+                                .primaryColorLight
+                                .withOpacity(0.8),
+                            Theme.of(context).primaryColor.withOpacity(0.6),
+                          ],
+                        ),
+                        /*  boxShadow: [
                           BoxShadow(
                             color: Theme.of(context).primaryColor, //New
                             blurRadius: 20.0,
                           )
-                        ],
+                        ], */
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                             color: Theme.of(context).primaryColor, width: 0.3)),
@@ -148,20 +193,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         Text(
                           "Login",
-                          style: Theme.of(context)
+                          style: GoogleFonts.adamina(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: const Offset(10.0, 10.0),
+                                  blurRadius: 3.0,
+                                  color: Theme.of(context)
+                                      .primaryColorLight
+                                      .withOpacity(0.3),
+                                ),
+                              ],
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.color),
+
+                          /* Theme.of(context)
                               .textTheme
                               .titleLarge
-                              ?.copyWith(fontSize: 20),
+                              ?.copyWith(
+                                  fontSize: 25,
+                                  fontFamily:
+                                      GoogleFonts.abhayaLibre().fontFamily), */
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         TextWidget(
-                          "Welcome! Let's get started !!!",
-                          color: Theme.of(context)
-                              .inputDecorationTheme
-                              .labelStyle
-                              ?.color,
+                          "Enter the Mobile Number to Login",
+                          color: Theme.of(context).textTheme.titleMedium?.color,
                         ),
                         const SizedBox(
                           height: 20,
@@ -175,24 +237,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           obscureText: false,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            labelText: "Mobile Number",
-                            hintText: "",
-                            hintStyle: const TextStyle(fontSize: 10),
-                            
+                            //labelText: "Mobile Number",
+                            hintText: "Mobile Number",
+                            filled: true,
+                            fillColor: Colors.white54.withOpacity(0.6),
+                            hintStyle: TextStyle(
+                                fontSize: 13,
+                                color: Theme.of(context).canvasColor),
                             labelStyle: TextStyle(
                                 fontSize: 14,
                                 color: Theme.of(context).canvasColor),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 10),
                             border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
+                                    width: 0,
+                                    color: Theme.of(context).canvasColor)),
                             enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
+                                    width: 0,
+                                    color: Theme.of(context).canvasColor)),
                             focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
+                                    width: 0,
+                                    color: Theme.of(context).canvasColor)),
 
                             /*  suffixIcon: const SizedBox(
                               width: 400,
@@ -245,8 +316,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             width: double.maxFinite,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: const TextWidget(
-                              "Login",
+                              "LOG IN",
                               color: Colors.white,
+                              fontweight: FontWeight.bold,
                             ),
                           ),
                         ),

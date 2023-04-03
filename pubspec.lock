@@ -257,6 +257,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  fl_toast:
+    dependency: "direct main"
+    description:
+      name: fl_toast
+      sha256: "6df3173e7852a79708db6b32b1d999eba0a6c87c29308ede72a6678fc8c8a2b0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -312,6 +320,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  getwidget:
+    dependency: "direct main"
+    description:
+      name: getwidget
+      sha256: d97c08d2cc8f2456bb8b28e34931879b1c5da6545453f3d64b7bebd70b7abfcf
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   glob:
     dependency: transitive
     description:

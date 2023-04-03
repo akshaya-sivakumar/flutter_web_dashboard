@@ -17,6 +17,7 @@ class AppImages {
   }) {
     return SvgPicture.asset(
       url,
+      // ignore: deprecated_member_use
       color: isColor ? color : null,
       width: width,
       height: height,
@@ -54,7 +55,7 @@ class AppImages {
         image: AssetImage('lib/assets/icons/orders_select_dark@3x.png'));
   }
 
-  static const Image LOADER_LIGHT = Image(
+  /* static const Image LOADER_LIGHT = Image(
     image: AssetImage('lib/assets/icons/loading_white.gif'),
     width: 80,
     height: 80,
@@ -75,7 +76,7 @@ class AppImages {
   static const DecorationImage LAUNCH_BG = DecorationImage(
     image: AssetImage('lib/assets/images/launch_bg.png'),
     fit: BoxFit.fitHeight,
-  );
+  ); */
 
   static const Image patternTop = Image(
     image: AssetImage('lib/assets/images/pattern_top.png'),

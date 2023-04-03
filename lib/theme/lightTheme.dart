@@ -33,7 +33,7 @@ ThemeData lightTheme() {
     canvasColor: appAccentcolor,
     dialogBackgroundColor: appBackgroundcolorSecondary,
     scaffoldBackgroundColor: appBackgroundcolorSecondary,
-    fontFamily: SbiConstants.FONT_NAME,
+    fontFamily: SbiConstants.font_name,
     primaryTextTheme: TextTheme(
       titleLarge: TextStyle(
         letterSpacing: 0,
@@ -288,6 +288,6 @@ ThemeData lightTheme() {
         return null;
       }),
     ),
-   // colorScheme: ColorScheme.fromSwatch().copyWith(secondary: appAccentcolor),
+    // colorScheme: ColorScheme.fromSwatch().copyWith(secondary: appAccentcolor),
   );
 }
