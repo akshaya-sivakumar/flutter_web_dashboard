@@ -260,21 +260,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     width: 0,
                                     color: Theme.of(context).canvasColor)),
 
-                            /*  suffixIcon: const SizedBox(
-                              width: 400,
-                              height: 60,
-                              child: CountryCodePicker(
-                                onChanged: print,
-                                hideMainText: true,
-                                showFlagMain: true,
-                                showFlag: false,
-                                initialSelection: 'TF',
-                                hideSearch: true,
-                                showCountryOnly: true,
-                                showOnlyCountryWhenClosed: true,
-                                alignLeft: true,
-                              ),
-                            ), */
+                          
                           ),
                         ),
                         const SizedBox(
@@ -285,8 +271,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            appRoute.pushNamed("/dashboard?index=0");
-                            /*  if (formKey.currentState!.validate()) {
+                            //appRoute.pushNamed("/dashboard?index=0");
+                         if (formKey.currentState!.validate()) {
                               LoaderWidget().showLoader(context,
                                   text: AppConstants.pleaseWait);
                               context.read<RegistrationBloc>().add(
@@ -297,7 +283,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               "f79f65f1b98e116f40633dbb46fd5e21"))));
                             } else {
                            
-                            } */
+                            } 
                           },
                           child: Container(
                             decoration: BoxDecoration(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class WatchlistModel {
   WatchlistModel({
     required this.response,
@@ -77,14 +79,15 @@ class Symbols {
   late final String sector;
   late final Sym sym;
   late final bool ttEligibility;
+  Random random = Random();
 
   Symbols.fromJson(Map<String, dynamic> json) {
     baseSym = json['baseSym'];
     companyName = json['companyName'];
     dispSym = json['dispSym'];
     excToken = json['excToken'];
-    haircut = json['haircut'];
-    isin = json['isin'];
+    haircut = (random.nextDouble() * 100 - 50.25).toStringAsFixed(2);
+    isin = (random.nextDouble() * 100 - 50.25).toStringAsFixed(2);
     mCap = json['mCap'];
     sector = json['sector'];
     sym = Sym.fromJson(json['sym']);

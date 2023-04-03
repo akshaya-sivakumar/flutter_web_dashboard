@@ -23,11 +23,13 @@ class WatchlistScreen extends StatefulWidget {
 }
 
 class _WatchlistScreenState extends State<WatchlistScreen> {
+  Symbols? selectedsymbol;
   late WatchlistBloc watchlistBloc;
   Data searchWatchlist = Data(symbols: []);
   Data watchlist = Data(symbols: []);
   Random random = Random();
   ValueNotifier<int> selectedindex = ValueNotifier<int>(0);
+  ValueNotifier<bool> watchlistSelected = ValueNotifier<bool>(false);
   @override
   void initState() {
     watchlistBloc = BlocProvider.of<WatchlistBloc>(context);
@@ -48,6 +50,14 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           BlocBuilder<WatchlistBloc, WatchlistState>(
             builder: (context, state) {
               if (state is WatchlistDone) {
+                selectedsymbol ??= state.watchlist.response.data.symbols.first;
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  if (selectedsymbol != null && !watchlistSelected.value) {
+                    watchlistSelected.value = true;
+                    print("watchlistSelected.value ${watchlistSelected.value}");
+                  }
+                });
+
                 watchlist = state.watchlist.response.data;
 
                 return Container(
@@ -145,7 +155,13 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           itemCount: watchlist.symbols.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            return bodyData(context, watchlist, index);
+                            return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedsymbol = watchlist.symbols[index];
+                                  });
+                                },
+                                child: bodyData(context, watchlist, index));
 
                             //bodyData(context, watchlist, index);
                           },
@@ -169,78 +185,96 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                textStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontStyle: FontStyle.normal),
-                              ),
-                              onPressed: () {
-                                showAlignedDialog(
-                                    barrierColor: Colors.transparent,
-                                    context: context,
-                                    builder: (context) {
-                                      return const PopupWindow();
-                                    },
-                                    followerAnchor: Alignment.topRight,
-                                    isGlobal: true,
-                                    transitionsBuilder: (BuildContext context,
-                                        Animation<double> animation,
-                                        Animation<double> secondaryAnimation,
-                                        Widget child) {
-                                      return SlideTransition(
-                                        position: Tween(
-                                                begin: const Offset(1, 0),
-                                                end: const Offset(0, 0))
-                                            .animate(animation),
-                                        child: FadeTransition(
-                                          opacity: CurvedAnimation(
-                                            parent: animation,
-                                            curve: Curves.easeOut,
+                      ValueListenableBuilder<bool>(
+                          valueListenable: watchlistSelected,
+                          builder: (context, selected, _) {
+                            return selected
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            textStyle: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                fontStyle: FontStyle.normal),
                                           ),
-                                          child: child,
+                                          onPressed: () {
+                                            showAlignedDialog(
+                                                barrierColor:
+                                                    Colors.transparent,
+                                                context: context,
+                                                builder: (context) {
+                                                  return PopupWindow(
+                                                      symbol: selectedsymbol!);
+                                                },
+                                                followerAnchor:
+                                                    Alignment.topRight,
+                                                isGlobal: true,
+                                                transitionsBuilder:
+                                                    (BuildContext context,
+                                                        Animation<double>
+                                                            animation,
+                                                        Animation<double>
+                                                            secondaryAnimation,
+                                                        Widget child) {
+                                                  return SlideTransition(
+                                                    position: Tween(
+                                                            begin: const Offset(
+                                                                1, 0),
+                                                            end: const Offset(
+                                                                0, 0))
+                                                        .animate(animation),
+                                                    child: FadeTransition(
+                                                      opacity: CurvedAnimation(
+                                                        parent: animation,
+                                                        curve: Curves.easeOut,
+                                                      ),
+                                                      child: child,
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          child: TextWidget(
+                                            "BUY",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
                                         ),
-                                      );
-                                    });
-                              },
-                              child: TextWidget(
-                                "BUY",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                                textStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontStyle: FontStyle.normal),
-                              ),
-                              onPressed: () {},
-                              child: TextWidget(
-                                "SELL",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red,
+                                            textStyle: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                fontStyle: FontStyle.normal),
+                                          ),
+                                          onPressed: () {},
+                                          child: TextWidget(
+                                            "SELL",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Container();
+                          }),
                       BlocBuilder<ThemeBloc, ThemeState>(
                         builder: (context, state) {
                           return WebViewX(
                             initialContent:
-                                "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                                "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3ATCS",
                             width: MediaQuery.of(context).size.width * 0.6 + 70,
                             height:
                                 MediaQuery.of(context).size.height * 0.55 - 20,
@@ -422,12 +456,17 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   }
 
   Container bodyData(BuildContext context, Data watchlist, int index) {
-    double changePer = random.nextDouble() * 100 - 50.25;
-    double per = random.nextDouble() * 100 - 50.25;
+/*     double changePer = random.nextDouble() * 100 - 50.25;//haircut
+    double per = random.nextDouble() * 100 - 50.25;//isin */
+
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
+            color: (selectedsymbol?.companyName ==
+                    watchlist.symbols[index].companyName)
+                ? Theme.of(context).dividerColor.withOpacity(0.5)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
                 color: Theme.of(context).primaryColorLight, width: 0.3)),
@@ -499,10 +538,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0),
                     child: TextWidget(
-                      "${changePer.toStringAsFixed(2)}(${per.toStringAsFixed(2)}%)",
+                      "${watchlist.symbols[index].haircut}(${watchlist.symbols[index].isin}%)",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontSize: 13,
-                          color: changePer.isNegative
+                          color: watchlist.symbols[index].haircut.contains("-")
                               ? Theme.of(context).snackBarTheme.closeIconColor
                               : Colors.green),
                     ),
