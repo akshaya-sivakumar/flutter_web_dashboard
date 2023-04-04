@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_web/ui/widgets/text_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 @RoutePage(name: "notfound")
 class NotFoundScreen extends StatelessWidget {
@@ -8,19 +10,37 @@ class NotFoundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                  Colors.lightGreen.withOpacity(0.2),
-                  BlendMode.modulate,
-                ),
-                image: const NetworkImage(
-                    "https://t3.ftcdn.net/jpg/05/25/17/90/360_F_525179047_pg8bOmLS5NxT5LtU8Zd1tEbCclI76Xtf.jpg"))),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [Image.asset("assets/404.png")],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Center(
+        child: Container(
+          decoration: const BoxDecoration(
+              /*  image: DecorationImage(
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.lightGreen.withOpacity(0.2),
+                    BlendMode.modulate,
+                  ),
+                  image: const AssetImage("lib/assets/icons/404page.png")) */
+              ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextWidget(
+                "OOPS!!\n Nothing here... ",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: GoogleFonts.abrilFatface().fontFamily),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              Image.asset(
+                "lib/assets/icons/404page.png",
+                fit: BoxFit.fill,
+              )
+            ],
+          ),
         ),
       ),
     );
