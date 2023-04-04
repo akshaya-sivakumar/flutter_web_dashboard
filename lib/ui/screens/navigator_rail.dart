@@ -2,13 +2,15 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dashboard_web/auto_route/router.gr.dart';
-import 'package:flutter_dashboard_web/utils/app_utils.dart';
+import 'package:flutter_dashboard_web/ui/widgets/text_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
+import '../../auto_route/router.gr.dart';
 import '../../bloc/theme/theme_bloc.dart';
 import '../../constants/app_images.dart';
 import '../../main.dart';
+import '../../utils/app_utils.dart';
 
 class NavigationIcon {
   final Widget icon;
@@ -156,8 +158,9 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                                     Theme.of(context).primaryColorLight,
                                 onDestinationSelected: (int index) {
                                   if (index == 3) {
-                                    AppUtils().clearsession();
-                                    appRoute.push(const Registration());
+                                    logoutDialog();
+                                    /*  AppUtils().clearsession();
+                                    appRoute.push(const Registration()); */
                                   } else {
                                     appRoute
                                         .pushNamed('/dashboard?index=$index');
@@ -235,5 +238,80 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
               ),
               body: widget.child);
     });
+  }
+
+  void logoutDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return PointerInterceptor(
+          intercepting: true,
+          child: AlertDialog(
+              title: TextWidget(
+                "Confirm Logout !!!",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextWidget(
+                    "Are you sure you want to logout?",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontStyle: FontStyle.normal),
+                        ),
+                        onPressed: () {
+                          AppUtils().clearsession();
+                          appRoute.push(const Registration());
+                        },
+                        child: TextWidget(
+                          "LOGOUT",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).canvasColor,
+                          textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontStyle: FontStyle.normal),
+                        ),
+                        onPressed: () {
+                          appRoute.pop();
+                        },
+                        child: TextWidget(
+                          "CANCEL",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )),
+        );
+      },
+    );
   }
 }
