@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/screens/popup_window.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:webviewx/webviewx.dart';
 
 import '../../bloc/theme/theme_bloc.dart';
@@ -231,8 +232,12 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                     Colors.transparent,
                                                 context: context,
                                                 builder: (context) {
-                                                  return PopupWindow(
-                                                      symbol: selectedsymbol!);
+                                                  return PointerInterceptor(
+                                                    intercepting: true,
+                                                    child: PopupWindow(
+                                                        symbol:
+                                                            selectedsymbol!),
+                                                  );
                                                 },
                                                 followerAnchor:
                                                     Alignment.topRight,
@@ -296,7 +301,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         builder: (context, state) {
                           return WebViewX(
                             initialContent:
-                                "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3ATCS",
+                                "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
                             width: MediaQuery.of(context).size.width * 0.6 + 70,
                             height:
                                 MediaQuery.of(context).size.height * 0.55 - 20,

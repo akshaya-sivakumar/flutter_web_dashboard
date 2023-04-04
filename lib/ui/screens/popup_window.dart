@@ -28,6 +28,13 @@ class _PopupWindowState extends State<PopupWindow> {
   TextEditingController disQtycontroller = TextEditingController(text: "0");
   TextEditingController stopplossTriggercontroller =
       TextEditingController(text: "0");
+  List productList = ["Delivery", "Intraday", "E-margin", "Cover"];
+  String selectedProducttype = "";
+  @override
+  void initState() {
+    selectedProducttype = productList[0];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,15 +193,14 @@ class _PopupWindowState extends State<PopupWindow> {
                           fontSize: 13,
                           paddingEdgeInsets: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
-                          toggleButtonlist: const [
-                            "Delivery",
-                            "Intraday",
-                            "E-margin",
-                            "Cover"
-                          ],
-                          toggleButtonOnChanged: () {},
-                          enabledButtonlist: const ["Delivery"],
-                          defaultSelected: "",
+                          toggleButtonlist: productList,
+                          toggleButtonOnChanged: (value) {
+                            setState(() {
+                              selectedProducttype = value;
+                            });
+                          },
+                          enabledButtonlist: [selectedProducttype],
+                          defaultSelected: selectedProducttype,
                           activeButtonColor: Theme.of(context).primaryColor,
                           activeTextColor: Colors.white,
                           inactiveButtonColor:

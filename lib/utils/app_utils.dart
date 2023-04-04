@@ -6,7 +6,10 @@ import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 
 class AppUtils {
   bool isLoginned() {
-    return true;
+    return (window.sessionStorage["login"] != null &&
+            window.sessionStorage["login"] != "")
+        ? true
+        : false;
   }
 
   storeLogin(String sessionid) {
@@ -22,7 +25,10 @@ class AppUtils {
   }
 
   List<Symbols> getWatchlist() {
-    return json.decode(window.localStorage["watchlist"] ?? "[]");
+    print(json.decode(window.localStorage["watchlist"] ?? "[]"));
+    List data = json.decode(window.localStorage["watchlist"] ?? "[]");
+
+    return data.map((e) => Symbols.fromJson(e)).toList();
   }
 }
 
