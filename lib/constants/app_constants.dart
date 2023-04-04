@@ -1,6 +1,6 @@
 class AppConstants {
   static const String watchlistLogin = "MSIL WatchList Login";
-  static const String enterMobileNo = "Enter Your Mobile number";
+  static const String enterMobileNo = "Enter the Mobile Number to Login";
   static const String otpinSms =
       "A 4-digit OTP will be sent in SMS to verify your mobile number";
   static const String phNo = "Phone Number";
@@ -27,8 +27,9 @@ class AppConstants {
   static const String watchlistTitle = "WATCHLIST";
   static const String pageNotfound = "Page Not Found";
   static const String isDark = "isDark";
-    static const String welcometext =  "Welcome! Let's get started !!!";
+  static const String welcometext = "Welcome! Let's get started !!!";
 
-    static const String loginCap =  "LOGIN";
-    static const String login =  "LOGIN";
+  static const String loginCap = "LOGIN";
+  static const String login = "Login";
+  static const String mobilenumber = "Mobile Number";
 }

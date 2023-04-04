@@ -110,7 +110,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   _verifyOtpCode() {
-    LoaderWidget().showLoader(context, text: "Please wait..");
+    LoaderWidget().showLoader(context, text: AppConstants.pleaseWait);
     FocusScope.of(context).requestFocus(FocusNode());
     Timer(const Duration(milliseconds: 4000), () {
       context.read<OtpvalidationBloc>().add(OtpvalidationRequestEvent(
@@ -214,20 +214,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   .textTheme
                                   .titleLarge
                                   ?.color),
-
-                          /* Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(
-                                  fontSize: 25,
-                                  fontFamily:
-                                      GoogleFonts.abhayaLibre().fontFamily), */
                         ),
                         const SizedBox(
                           height: 15,
                         ),
                         TextWidget(
-                          "Enter the Mobile Number to Login",
+                          AppConstants.enterMobileNo,
                           color: Theme.of(context).textTheme.titleMedium?.color,
                         ),
                         const SizedBox(
@@ -243,7 +235,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             //labelText: "Mobile Number",
-                            hintText: "Mobile Number",
+                            hintText: AppConstants.mobilenumber,
                             filled: true,
                             fillColor: Colors.white54.withOpacity(0.6),
                             hintStyle: TextStyle(
@@ -300,7 +292,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             width: double.maxFinite,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: const TextWidget(
-                              "LOG IN",
+                              AppConstants.loginCap,
                               color: Colors.white,
                               fontweight: FontWeight.bold,
                             ),
