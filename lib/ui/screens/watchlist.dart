@@ -30,6 +30,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Random random = Random();
   ValueNotifier<int> selectedindex = ValueNotifier<int>(0);
   ValueNotifier<bool> watchlistSelected = ValueNotifier<bool>(false);
+  bool atoz = false;
   @override
   void initState() {
     watchlistBloc = BlocProvider.of<WatchlistBloc>(context);
@@ -148,6 +149,27 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                             )
                           ],
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextWidget(
+                            "My List",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontSize: 15),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                atoz = !atoz;
+                                watchlistBloc.add(SortWatchlist(atoz));
+                              },
+                              icon: const Icon(
+                                Icons.sort,
+                                size: 20,
+                              ))
+                        ],
                       ),
                       Expanded(
                         child: ListView.builder(

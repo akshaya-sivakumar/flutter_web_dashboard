@@ -1,14 +1,12 @@
+import 'dart:convert';
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 
 class AppUtils {
   bool isLoginned() {
-    return (window.sessionStorage["login"] != null &&
-            window.sessionStorage["login"] != "")
-        ? true
-        : false;
-    // return true;
+    return true;
   }
 
   storeLogin(String sessionid) {
@@ -17,6 +15,14 @@ class AppUtils {
 
   clearsession() {
     window.sessionStorage["login"] = "";
+  }
+
+  storeWatchlist(List<Symbols> symbols) {
+    window.localStorage["watchlist"] = json.encode(symbols);
+  }
+
+  List<Symbols> getWatchlist() {
+    return json.decode(window.localStorage["watchlist"] ?? "[]");
   }
 }
 
