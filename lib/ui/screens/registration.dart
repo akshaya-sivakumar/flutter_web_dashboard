@@ -271,8 +271,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            appRoute.pushNamed("/dashboard?index=0");
-                            /*  if (formKey.currentState!.validate()) {
+                            //  appRoute.pushNamed("/dashboard?index=0");
+                            if (formKey.currentState!.validate()) {
                               LoaderWidget().showLoader(context,
                                   text: AppConstants.pleaseWait);
                               context.read<RegistrationBloc>().add(
@@ -281,7 +281,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           data: reg.Data(mobNo: phoneNo.text),
                                           appID:
                                               "f79f65f1b98e116f40633dbb46fd5e21"))));
-                            } else {} */
+                            } else {}
                           },
                           child: Container(
                             decoration: BoxDecoration(

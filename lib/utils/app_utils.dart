@@ -6,11 +6,11 @@ import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 
 class AppUtils {
   bool isLoginned() {
-    /*  return (window.sessionStorage["login"] != null &&
+    return (window.sessionStorage["login"] != null &&
             window.sessionStorage["login"] != "")
         ? true
-        : false; */
-    return true;
+        : false;
+    //return true;
   }
 
   storeLogin(String sessionid) {
