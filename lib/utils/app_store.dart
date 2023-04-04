@@ -1,4 +1,4 @@
-import '../constants/sbi_constants.dart';
+/* import '../constants/sbi_constants.dart';
 
 class AppStore {
   static final AppStore _appStore = AppStore._();
@@ -26,3 +26,4 @@ class AppStore {
     return _isAutoTheme = data;
   }
 }
+ */

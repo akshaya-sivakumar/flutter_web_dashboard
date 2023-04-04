@@ -3,6 +3,8 @@ import 'package:flutter_dashboard_web/auto_route/router.gr.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../main.dart';
+
 @AutoRouterConfig()
 class AppRouter extends $AppRouter {
   @override
@@ -12,6 +14,7 @@ class AppRouter extends $AppRouter {
         page: Registration.page,
         transitionsBuilder: TransitionsBuilders.noTransition,
         durationInMilliseconds: 100,
+        guards: [LoginGuard()],
         reverseDurationInMilliseconds: 0),
     CustomRoute(
         path: "/dashboard",
@@ -44,6 +47,18 @@ class AuthGuard extends AutoRouteGuard {
           toastLength: Toast.LENGTH_LONG,
           webBgColor: "linear-gradient(to right, #F8313E, #F8313E)",
           fontSize: 20.0);
+    }
+  }
+}
+
+class LoginGuard extends AutoRouteGuard {
+  @override
+  Future<void> onNavigation(
+      NavigationResolver resolver, StackRouter router) async {
+    if (AppUtils().isLoginned()) {
+      appRoute.pushNamed("/dashboard?index=0");
+    } else {
+      resolver.next(true);
     }
   }
 }

@@ -11,8 +11,6 @@ class OtpvalidationRepository {
     var response = await ApiBaseHelper()
         .postMethod(ApiUrls.loginUrl, json.encode(product));
 
-    print(response.body);
-
     LoginResponse regResponse =
         LoginResponse.fromJson(json.decode(response.body));
     if (regResponse.response.infoID == "EGN002") {

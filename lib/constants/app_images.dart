@@ -264,23 +264,7 @@ class AppImages {
         color: color, width: width ?? 20, height: height ?? 20);
   }
 
-  /*static SvgPicture semiCircle(BuildContext context,
-      {Color color, double width, double height}) {
-    return getSVGImage('lib/assets/images/semi_circle.svg', context,
-        color: color, width: width, height: height, iconName: SEMI_CIRCLE);
-  }*/
 
-  static SvgPicture buy_btn(BuildContext context,
-      {required Color color, required double width, required double height}) {
-    return getSVGImage('lib/assets/images/buy_btn.svg', context,
-        isColor: false, color: color, width: width, height: height);
-  }
-
-  static SvgPicture sell_btn(BuildContext context,
-      {required Color color, required double width, required double height}) {
-    return getSVGImage('lib/assets/images/sell_btn.svg', context,
-        isColor: false, color: color, width: width, height: height);
-  }
 
   static SvgPicture darkThemeIcon(BuildContext context,
       {required Color color, required double width, required double height}) {

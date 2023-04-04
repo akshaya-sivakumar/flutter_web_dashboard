@@ -194,6 +194,9 @@ class _PopupWindowState extends State<PopupWindow> {
                           paddingEdgeInsets: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
                           toggleButtonlist: productList,
+                          toggleChanged: (value) {
+                            setState(() {});
+                          },
                           toggleButtonOnChanged: (value) {
                             setState(() {
                               selectedProducttype = value;

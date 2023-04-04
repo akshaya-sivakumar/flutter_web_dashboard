@@ -56,7 +56,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   if (selectedsymbol != null && !watchlistSelected.value) {
                     watchlistSelected.value = true;
-                    print("watchlistSelected.value ${watchlistSelected.value}");
                   }
                 });
 

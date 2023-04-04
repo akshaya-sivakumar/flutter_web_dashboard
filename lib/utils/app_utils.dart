@@ -10,6 +10,7 @@ class AppUtils {
             window.sessionStorage["login"] != "")
         ? true
         : false;
+    // return true;
   }
 
   storeLogin(String sessionid) {
@@ -25,7 +26,6 @@ class AppUtils {
   }
 
   List<Symbols> getWatchlist() {
-    print(json.decode(window.localStorage["watchlist"] ?? "[]"));
     List data = json.decode(window.localStorage["watchlist"] ?? "[]");
 
     return data.map((e) => Symbols.fromJson(e)).toList();
