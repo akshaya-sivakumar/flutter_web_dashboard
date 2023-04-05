@@ -345,8 +345,10 @@ class _PopupWindowState extends State<PopupWindow> {
         children: [
           TextWidget(
             AppConstants.validity,
-            style:
-                Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 12),
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(fontSize: AppWidgetSize.dimen_12),
           ),
           Container(
             margin: EdgeInsets.only(
@@ -364,7 +366,7 @@ class _PopupWindowState extends State<PopupWindow> {
                   child: Container(
                     width: 56.5,
                     alignment: Alignment.center,
-                    height: 40,
+                    height: AppWidgetSize.dimen_40,
                     decoration: BoxDecoration(
                         color: selectedValidity == AppConstants.day
                             ? Theme.of(context).primaryColor
@@ -378,8 +380,11 @@ class _PopupWindowState extends State<PopupWindow> {
                             .titleMedium
                             ?.copyWith(
                                 color: selectedValidity == AppConstants.day
-                                    ? Colors.white
-                                    : Colors.black)),
+                                    ? Theme.of(context).scaffoldBackgroundColor
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.color)),
                   ),
                 ),
                 GestureDetector(
@@ -397,8 +402,11 @@ class _PopupWindowState extends State<PopupWindow> {
                             .titleMedium
                             ?.copyWith(
                                 color: selectedValidity == AppConstants.ioc
-                                    ? Colors.white
-                                    : Colors.black)),
+                                    ? Theme.of(context).scaffoldBackgroundColor
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.color)),
                   ),
                 ),
                 GestureDetector(
@@ -420,8 +428,11 @@ class _PopupWindowState extends State<PopupWindow> {
                             .titleMedium
                             ?.copyWith(
                                 color: selectedValidity == AppConstants.gtc
-                                    ? Colors.white
-                                    : Colors.black)),
+                                    ? Theme.of(context).scaffoldBackgroundColor
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.color)),
                   ),
                 )
               ],
