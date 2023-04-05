@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
 
@@ -16,31 +18,38 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
 
         AppUtils().storeWatchlist(watchlist.response.data.symbols);
 
-        emit(WatchlistDone(watchlist));
+        sortingWatchlist(SortWatchlist(true, event.watchlistName), emit);
+
+        // emit(WatchlistDone(watchlist));
       } catch (e) {
         emit(WatchlistError());
         throw ("error");
       }
     });
 
-    on<SortWatchlist>((event, emit) async {
-      emit(WatchlistLoad());
-      try {
-        List<Symbols> storeswatchlist = AppUtils().getWatchlist();
-       
-        event.atoz
-            ? storeswatchlist.sort((a, b) =>
-                a.dispSym.toLowerCase().compareTo(b.dispSym.toLowerCase()))
-            : storeswatchlist.sort((a, b) =>
-                b.dispSym.toLowerCase().compareTo(a.dispSym.toLowerCase()));
+    on<SortWatchlist>(sortingWatchlist);
+  }
 
-        emit(WatchlistDone(WatchlistModel(
-            response:
-                Response(appID: "", data: Data(symbols: storeswatchlist)))));
-      } catch (e) {
-        emit(WatchlistError());
-        throw ("error");
-      }
-    });
+  FutureOr<void> sortingWatchlist(event, emit) async {
+    emit(WatchlistLoad());
+    try {
+      List<Symbols> storeswatchlist = AppUtils().getWatchlist();
+      WatchlistModel watchlistmodel = WatchlistModel(
+          response: Response(appID: "", data: Data(symbols: storeswatchlist)));
+
+      event.atoz
+          ? storeswatchlist.sort((a, b) =>
+              a.dispSym.toLowerCase().compareTo(b.dispSym.toLowerCase()))
+          : storeswatchlist.sort((a, b) =>
+              b.dispSym.toLowerCase().compareTo(a.dispSym.toLowerCase()));
+
+      emit(WatchlistDone(watchlistmodel
+        ..response.data.symbols = watchlistmodel.response.data.symbols
+            .where((element) => element.watchlistName == event.watchlistName)
+            .toList()));
+    } catch (e) {
+      emit(WatchlistError());
+      throw ("error");
+    }
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
+
 class WatchlistModel {
   WatchlistModel({
     required this.response,
@@ -57,18 +59,18 @@ class Data {
 }
 
 class Symbols {
-  Symbols({
-    required this.baseSym,
-    required this.companyName,
-    required this.dispSym,
-    required this.excToken,
-    required this.haircut,
-    required this.isin,
-    required this.mCap,
-    required this.sector,
-    required this.sym,
-    required this.ttEligibility,
-  });
+  Symbols(
+      {required this.baseSym,
+      required this.companyName,
+      required this.dispSym,
+      required this.excToken,
+      required this.haircut,
+      required this.isin,
+      required this.mCap,
+      required this.sector,
+      required this.sym,
+      required this.ttEligibility,
+      required this.watchlistName});
   late final String baseSym;
   late final String companyName;
   late final String dispSym;
@@ -79,9 +81,12 @@ class Symbols {
   late final String sector;
   late final Sym sym;
   late final bool ttEligibility;
+  late final String watchlistName;
   Random random = Random();
 
   Symbols.fromJson(Map<String, dynamic> json) {
+    watchlistName =
+        json["watchlistName"] ?? AppConstants.myListData[random.nextInt(4)];
     baseSym = json['baseSym'];
     companyName = json['companyName'];
     dispSym = json['dispSym'];
@@ -106,6 +111,7 @@ class Symbols {
     data['sector'] = sector;
     data['sym'] = sym.toJson();
     data['tt_eligibility'] = ttEligibility;
+    data["watchlistName"] = watchlistName;
     return data;
   }
 }

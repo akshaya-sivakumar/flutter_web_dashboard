@@ -67,8 +67,8 @@ class AppConstants {
       "Pay fill and get shares in your DP Account";
   static const String buySmall = 'Buy';
   static const String sellSmall = 'Sell';
-   static const String product = 'Product';
-   static const String notfounstatement = "OOPS!!\n Nothing here... ";
+  static const String product = 'Product';
+  static const String notfounstatement = "OOPS!!\n Nothing here... ";
 
   static List quoteTablist = [
     "Overview",
@@ -76,6 +76,13 @@ class AppConstants {
     "Futures",
     "Options",
     "News"
+  ];
+
+  static List<String> myListData = [
+    "My List1",
+    "My List2",
+    "My List3",
+    "My List4",
   ];
 
   static const String fontName = 'opensans';

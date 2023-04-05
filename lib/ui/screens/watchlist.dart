@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/screens/popup_window.dart';
+import 'package:flutter_dashboard_web/ui/widgets/search_widget.dart';
+import 'package:flutter_dashboard_web/ui/widgets/swap_widget.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:webviewx/webviewx.dart';
 
@@ -31,16 +33,18 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Data searchWatchlist = Data(symbols: []);
   Data watchlist = Data(symbols: []);
   Random random = Random();
+  ValueNotifier<String> selectedmyList =
+      ValueNotifier<String>(AppConstants.myListData[0]);
   ValueNotifier<int> selectedindex = ValueNotifier<int>(0);
   ValueNotifier<bool> watchlistSelected = ValueNotifier<bool>(false);
   bool atoz = false;
-  bool ztoa = false;
-  bool none = true;
+  TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     watchlistBloc = BlocProvider.of<WatchlistBloc>(context);
 
-    watchlistBloc.add(FetchWatchlist());
+    watchlistBloc.add(FetchWatchlist(selectedmyList.value));
 
     super.initState();
   }
@@ -73,6 +77,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      searchBox(searchController, "", "Search..", () {
+                        
+                      }),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: AppWidgetSize.dimen_20),
@@ -161,19 +168,44 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextWidget(
-                            AppConstants.myList,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                    fontSize: AppWidgetSize.dimen_15,
-                                    fontWeight: FontWeight.w600),
-                          ),
+                          ValueListenableBuilder<String>(
+                              valueListenable: selectedmyList,
+                              builder: (context, snapshot, _) {
+                                return CustomDropdownButton(
+                                  iconSize: AppWidgetSize.dimen_15,
+                                  icon: const Icon(
+                                      Icons.keyboard_arrow_down_sharp),
+                                  value: snapshot,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: AppWidgetSize.dimen_13),
+                                  underline: const Divider(
+                                    color: Colors.transparent,
+                                  ),
+                                  dropdownColor: Colors.red,
+                                  items: AppConstants.myListData.map((item) {
+                                    return DropdownMenuItem(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    selectedmyList.value = value;
+                                    watchlistBloc
+                                        .add(SortWatchlist(atoz, value));
+                                  },
+                                );
+                              }),
                           PopupMenuButton(
                             icon: Icon(
                               Icons.sort,
-                              size: AppWidgetSize.dimen_15,
+                              size: AppWidgetSize.dimen_20,
+                              color: Theme.of(context).primaryColor,
                             ),
                             onSelected: (item) {},
                             itemBuilder: (BuildContext context) =>
@@ -181,7 +213,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                               PopupMenuItem(
                                 onTap: () {
                                   atoz = true;
-                                  watchlistBloc.add(SortWatchlist(atoz));
+                                  watchlistBloc.add(SortWatchlist(
+                                      atoz, AppConstants.myListData[0]));
                                 },
                                 value: atoz,
                                 child: Row(
@@ -211,7 +244,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                               PopupMenuItem(
                                 onTap: () {
                                   atoz = false;
-                                  watchlistBloc.add(SortWatchlist(atoz));
+                                  watchlistBloc.add(SortWatchlist(
+                                      atoz, AppConstants.myListData[0]));
                                 },
                                 value: !atoz,
                                 child: Row(
