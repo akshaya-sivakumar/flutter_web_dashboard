@@ -187,16 +187,20 @@ class _PopupWindowState extends State<PopupWindow> {
                                 alignment: Alignment.centerRight,
                                 children: [
                                   MaterialSwitch(
-                                    inactiveTrackColor: Colors.green,
-                                    activeTrackColor: Colors.red,
-                                    activeColor: Colors.white,
+                                    inactiveTrackColor: HexColor("#03ad7a"),
+                                    activeTrackColor: Theme.of(context)
+                                        .snackBarTheme
+                                        .closeIconColor,
+                                    activeColor: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     value: !widget.buySelected,
                                     onChanged: (value) {},
                                   ),
                                   widget.buySelected
                                       ? Positioned(
-                                          right: 13,
-                                          child: TextWidget("Buy",
+                                          right: AppWidgetSize.dimen_13,
+                                          child: TextWidget(
+                                              AppConstants.buySmall,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleMedium
@@ -209,17 +213,14 @@ class _PopupWindowState extends State<PopupWindow> {
                                                           .scaffoldBackgroundColor)))
                                       : Positioned(
                                           left: AppWidgetSize.dimen_13,
-                                          child: TextWidget("Sell",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium
-                                                  ?.copyWith(
-                                                      fontSize: AppWidgetSize
-                                                          .dimen_12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .scaffoldBackgroundColor)))
+                                          child: TextWidget(
+                                              AppConstants.sellSmall,
+                                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                                  fontSize:
+                                                      AppWidgetSize.dimen_12,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor)))
                                 ],
                               )
                             ],
@@ -232,7 +233,7 @@ class _PopupWindowState extends State<PopupWindow> {
                         Padding(
                           padding: EdgeInsets.only(top: AppWidgetSize.dimen_10),
                           child: TextWidget(
-                            "Product",
+                            AppConstants.product,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
@@ -267,7 +268,7 @@ class _PopupWindowState extends State<PopupWindow> {
                                     .inputDecorationTheme
                                     .labelStyle
                                     ?.color ??
-                                Colors.grey,
+                                Theme.of(context).canvasColor,
                             borderColor: Theme.of(context).canvasColor,
                             context: context),
                         Padding(
