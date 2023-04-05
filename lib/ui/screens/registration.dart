@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -137,176 +138,185 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           child: Center(
             child: SingleChildScrollView(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    color: Theme.of(context).primaryColorLight,
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                          AppConstants.welcometext,
-                          style: GoogleFonts.cuteFont(
-                              fontSize: 60,
-                              fontWeight: FontWeight.bold,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: const Offset(10.0, 10.0),
-                                  blurRadius: 3.0,
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.4),
-                                ),
-                              ],
-                              color: Theme.of(context).primaryColor),
-                        ),
-                        Image.asset(
-                          "lib/assets/icons/login_illus.png",
-                          width: MediaQuery.of(context).size.width * 0.6,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 50),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          stops: const [0.0, 1.0],
-                          begin: FractionalOffset.topLeft,
-                          end: FractionalOffset.topRight,
-                          colors: [
-                            Theme.of(context)
-                                .primaryColorLight
-                                .withOpacity(0.8),
-                            Theme.of(context).primaryColor.withOpacity(0.6),
+              child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                return Row(
+                  mainAxisAlignment: constraints.maxWidth > 730
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.center,
+                  children: [
+                    if (constraints.maxWidth > 730)
+                      Container(
+                        color: Theme.of(context).primaryColorLight,
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextWidget(
+                              AppConstants.welcometext,
+                              style: GoogleFonts.cuteFont(
+                                  fontSize: AppWidgetSize.dimen_60,
+                                  fontWeight: FontWeight.bold,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: const Offset(10.0, 10.0),
+                                      blurRadius: 3.0,
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.4),
+                                    ),
+                                  ],
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                            Image.asset(
+                              "lib/assets/icons/login_illus.png",
+                              width: MediaQuery.of(context).size.width * 0.6,
+                            ),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: Theme.of(context).primaryColor, width: 0.3)),
-                    constraints:
-                        const BoxConstraints(maxWidth: 400, maxHeight: 400),
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          AppConstants.login,
-                          style: GoogleFonts.adamina(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: const Offset(10.0, 10.0),
-                                  blurRadius: 3.0,
-                                  color: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0.3),
-                                ),
-                              ],
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.color),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextWidget(
-                          AppConstants.enterMobileNo,
-                          color: Theme.of(context).textTheme.titleMedium?.color,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextField(
-                          controller: phoneNo,
-                          style: const TextStyle(fontSize: 16),
-                          obscureText: false,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            //labelText: "Mobile Number",
-                            hintText: AppConstants.mobilenumber,
-                            filled: true,
-                            fillColor: Colors.white54.withOpacity(0.6),
-                            hintStyle: TextStyle(
-                                fontSize: 13,
-                                color: Theme.of(context).canvasColor),
-                            labelStyle: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).canvasColor),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 10),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    width: 0,
-                                    color: Theme.of(context).canvasColor)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    width: 0,
-                                    color: Theme.of(context).canvasColor)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    width: 0,
-                                    color: Theme.of(context).canvasColor)),
+                      ),
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: AppWidgetSize.dimen_50),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            stops: const [0.0, 1.0],
+                            begin: FractionalOffset.topLeft,
+                            end: FractionalOffset.topRight,
+                            colors: [
+                              Theme.of(context)
+                                  .primaryColorLight
+                                  .withOpacity(0.8),
+                              Theme.of(context).primaryColor.withOpacity(0.6),
+                            ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            // appRoute.pushNamed("/dashboard?index=0");
-                            if (formKey.currentState!.validate()) {
-                              LoaderWidget().showLoader(context,
-                                  text: AppConstants.pleaseWait);
-                              context.read<RegistrationBloc>().add(
-                                  RegistrationRequestEvent(
-                                      reg.RegistrationRequest(
-                                          request: reg.Request(
-                                              data:
-                                                  reg.Data(mobNo: phoneNo.text),
-                                              appID: AppConstants.appId))));
-                            } else {}
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
                               color: Theme.of(context).primaryColor,
-                            ),
-                            alignment: Alignment.center,
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: const TextWidget(
-                              AppConstants.loginCap,
-                              color: Colors.white,
-                              fontweight: FontWeight.bold,
+                              width: 0.3)),
+                      constraints: BoxConstraints(
+                          maxWidth: AppWidgetSize.dimen_400,
+                          maxHeight: AppWidgetSize.dimen_400),
+                      padding: EdgeInsets.all(AppWidgetSize.dimen_24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: AppWidgetSize.dimen_30,
+                          ),
+                          Text(
+                            AppConstants.login,
+                            style: GoogleFonts.adamina(
+                                fontSize: AppWidgetSize.dimen_30,
+                                fontWeight: FontWeight.bold,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: const Offset(10.0, 10.0),
+                                    blurRadius: 3.0,
+                                    color: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0.3),
+                                  ),
+                                ],
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.color),
+                          ),
+                          SizedBox(
+                            height: AppWidgetSize.dimen_15,
+                          ),
+                          TextWidget(
+                            AppConstants.enterMobileNo,
+                            color:
+                                Theme.of(context).textTheme.titleMedium?.color,
+                          ),
+                          SizedBox(
+                            height: AppWidgetSize.dimen_20,
+                          ),
+                          SizedBox(
+                            height: AppWidgetSize.dimen_20,
+                          ),
+                          TextField(
+                            controller: phoneNo,
+                            style: TextStyle(fontSize: AppWidgetSize.dimen_16),
+                            obscureText: false,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              //labelText: "Mobile Number",
+                              hintText: AppConstants.mobilenumber,
+                              filled: true,
+                              fillColor: Colors.white54.withOpacity(0.6),
+                              hintStyle: TextStyle(
+                                  fontSize: AppWidgetSize.dimen_13,
+                                  color: Theme.of(context).canvasColor),
+                              labelStyle: TextStyle(
+                                  fontSize: AppWidgetSize.dimen_14,
+                                  color: Theme.of(context).canvasColor),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: AppWidgetSize.dimen_20,
+                                  horizontal: AppWidgetSize.dimen_10),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      width: 0,
+                                      color: Theme.of(context).canvasColor)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      width: 0,
+                                      color: Theme.of(context).canvasColor)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      width: 0,
+                                      color: Theme.of(context).canvasColor)),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      ],
+                          SizedBox(
+                            height: AppWidgetSize.dimen_30,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // appRoute.pushNamed("/dashboard?index=0");
+                              if (formKey.currentState!.validate()) {
+                                LoaderWidget().showLoader(context,
+                                    text: AppConstants.pleaseWait);
+                                context.read<RegistrationBloc>().add(
+                                    RegistrationRequestEvent(
+                                        reg.RegistrationRequest(
+                                            request: reg.Request(
+                                                data: reg.Data(
+                                                    mobNo: phoneNo.text),
+                                                appID: AppConstants.appId))));
+                              } else {}
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              alignment: Alignment.center,
+                              width: double.maxFinite,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: AppWidgetSize.dimen_16),
+                              child: const TextWidget(
+                                AppConstants.loginCap,
+                                color: Colors.white,
+                                fontweight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: AppWidgetSize.dimen_15,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                );
+              }),
             ),
           ),
         ),
@@ -347,17 +357,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge
-                      ?.copyWith(fontSize: 17),
+                      ?.copyWith(fontSize: AppWidgetSize.dimen_17),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 7),
+                  padding:
+                      EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_7),
                   child: TextWidget(
                     AppConstants.otpVerified + phoneNo.text,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding:
+                      EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_10),
                   child: ValueListenableBuilder(
                     valueListenable: valueNotifier,
                     builder: (context, value, child) {
@@ -367,9 +379,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           codeLength: otpCodeLength,
                           alignment: MainAxisAlignment.center,
                           defaultBoxSize: 46.0,
-                          margin: 10,
-                          selectedBoxSize: 46.0,
-                          textStyle: const TextStyle(fontSize: 16),
+                          margin: AppWidgetSize.dimen_10,
+                          selectedBoxSize: AppWidgetSize.dimen_46,
+                          textStyle:
+                              TextStyle(fontSize: AppWidgetSize.dimen_16),
                           defaultDecoration: _pinPutDecoration.copyWith(
                               border: Border.all(color: Colors.grey)),
                           selectedDecoration: _pinPutDecoration,
@@ -393,8 +406,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width * 0.2,
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      margin: EdgeInsets.symmetric(
+                          vertical: AppWidgetSize.dimen_10),
+                      padding: EdgeInsets.symmetric(
+                          vertical: AppWidgetSize.dimen_14),
                       child: const TextWidget(
                         AppConstants.validateOtp,
                         color: Colors.white,
@@ -415,7 +430,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         },
                         child: TextWidget(
                           AppConstants.resendOtp,
-                          size: 15,
+                          size: AppWidgetSize.dimen_15,
                           color: Theme.of(context).primaryColor,
                         )))
               ],
