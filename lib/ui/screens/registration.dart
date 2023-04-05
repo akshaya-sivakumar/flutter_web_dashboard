@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_dashboard_web/ui/widgets/show_toast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
@@ -66,15 +66,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         }
         if (state is RegistrationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
-          Fluttertoast.showToast(
-              msg: state.error,
-              gravity: ToastGravity.BOTTOM_RIGHT,
-              timeInSecForIosWeb: 5,
-              webPosition: "right",
-              webShowClose: true,
-              toastLength: Toast.LENGTH_LONG,
-              webBgColor: "linear-gradient(to right, #F8313E, #F8313E)",
-              fontSize: 20.0);
+          Apptoast().toastWidget(state.error);
           //   Fluttertoast.showToast(msg: state.error, backgroundColor: Colors.red);
         }
       });
@@ -87,15 +79,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         }
         if (state is OtpvalidationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
-          Fluttertoast.showToast(
-              msg: state.error,
-              gravity: ToastGravity.BOTTOM_RIGHT,
-              timeInSecForIosWeb: 5,
-              webPosition: "right",
-              webShowClose: true,
-              toastLength: Toast.LENGTH_LONG,
-              webBgColor: "linear-gradient(to right, #F8313E, #F8313E)",
-              fontSize: 20.0);
+          Apptoast().toastWidget(state.error);
         }
       });
     registrationBloc.add(AgreeEvent(false));

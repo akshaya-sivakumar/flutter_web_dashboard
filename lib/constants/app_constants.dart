@@ -69,7 +69,10 @@ class AppConstants {
   static const String sellSmall = 'Sell';
   static const String product = 'Product';
   static const String notfounstatement = "OOPS!!\n Nothing here... ";
-static const String enterHere = 'Enter here';
+  static const String enterHere = 'Enter here';
+  static const String webPosition = "right";
+  static const String webBgColor =
+      "linear-gradient(to right, #F8313E, #F8313E)";
   static List quoteTablist = [
     "Overview",
     "Technicals",
