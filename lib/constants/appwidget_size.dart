@@ -37,6 +37,7 @@ class AppWidgetSize {
   static double dimen_35 = 35;
   static double dimen_36 = 36;
   static double dimen_40 = 40;
+  static double dimen_41 = 41;
   static double dimen_45 = 45;
   static double dimen_48 = 48;
   static double dimen_50 = 50;

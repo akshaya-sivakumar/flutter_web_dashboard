@@ -8,6 +8,7 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import '../../auto_route/router.gr.dart';
 import '../../bloc/theme/theme_bloc.dart';
 import '../../constants/app_images.dart';
+import '../../constants/appwidget_size.dart';
 import '../../main.dart';
 import '../../utils/app_utils.dart';
 
@@ -83,15 +84,16 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           AppConstants.portfolio),
       NavigationIcon(
           Icon(Icons.logout,
-              size: 30, color: Theme.of(context).scaffoldBackgroundColor),
+              size: AppWidgetSize.dimen_30,
+              color: Theme.of(context).scaffoldBackgroundColor),
           Icon(
             Icons.logout,
-            size: 30,
+            size: AppWidgetSize.dimen_30,
             color: Theme.of(context).scaffoldBackgroundColor,
           ),
           Icon(
             Icons.logout,
-            size: 30,
+            size: AppWidgetSize.dimen_30,
             color: Theme.of(context).scaffoldBackgroundColor,
           ),
           AppConstants.logout),
@@ -117,10 +119,10 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                   bottom: PreferredSize(
                       preferredSize: const Size.fromHeight(1),
                       child: Divider(
-                        height: 1,
+                        height: AppWidgetSize.dimen_1,
                         color: Theme.of(context).dividerColor,
                       )),
-                  toolbarHeight: 40,
+                  toolbarHeight: AppWidgetSize.dimen_40,
                   automaticallyImplyLeading: false,
                   actions: [
                     BlocBuilder<ThemeBloc, ThemeState>(
@@ -132,11 +134,13 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                             },
                             icon: state.theme
                                 ? AppImages.darkThemeIcon(context,
-                                    color: Colors.white, width: 50, height: 50)
+                                    color: Colors.white,
+                                    width: AppWidgetSize.dimen_50,
+                                    height: AppWidgetSize.dimen_50)
                                 : AppImages.lightThemeIcon(context,
                                     color: Colors.black,
-                                    width: 50,
-                                    height: 50));
+                                    width: AppWidgetSize.dimen_50,
+                                    height: AppWidgetSize.dimen_50));
                       },
                     )
                   ],
@@ -166,7 +170,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                                           fontWeight: FontWeight.bold),
                                       groupAlignment: groupAligment,
                                       extended: expanded.value,
-                                      minWidth: 70,
+                                      minWidth: AppWidgetSize.dimen_70,
                                       useIndicator: true,
                                       indicatorColor:
                                           Theme.of(context).primaryColorLight,
@@ -182,11 +186,13 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                                       destinations: navigationIcons
                                           .map((e) => NavigationRailDestination(
                                                 icon: SizedBox(
-                                                  height: 35,
+                                                  height:
+                                                      AppWidgetSize.dimen_35,
                                                   child: e.icon,
                                                 ),
                                                 selectedIcon: SizedBox(
-                                                  height: 35,
+                                                  height:
+                                                      AppWidgetSize.dimen_35,
                                                   child: state.theme
                                                       ? e.selectedDarkicon
                                                       : e.selectedLighticon,
@@ -211,36 +217,36 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                 bottomNavigationBar: BottomNavigationBar(
                   unselectedIconTheme: const IconThemeData(color: Colors.white),
                   selectedIconTheme: const IconThemeData(color: Colors.red),
-                  unselectedLabelStyle: const TextStyle(
+                  unselectedLabelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: AppWidgetSize.dimen_15,
                       color: Colors.white),
                   selectedItemColor: Colors.red,
                   showUnselectedLabels: false,
-                  selectedLabelStyle: const TextStyle(
+                  selectedLabelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: AppWidgetSize.dimen_15,
                       color: Colors.red),
                   backgroundColor: Colors.green[900],
-                  items: const <BottomNavigationBarItem>[
+                  items: <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
                       icon: Icon(
                         Icons.list,
-                        size: 40,
+                        size: AppWidgetSize.dimen_40,
                       ),
                       label: "Watchlist",
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
                         Icons.bookmark_border,
-                        size: 40,
+                        size: AppWidgetSize.dimen_40,
                       ),
                       label: 'About',
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
                         Icons.account_circle,
-                        size: 40,
+                        size: AppWidgetSize.dimen_40,
                       ),
                       label: 'Profile',
                     ),
@@ -262,23 +268,21 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           child: AlertDialog(
               title: TextWidget(
                 AppConstants.confirmLogout,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontSize: AppWidgetSize.dimen_16,
+                    fontWeight: FontWeight.bold),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextWidget(
                     AppConstants.logoutStatement,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: AppWidgetSize.dimen_14,
+                        fontWeight: FontWeight.w400),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: AppWidgetSize.dimen_20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -286,9 +290,9 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).primaryColor,
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: AppWidgetSize.dimen_10,
                               fontStyle: FontStyle.normal),
                         ),
                         onPressed: () {
@@ -300,15 +304,15 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
-                      const SizedBox(
-                        width: 15,
+                      SizedBox(
+                        width: AppWidgetSize.dimen_15,
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).canvasColor,
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: AppWidgetSize.dimen_10,
                               fontStyle: FontStyle.normal),
                         ),
                         onPressed: () {

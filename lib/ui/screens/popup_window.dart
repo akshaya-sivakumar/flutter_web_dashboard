@@ -1,6 +1,8 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
+import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/widgets/circular_toggle.dart';
@@ -45,7 +47,7 @@ class _PopupWindowState extends State<PopupWindow> {
       builder: (context, state) {
         return StatefulBuilder(builder: (context, setstate) {
           return Container(
-              margin: const EdgeInsets.only(top: 41),
+              margin: EdgeInsets.only(top: AppWidgetSize.dimen_41),
               width: MediaQuery.of(context).size.width * 0.3,
               height: MediaQuery.of(context).size.height,
               color: state.theme
@@ -62,7 +64,7 @@ class _PopupWindowState extends State<PopupWindow> {
                         ? HexColor("#03ad7a")
                         : Theme.of(context).snackBarTheme.closeIconColor,
                     child: SizedBox(
-                      height: 40,
+                      height: AppWidgetSize.dimen_40,
                       child: Center(
                         child: TextWidget(
                           widget.buySelected ? "BUY" : "SELL",
@@ -72,19 +74,21 @@ class _PopupWindowState extends State<PopupWindow> {
                               ?.copyWith(
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
-                                  fontSize: 15),
+                                  fontSize: AppWidgetSize.dimen_15),
                         ),
                       ),
                     ),
                   ),
                   body: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AppWidgetSize.dimen_20,
+                        vertical: AppWidgetSize.dimen_20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: AppWidgetSize.dimen_10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,25 +99,28 @@ class _PopupWindowState extends State<PopupWindow> {
                                   },
                                   child: const Icon(Icons.close)),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: AppWidgetSize.dimen_10),
                                 child: TextWidget(widget.symbol.companyName,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge
-                                        ?.copyWith(fontSize: 15)),
+                                        ?.copyWith(
+                                            fontSize: AppWidgetSize.dimen_15)),
                               ),
                             ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: AppWidgetSize.dimen_10),
                           child: DottedLine(
                             dashColor: Theme.of(context).dividerColor,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: AppWidgetSize.dimen_10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -128,14 +135,17 @@ class _PopupWindowState extends State<PopupWindow> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge
-                                            ?.copyWith(fontSize: 14),
+                                            ?.copyWith(
+                                                fontSize:
+                                                    AppWidgetSize.dimen_14),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5.0, top: 2),
+                                        padding: EdgeInsets.only(
+                                            left: AppWidgetSize.dimen_5,
+                                            top: AppWidgetSize.dimen_2),
                                         child: TextWidget(
                                           widget.symbol.sym.exc,
-                                          size: 10,
+                                          size: AppWidgetSize.dimen_10,
                                           textalign: TextAlign.end,
                                           color: Theme.of(context).canvasColor,
                                         ),
@@ -143,7 +153,8 @@ class _PopupWindowState extends State<PopupWindow> {
                                     ],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 8),
+                                    padding: EdgeInsets.only(
+                                        top: AppWidgetSize.dimen_8),
                                     child: Row(
                                       children: [
                                         TextWidget(
@@ -153,7 +164,8 @@ class _PopupWindowState extends State<PopupWindow> {
                                               .titleLarge
                                               ?.copyWith(
                                                   fontWeight: FontWeight.w800,
-                                                  fontSize: 13),
+                                                  fontSize:
+                                                      AppWidgetSize.dimen_13),
                                         ),
                                         TextWidget(
                                           " ${widget.symbol.haircut}(${widget.symbol.isin}%)",
@@ -163,7 +175,8 @@ class _PopupWindowState extends State<PopupWindow> {
                                               ?.copyWith(
                                                   color: Colors.green,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 11),
+                                                  fontSize:
+                                                      AppWidgetSize.dimen_11),
                                         ),
                                       ],
                                     ),
@@ -190,46 +203,51 @@ class _PopupWindowState extends State<PopupWindow> {
                                                   ?.copyWith(
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      fontSize: 12,
-                                                      color: Colors.white)))
+                                                      fontSize: AppWidgetSize
+                                                          .dimen_12,
+                                                      color: Theme.of(context)
+                                                          .scaffoldBackgroundColor)))
                                       : Positioned(
-                                          left: 13,
+                                          left: AppWidgetSize.dimen_13,
                                           child: TextWidget("Sell",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleMedium
                                                   ?.copyWith(
-                                                      fontSize: 12,
+                                                      fontSize: AppWidgetSize
+                                                          .dimen_12,
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      color: Colors.white)))
+                                                      color: Theme.of(context)
+                                                          .scaffoldBackgroundColor)))
                                 ],
                               )
                             ],
                           ),
                         ),
                         Divider(
-                          thickness: 1,
+                          thickness: AppWidgetSize.dimen_1,
                           color: Theme.of(context).dividerColor,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(top: AppWidgetSize.dimen_10),
                           child: TextWidget(
                             "Product",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
                                 ?.copyWith(
-                                    fontSize: 12,
+                                    fontSize: AppWidgetSize.dimen_12,
                                     color: Theme.of(context).canvasColor),
                           ),
                         ),
                         CircularButtonToggleWidget(
                             key: const Key(""),
                             value: selectedProducttype,
-                            fontSize: 13,
-                            paddingEdgeInsets: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 15),
+                            fontSize: AppWidgetSize.dimen_13,
+                            paddingEdgeInsets: EdgeInsets.symmetric(
+                                vertical: AppWidgetSize.dimen_10,
+                                horizontal: AppWidgetSize.dimen_15),
                             toggleButtonlist: productList,
                             toggleChanged: (value) {
                               setstate(() {});
@@ -253,17 +271,17 @@ class _PopupWindowState extends State<PopupWindow> {
                             borderColor: Theme.of(context).canvasColor,
                             context: context),
                         Padding(
-                          padding: const EdgeInsets.only(top: 5),
+                          padding: EdgeInsets.only(top: AppWidgetSize.dimen_5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextWidget(
-                                "Pay fill and get shares in your DP Account",
+                                AppConstants.pdgTypestatement,
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleSmall
                                     ?.copyWith(
-                                        fontSize: 11,
+                                        fontSize: AppWidgetSize.dimen_11,
                                         color: Theme.of(context).canvasColor),
                                 textalign: TextAlign.end,
                               ),
@@ -271,39 +289,39 @@ class _PopupWindowState extends State<PopupWindow> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(top: AppWidgetSize.dimen_20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               TextfieldWidget(
                                 controller: qtycontroller,
-                                label: "Quantity",
+                                label: AppConstants.qty,
                               ),
-                              const SizedBox(
-                                width: 10,
+                              SizedBox(
+                                width: AppWidgetSize.dimen_10,
                               ),
                               TextfieldWidget(
                                 controller: pricecontroller,
-                                label: 'Price',
+                                label: AppConstants.price,
                               )
                             ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(top: AppWidgetSize.dimen_20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               TextfieldWidget(
                                 controller: disQtycontroller,
-                                label: "Disclosed Qty",
+                                label: AppConstants.disclosedQty,
                               ),
-                              const SizedBox(
-                                width: 10,
+                              SizedBox(
+                                width: AppWidgetSize.dimen_10,
                               ),
                               TextfieldWidget(
                                 controller: stopplossTriggercontroller,
-                                label: 'Stoploss Trigger Price',
+                                label: AppConstants.stoplossTrigger,
                               )
                             ],
                           ),
@@ -319,22 +337,24 @@ class _PopupWindowState extends State<PopupWindow> {
 
   Padding validityWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 20),
+      padding: EdgeInsets.only(
+          top: AppWidgetSize.dimen_20, left: AppWidgetSize.dimen_20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextWidget(
-            "Validity",
+            AppConstants.validity,
             style:
                 Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 12),
           ),
           Container(
-            margin: const EdgeInsets.only(right: 10, top: 10),
-            height: 40,
-            width: 170,
+            margin: EdgeInsets.only(
+                right: AppWidgetSize.dimen_10, top: AppWidgetSize.dimen_10),
+            height: AppWidgetSize.dimen_40,
+            width: AppWidgetSize.dimen_170,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(AppWidgetSize.dimen_5),
                 border: Border.all(color: Theme.of(context).canvasColor)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -346,18 +366,18 @@ class _PopupWindowState extends State<PopupWindow> {
                     alignment: Alignment.center,
                     height: 40,
                     decoration: BoxDecoration(
-                        color: selectedValidity == "DAY"
+                        color: selectedValidity == AppConstants.day
                             ? Theme.of(context).primaryColor
                             : Colors.transparent,
                         border: Border(
                             right: BorderSide(
                                 color: Theme.of(context).canvasColor))),
-                    child: TextWidget("DAY",
+                    child: TextWidget(AppConstants.day,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
                             ?.copyWith(
-                                color: selectedValidity == "DAY"
+                                color: selectedValidity == AppConstants.day
                                     ? Colors.white
                                     : Colors.black)),
                   ),
@@ -365,18 +385,18 @@ class _PopupWindowState extends State<PopupWindow> {
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                    color: selectedValidity == "IOC"
+                    color: selectedValidity == AppConstants.ioc
                         ? Theme.of(context).primaryColor
                         : Colors.transparent,
-                    width: 55,
+                    width: AppWidgetSize.dimen_55,
                     alignment: Alignment.center,
-                    height: 40,
-                    child: TextWidget("IOC",
+                    height: AppWidgetSize.dimen_40,
+                    child: TextWidget(AppConstants.ioc,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
                             ?.copyWith(
-                                color: selectedValidity == "IOC"
+                                color: selectedValidity == AppConstants.ioc
                                     ? Colors.white
                                     : Colors.black)),
                   ),
@@ -386,20 +406,20 @@ class _PopupWindowState extends State<PopupWindow> {
                   child: Container(
                     width: 56.5,
                     alignment: Alignment.center,
-                    height: 40,
+                    height: AppWidgetSize.dimen_40,
                     decoration: BoxDecoration(
-                        color: selectedValidity == "GTC"
+                        color: selectedValidity == AppConstants.gtc
                             ? Theme.of(context).primaryColor
                             : Colors.transparent,
                         border: Border(
                             left: BorderSide(
                                 color: Theme.of(context).canvasColor))),
-                    child: TextWidget("GTC",
+                    child: TextWidget(AppConstants.gtc,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
                             ?.copyWith(
-                                color: selectedValidity == "GTC"
+                                color: selectedValidity == AppConstants.gtc
                                     ? Colors.white
                                     : Colors.black)),
                   ),

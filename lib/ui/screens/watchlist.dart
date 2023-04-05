@@ -12,6 +12,7 @@ import 'package:webviewx/webviewx.dart';
 
 import '../../bloc/theme/theme_bloc.dart';
 import '../../bloc/watchlist/watchlist_bloc.dart';
+import '../../constants/appwidget_size.dart';
 import '../widgets/horizontal_list_view.dart';
 import '../widgets/marketDepth_widget.dart';
 import '../widgets/text_widget.dart';
@@ -65,14 +66,16 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 watchlist = state.watchlist.response.data;
 
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppWidgetSize.dimen_15),
                   width: MediaQuery.of(context).size.width * 0.3,
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: EdgeInsets.symmetric(
+                            vertical: AppWidgetSize.dimen_20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -83,14 +86,14 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
-                                            fontSize: 14,
+                                            fontSize: AppWidgetSize.dimen_14,
                                             color: Theme.of(context)
                                                 .inputDecorationTheme
                                                 .labelStyle
                                                 ?.color)),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: AppWidgetSize.dimen_5),
                                   child: Row(
                                     children: [
                                       TextWidget(AppConstants.niftyvalue,
@@ -103,7 +106,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                             .textTheme
                                             .titleLarge
                                             ?.copyWith(
-                                                fontSize: 13,
+                                                fontSize:
+                                                    AppWidgetSize.dimen_13,
                                                 color: Theme.of(context)
                                                     .snackBarTheme
                                                     .closeIconColor),
@@ -120,14 +124,14 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
-                                            fontSize: 14,
+                                            fontSize: AppWidgetSize.dimen_14,
                                             color: Theme.of(context)
                                                 .inputDecorationTheme
                                                 .labelStyle
                                                 ?.color)),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: AppWidgetSize.dimen_5),
                                   child: Row(
                                     children: [
                                       TextWidget(AppConstants.sensexvalue,
@@ -140,7 +144,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                             .textTheme
                                             .titleLarge
                                             ?.copyWith(
-                                                fontSize: 13,
+                                                fontSize:
+                                                    AppWidgetSize.dimen_13,
                                                 color: Theme.of(context)
                                                     .snackBarTheme
                                                     .closeIconColor),
@@ -162,12 +167,13 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 .textTheme
                                 .titleLarge
                                 ?.copyWith(
-                                    fontSize: 15, fontWeight: FontWeight.w600),
+                                    fontSize: AppWidgetSize.dimen_15,
+                                    fontWeight: FontWeight.w600),
                           ),
                           PopupMenuButton(
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.sort,
-                              size: 15,
+                              size: AppWidgetSize.dimen_15,
                             ),
                             onSelected: (item) {},
                             itemBuilder: (BuildContext context) =>
@@ -186,16 +192,16 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                           .textTheme
                                           .titleLarge
                                           ?.copyWith(
-                                              fontSize: 15,
+                                              fontSize: AppWidgetSize.dimen_15,
                                               fontWeight: FontWeight.w600),
                                     ),
                                     if (atoz)
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15.0),
+                                        padding: EdgeInsets.only(
+                                            left: AppWidgetSize.dimen_15),
                                         child: Icon(
                                           Icons.check_rounded,
-                                          size: 15,
+                                          size: AppWidgetSize.dimen_15,
                                           color: Theme.of(context).primaryColor,
                                         ),
                                       )
@@ -216,15 +222,15 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                           .textTheme
                                           .titleLarge
                                           ?.copyWith(
-                                              fontSize: 17,
+                                              fontSize: AppWidgetSize.dimen_17,
                                               fontWeight: FontWeight.w600),
                                     ),
                                     if (!atoz)
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15.0),
+                                        padding: EdgeInsets.only(
+                                            left: AppWidgetSize.dimen_15),
                                         child: Icon(Icons.check_rounded,
-                                            size: 17,
+                                            size: AppWidgetSize.dimen_17,
                                             color:
                                                 Theme.of(context).primaryColor),
                                       )
@@ -265,7 +271,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppWidgetSize.dimen_10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -274,8 +281,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           builder: (context, selected, _) {
                             return selected
                                 ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: AppWidgetSize.dimen_10,
+                                        vertical: AppWidgetSize.dimen_10),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
@@ -296,8 +304,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                         .scaffoldBackgroundColor),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 10,
+                                        SizedBox(
+                                          width: AppWidgetSize.dimen_10,
                                         ),
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
@@ -326,9 +334,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           return WebViewX(
                             initialContent:
                                 "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
-                            width: MediaQuery.of(context).size.width * 0.6 + 70,
-                            height:
-                                MediaQuery.of(context).size.height * 0.55 - 20,
+                            width: MediaQuery.of(context).size.width * 0.6 +
+                                AppWidgetSize.dimen_70,
+                            height: MediaQuery.of(context).size.height * 0.55 -
+                                AppWidgetSize.dimen_20,
                           );
                         },
                       ),
@@ -337,15 +346,19 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 ),
                 Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
-                    margin: const EdgeInsets.only(top: 10, left: 10),
-                    padding: const EdgeInsets.only(left: 20),
-                    width: MediaQuery.of(context).size.width * 0.6 + 70,
-                    height: MediaQuery.of(context).size.height * 0.35 - 20,
+                    margin: EdgeInsets.only(
+                        top: AppWidgetSize.dimen_10,
+                        left: AppWidgetSize.dimen_10),
+                    padding: EdgeInsets.only(left: AppWidgetSize.dimen_20),
+                    width: MediaQuery.of(context).size.width * 0.6 +
+                        AppWidgetSize.dimen_70,
+                    height: MediaQuery.of(context).size.height * 0.35 -
+                        AppWidgetSize.dimen_20,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         horizontalListView(
-                          fontSize: 14,
+                          fontSize: AppWidgetSize.dimen_14,
                           values: AppConstants.quoteTablist,
                           selectedIndex: selectedindex.value,
                           isEnabled: true,
@@ -366,21 +379,23 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                       children: [
                                         const MarketDepthwidget(),
                                         SizedBox(
-                                          width: 10,
+                                          width: AppWidgetSize.dimen_10,
                                           height: MediaQuery.of(context)
                                                       .size
                                                       .height *
                                                   0.3 -
-                                              30,
+                                              AppWidgetSize.dimen_30,
                                           child: DottedLine(
                                             direction: Axis.vertical,
                                             lineLength: double.infinity,
-                                            lineThickness: 1.0,
-                                            dashLength: 4.0,
+                                            lineThickness:
+                                                AppWidgetSize.dimen_1,
+                                            dashLength: AppWidgetSize.dimen_4,
                                             dashColor:
                                                 Theme.of(context).dividerColor,
                                             dashRadius: 0.0,
-                                            dashGapLength: 4.0,
+                                            dashGapLength:
+                                                AppWidgetSize.dimen_4,
                                             dashGapColor: Colors.transparent,
                                             dashGapRadius: 0.0,
                                           ),
@@ -397,23 +412,28 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical:
+                                                        AppWidgetSize.dimen_10,
+                                                    horizontal:
+                                                        AppWidgetSize.dimen_10),
                                                 child: TextWidget(
                                                   AppConstants.details,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .titleLarge
-                                                      ?.copyWith(fontSize: 16),
+                                                      ?.copyWith(
+                                                          fontSize:
+                                                              AppWidgetSize
+                                                                  .dimen_16),
                                                 ),
                                               ),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical:
+                                                        AppWidgetSize.dimen_10,
+                                                    horizontal:
+                                                        AppWidgetSize.dimen_10),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -496,11 +516,13 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           style: Theme.of(context).textTheme.labelSmall,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 5.0),
+          padding: EdgeInsets.only(top: AppWidgetSize.dimen_5),
           child: TextWidget(
             value,
-            style:
-                Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 11),
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontSize: AppWidgetSize.dimen_11),
           ),
         )
       ],
@@ -509,8 +531,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
   Container bodyData(BuildContext context, Data watchlist, int index) {
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: EdgeInsets.symmetric(
+            vertical: AppWidgetSize.dimen_10,
+            horizontal: AppWidgetSize.dimen_10),
+        margin: EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_5),
         decoration: BoxDecoration(
             color: (selectedsymbol?.companyName ==
                     watchlist.symbols[index].companyName)
@@ -535,25 +559,27 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge
-                            ?.copyWith(fontSize: 12),
+                            ?.copyWith(fontSize: AppWidgetSize.dimen_12),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0, top: 2),
+                        padding: EdgeInsets.only(
+                            left: AppWidgetSize.dimen_8,
+                            top: AppWidgetSize.dimen_2),
                         child: TextWidget(
                           watchlist.symbols[index].sym.exc,
-                          size: 11,
+                          size: AppWidgetSize.dimen_11,
                           textalign: TextAlign.end,
                           color: Theme.of(context).canvasColor,
                         ),
                       ),
                     ],
                   ),
-                  const Divider(
-                    height: 5,
+                  Divider(
+                    height: AppWidgetSize.dimen_5,
                     color: Colors.transparent,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 2.0),
+                    padding: EdgeInsets.only(top: AppWidgetSize.dimen_2),
                     child: TextWidget(
                       watchlist.symbols[index].companyName.toString(),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -561,7 +587,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                               .inputDecorationTheme
                               .labelStyle
                               ?.color,
-                          fontSize: 11),
+                          fontSize: AppWidgetSize.dimen_11),
                     ),
                   ),
                 ],
@@ -574,22 +600,21 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   Center(
                     child: TextWidget(
                       watchlist.symbols[index].excToken.toString(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(fontWeight: FontWeight.w700, fontSize: 14),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: AppWidgetSize.dimen_14),
                     ),
                   ),
-                  const Divider(
-                    height: 5,
+                  Divider(
+                    height: AppWidgetSize.dimen_5,
                     color: Colors.transparent,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 2.0),
+                    padding: EdgeInsets.only(top: AppWidgetSize.dimen_2),
                     child: TextWidget(
                       "${watchlist.symbols[index].haircut}(${watchlist.symbols[index].isin}%)",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontSize: 13,
+                          fontSize: AppWidgetSize.dimen_13,
                           color: watchlist.symbols[index].haircut.contains("-")
                               ? Theme.of(context).snackBarTheme.closeIconColor
                               : Colors.green),
@@ -625,7 +650,7 @@ class ErrorsWidget extends StatelessWidget {
       children: [
         Icon(
           Icons.error,
-          size: 60,
+          size: AppWidgetSize.dimen_60,
           color: Theme.of(context).snackBarTheme.closeIconColor,
         ),
         const TextWidget(AppConstants.unknownError)

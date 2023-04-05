@@ -55,6 +55,15 @@ class AppConstants {
   static const String appIdOtp = "45370504ab27eed7327a1df46403a30a";
   static const String usertype = "virtual";
   static const String validateOtp = "Validate OTP";
+  static const String validity = "Validity";
+  static const String day = "DAY";
+  static const String ioc = "IOC";
+  static const String gtc = "GTC";
+   static const String qty =  "Quantity";
+   static const String price =  'Price';
+    static const String disclosedQty =  'Disclosed qty';
+        static const String stoplossTrigger =  'Stoploss Trigger Price';
+       static const String pdgTypestatement =   "Pay fill and get shares in your DP Account"; 
 
   static List quoteTablist = [
     "Overview",
@@ -64,7 +73,7 @@ class AppConstants {
     "News"
   ];
 
-   static const String fontName = 'opensans';
+  static const String fontName = 'opensans';
 
   static const String darkMode = 'Dark Mode';
 
