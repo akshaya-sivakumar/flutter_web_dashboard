@@ -22,7 +22,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> with AutoRouteAware {
-  AutoRouteObserver? _observer;
   @override
   void initState() {
     /* _observer =

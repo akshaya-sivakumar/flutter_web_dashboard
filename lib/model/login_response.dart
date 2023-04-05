@@ -42,23 +42,23 @@ class Response {
 
 class Data {
   Data({
-    required this.JSESSIONID,
+    required this.jsessionid,
     required this.loginCount,
     required this.url,
   });
-  late final String JSESSIONID;
+  late final String jsessionid;
   late final String loginCount;
   late final String url;
 
   Data.fromJson(Map<String, dynamic> json) {
-    JSESSIONID = json['JSESSIONID'] ?? "";
+    jsessionid = json['JSESSIONID'] ?? "";
     loginCount = json['loginCount'] ?? "";
     url = json['url'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['JSESSIONID'] = JSESSIONID;
+    data['JSESSIONID'] = jsessionid;
     data['loginCount'] = loginCount;
     data['url'] = url;
     return data;

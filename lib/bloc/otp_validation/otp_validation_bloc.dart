@@ -15,7 +15,7 @@ class OtpvalidationBloc extends Bloc<OtpvalidationEvent, OtpvalidationState> {
       try {
         LoginResponse response =
             await OtpvalidationRepository().login(event.otpvalidationRequest);
-        AppUtils().storeLogin(response.response.data.JSESSIONID);
+        AppUtils().storeLogin(response.response.data.jsessionid);
         emit(OtpvalidationDone(response));
       } catch (e) {
         emit(OtpvalidationError(e.toString()));

@@ -11,7 +11,7 @@ const Color appAccentcolor = Color(0xFF999999);
 const Color appBordercolor = Color(0xFFD9D9D9);
 const Color appTextcolor = Color(0xFF2B2B2B);
 const Color appAccentTextcolor = Color(0xFF999999);
-const Color applightAccentTextcolor = Color(0xff00000099);
+
 const Color appOverlinecolor = Color(0xFF666666);
 const Color appErrorcolor = Color(0xFFF8313E);
 const Color appIconcolor = Color(0xFF727275);

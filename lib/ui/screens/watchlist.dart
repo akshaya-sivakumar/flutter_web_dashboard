@@ -16,7 +16,7 @@ import '../../bloc/theme/theme_bloc.dart';
 import '../../bloc/watchlist/watchlist_bloc.dart';
 import '../../constants/appwidget_size.dart';
 import '../widgets/horizontal_list_view.dart';
-import '../widgets/marketDepth_widget.dart';
+import '../widgets/marketdepth_widget.dart';
 import '../widgets/text_widget.dart';
 import 'navigator_rail.dart';
 

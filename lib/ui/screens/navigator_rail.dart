@@ -61,7 +61,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
       NavigationIcon(
           AppImages.watchlist(
             context,
-            color: Theme.of(context).accentIconTheme.color!,
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
           AppImages.watchlistSelected(),
           AppImages.watchlistSelectedDark(),
@@ -69,7 +69,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
       NavigationIcon(
           AppImages.orderbook(
             context,
-            color: Theme.of(context).accentIconTheme.color!,
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
           AppImages.ordersSelected(),
           AppImages.ordersSelectedDark(),
@@ -77,7 +77,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
       NavigationIcon(
           AppImages.portfolio(
             context,
-            color: Theme.of(context).accentIconTheme.color!,
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
           AppImages.portfolioSelected(),
           AppImages.portfolioSelectedDark(),

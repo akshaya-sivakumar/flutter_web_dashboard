@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dashboard_web/theme/dartTheme.dart';
-import 'package:flutter_dashboard_web/theme/lightTheme.dart';
+import 'package:flutter_dashboard_web/theme/dart_theme.dart';
+import 'package:flutter_dashboard_web/theme/light_theme.dart';
 
 import 'auto_route/router.dart';
 import 'bloc/theme/theme_bloc.dart';
