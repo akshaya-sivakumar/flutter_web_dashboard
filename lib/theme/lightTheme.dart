@@ -33,7 +33,7 @@ ThemeData lightTheme() {
     canvasColor: appAccentcolor,
     dialogBackgroundColor: appBackgroundcolorSecondary,
     scaffoldBackgroundColor: appBackgroundcolorSecondary,
-    fontFamily: SbiConstants.font_name,
+    fontFamily: SbiConstants.fontName,
     primaryTextTheme: TextTheme(
       titleLarge: TextStyle(
         letterSpacing: 0,

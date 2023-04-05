@@ -30,8 +30,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  final _observer = MyObserver();
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class MyObserver extends AutoRouterObserver {
+/* class MyObserver extends AutoRouterObserver {
   @override
   void didPush(Route route, Route? previousRoute) {
     print(
@@ -80,4 +78,4 @@ class MyObserver extends AutoRouterObserver {
   void didPop(Route route, Route? previousRoute) {
     'New route pushed: ${route.settings.name} - ${previousRoute?.settings.name}';
   }
-}
+} */

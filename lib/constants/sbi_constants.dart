@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SbiConstants {
-  static const String font_name = 'opensans';
+  static const String fontName = 'opensans';
 
-  static const String DARK_MODE = 'Dark Mode';
-
-
-
-
+  static const String darkMode = 'Dark Mode';
 
   Color light = const Color(0xFFF7F8FC);
   Color lightGrey = const Color(0xFFA4A6B3);

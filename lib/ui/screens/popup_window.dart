@@ -146,7 +146,7 @@ class _PopupWindowState extends State<PopupWindow> {
                                     child: Row(
                                       children: [
                                         TextWidget(
-                                          "189.00",
+                                          widget.symbol.excToken,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge

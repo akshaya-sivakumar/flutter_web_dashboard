@@ -163,11 +163,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 ?.copyWith(fontSize: 15),
                           ),
                           PopupMenuButton(
-                            // Callback that sets the selected popup menu item.
+                           
                             onSelected: (item) {
-                              /*  print("atoz $atoz");
-                              atoz = item;
-                              setState(() {}); */
+                             
                             },
 
                             itemBuilder: (BuildContext context) =>
@@ -184,7 +182,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 onTap: () {
                                   atoz = false;
                                   watchlistBloc.add(SortWatchlist(atoz));
-                                  print("atoz $atoz");
+                                 
                                 },
                                 value: !atoz,
                                 child: const Text('Z - A'),
