@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, state) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Dashboard',
           theme: state.theme == true ? darkTheme() : lightTheme(),
           routerDelegate: appRoute.delegate(
               navigatorObservers: () => [AutoRouteObserver()],
