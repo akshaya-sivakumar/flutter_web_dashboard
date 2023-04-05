@@ -119,8 +119,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   data: Data(
                       mobNo: phoneNo.text,
                       otp: _otpCode ?? "",
-                      userType: "virtual"),
-                  appID: "45370504ab27eed7327a1df46403a30a"))));
+                      userType: AppConstants.usertype),
+                  appID: AppConstants.appIdOtp))));
     });
   }
 
@@ -276,11 +276,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               LoaderWidget().showLoader(context,
                                   text: AppConstants.pleaseWait);
                               context.read<RegistrationBloc>().add(
-                                  RegistrationRequestEvent(reg.RegistrationRequest(
-                                      request: reg.Request(
-                                          data: reg.Data(mobNo: phoneNo.text),
-                                          appID:
-                                              "f79f65f1b98e116f40633dbb46fd5e21"))));
+                                  RegistrationRequestEvent(
+                                      reg.RegistrationRequest(
+                                          request: reg.Request(
+                                              data:
+                                                  reg.Data(mobNo: phoneNo.text),
+                                              appID: AppConstants.appId))));
                             } else {}
                           },
                           child: Container(
@@ -395,7 +396,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: const TextWidget(
-                        "Validate OTP",
+                        AppConstants.validateOtp,
                         color: Colors.white,
                       ),
                     ),
@@ -410,8 +411,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               RegistrationRequestEvent(reg.RegistrationRequest(
                                   request: reg.Request(
                                       data: reg.Data(mobNo: phoneNo.text),
-                                      appID:
-                                          "f79f65f1b98e116f40633dbb46fd5e21"))));
+                                      appID: AppConstants.appId))));
                         },
                         child: TextWidget(
                           AppConstants.resendOtp,

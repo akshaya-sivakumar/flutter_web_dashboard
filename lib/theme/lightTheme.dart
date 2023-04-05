@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_constants.dart';
 import '../constants/appwidget_size.dart';
-import '../constants/sbi_constants.dart';
 
 const Color appPrimarycolor = Color(0xFF5E50AD);
 const Color appPrimaryLightcolor = Color(0xFFCFCBE7);
@@ -33,7 +33,7 @@ ThemeData lightTheme() {
     canvasColor: appAccentcolor,
     dialogBackgroundColor: appBackgroundcolorSecondary,
     scaffoldBackgroundColor: appBackgroundcolorSecondary,
-    fontFamily: SbiConstants.fontName,
+    fontFamily: AppConstants.fontName,
     primaryTextTheme: TextTheme(
       titleLarge: TextStyle(
         letterSpacing: 0,

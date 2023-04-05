@@ -1,7 +1,6 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/ui/widgets/text_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -65,7 +64,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           ),
           AppImages.watchlistSelected(),
           AppImages.watchlistSelectedDark(),
-          "Watchlist"),
+          AppConstants.watchlist),
       NavigationIcon(
           AppImages.orderbook(
             context,
@@ -73,7 +72,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           ),
           AppImages.ordersSelected(),
           AppImages.ordersSelectedDark(),
-          "Orders"),
+          AppConstants.orders),
       NavigationIcon(
           AppImages.portfolio(
             context,
@@ -81,7 +80,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           ),
           AppImages.portfolioSelected(),
           AppImages.portfolioSelectedDark(),
-          "Portfolio"),
+          AppConstants.portfolio),
       NavigationIcon(
           Icon(Icons.logout,
               size: 30, color: Theme.of(context).scaffoldBackgroundColor),
@@ -95,7 +94,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
             size: 30,
             color: Theme.of(context).scaffoldBackgroundColor,
           ),
-          "Logout"),
+          AppConstants.logout),
     ];
     super.didChangeDependencies();
   }
@@ -124,16 +123,22 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                   toolbarHeight: 40,
                   automaticallyImplyLeading: false,
                   actions: [
-                    IconButton(
-                        onPressed: () {
-                          BlocProvider.of<ThemeBloc>(context)
-                              .add(ThemechangeEvent(!theme));
-                        },
-                        icon: window.localStorage["flutter.isDark"] == "true"
-                            ? AppImages.darkThemeIcon(context,
-                                color: Colors.white, width: 50, height: 50)
-                            : AppImages.lightThemeIcon(context,
-                                color: Colors.black, width: 50, height: 50))
+                    BlocBuilder<ThemeBloc, ThemeState>(
+                      builder: (context, state) {
+                        return IconButton(
+                            onPressed: () {
+                              BlocProvider.of<ThemeBloc>(context)
+                                  .add(ThemechangeEvent(!theme));
+                            },
+                            icon: state.theme
+                                ? AppImages.darkThemeIcon(context,
+                                    color: Colors.white, width: 50, height: 50)
+                                : AppImages.lightThemeIcon(context,
+                                    color: Colors.black,
+                                    width: 50,
+                                    height: 50));
+                      },
+                    )
                   ],
                 ),
                 body: Center(
@@ -146,52 +151,53 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                         child: ValueListenableBuilder<bool>(
                             valueListenable: expanded,
                             builder: (context, snapshot, _) {
-                              return NavigationRail(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                  selectedIndex: widget.selectedindex,
-                                  unselectedLabelTextStyle: GoogleFonts.salsa(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                  selectedLabelTextStyle: GoogleFonts.salsa(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                  groupAlignment: groupAligment,
-                                  extended: expanded.value,
-                                  minWidth: 70,
-                                  useIndicator: true,
-                                  indicatorColor:
-                                      Theme.of(context).primaryColorLight,
-                                  onDestinationSelected: (int index) {
-                                    if (index == 3) {
-                                      logoutDialog();
-                                      /*  AppUtils().clearsession();
-                                      appRoute.push(const Registration()); */
-                                    } else {
-                                      appRoute
-                                          .pushNamed('/dashboard?index=$index');
-                                    }
-                                  },
-                                  labelType: labelType,
-                                  destinations: navigationIcons
-                                      .map((e) => NavigationRailDestination(
-                                            icon: SizedBox(
-                                              height: 35,
-                                              child: e.icon,
-                                            ),
-                                            selectedIcon: SizedBox(
-                                              height: 35,
-                                              child: window.sessionStorage[
-                                                          "isDark"] !=
-                                                      "true"
-                                                  ? e.selectedLighticon
-                                                  : e.selectedDarkicon,
-                                            ),
-                                            label: Text(
-                                              e.label,
-                                            ),
-                                          ))
-                                      .toList());
+                              return BlocBuilder<ThemeBloc, ThemeState>(
+                                builder: (context, state) {
+                                  return NavigationRail(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      selectedIndex: widget.selectedindex,
+                                      unselectedLabelTextStyle:
+                                          GoogleFonts.salsa(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                      selectedLabelTextStyle: GoogleFonts.salsa(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      groupAlignment: groupAligment,
+                                      extended: expanded.value,
+                                      minWidth: 70,
+                                      useIndicator: true,
+                                      indicatorColor:
+                                          Theme.of(context).primaryColorLight,
+                                      onDestinationSelected: (int index) {
+                                        if (index == 3) {
+                                          logoutDialog();
+                                        } else {
+                                          appRoute.pushNamed(
+                                              '/dashboard?index=$index');
+                                        }
+                                      },
+                                      labelType: labelType,
+                                      destinations: navigationIcons
+                                          .map((e) => NavigationRailDestination(
+                                                icon: SizedBox(
+                                                  height: 35,
+                                                  child: e.icon,
+                                                ),
+                                                selectedIcon: SizedBox(
+                                                  height: 35,
+                                                  child: state.theme
+                                                      ? e.selectedDarkicon
+                                                      : e.selectedLighticon,
+                                                ),
+                                                label: Text(
+                                                  e.label,
+                                                ),
+                                              ))
+                                          .toList());
+                                },
+                              );
                             }),
                       ),
 
@@ -255,7 +261,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           intercepting: true,
           child: AlertDialog(
               title: TextWidget(
-                "Confirm Logout !!!",
+                AppConstants.confirmLogout,
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge
@@ -265,7 +271,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextWidget(
-                    "Are you sure you want to logout?",
+                    AppConstants.logoutStatement,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
@@ -290,7 +296,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                           appRoute.push(const Registration());
                         },
                         child: TextWidget(
-                          "LOGOUT",
+                          AppConstants.logout,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
@@ -309,7 +315,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                           appRoute.pop();
                         },
                         child: TextWidget(
-                          "CANCEL",
+                          AppConstants.cancel,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),

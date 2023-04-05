@@ -4,6 +4,7 @@ import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/screens/popup_window.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -77,7 +78,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           children: [
                             Column(
                               children: [
-                                TextWidget("NIFTY 50",
+                                TextWidget(AppConstants.nifty50,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -92,12 +93,12 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                       const EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     children: [
-                                      TextWidget("14,696.50",
+                                      TextWidget(AppConstants.niftyvalue,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge),
                                       TextWidget(
-                                        " (1.04%)",
+                                        AppConstants.niftyPer,
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge
@@ -114,7 +115,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                             ),
                             Column(
                               children: [
-                                TextWidget("SENSEX",
+                                TextWidget(AppConstants.sensex,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -129,12 +130,12 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                       const EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     children: [
-                                      TextWidget("48,690.80",
+                                      TextWidget(AppConstants.sensexvalue,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge),
                                       TextWidget(
-                                        " (0.96%)",
+                                        AppConstants.sensexPer,
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge
@@ -156,18 +157,19 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextWidget(
-                            "My List",
+                            AppConstants.myList,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge
-                                ?.copyWith(fontSize: 15),
+                                ?.copyWith(
+                                    fontSize: 15, fontWeight: FontWeight.w600),
                           ),
                           PopupMenuButton(
-                           
-                            onSelected: (item) {
-                             
-                            },
-
+                            icon: const Icon(
+                              Icons.sort,
+                              size: 15,
+                            ),
+                            onSelected: (item) {},
                             itemBuilder: (BuildContext context) =>
                                 <PopupMenuEntry>[
                               PopupMenuItem(
@@ -176,28 +178,61 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   watchlistBloc.add(SortWatchlist(atoz));
                                 },
                                 value: atoz,
-                                child: const Text('A - Z'),
+                                child: Row(
+                                  children: [
+                                    TextWidget(
+                                      AppConstants.atoz,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                    ),
+                                    if (atoz)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Icon(
+                                          Icons.check_rounded,
+                                          size: 15,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                      )
+                                  ],
+                                ),
                               ),
                               PopupMenuItem(
                                 onTap: () {
                                   atoz = false;
                                   watchlistBloc.add(SortWatchlist(atoz));
-                                 
                                 },
                                 value: !atoz,
-                                child: const Text('Z - A'),
+                                child: Row(
+                                  children: [
+                                    TextWidget(
+                                      AppConstants.ztoa,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600),
+                                    ),
+                                    if (!atoz)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Icon(Icons.check_rounded,
+                                            size: 17,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                          /*  IconButton(
-                              onPressed: () {
-                                atoz = !atoz;
-                                watchlistBloc.add(SortWatchlist(atoz));
-                              },
-                              icon: const Icon(
-                                Icons.sort,
-                                size: 20,
-                              )) */
                         ],
                       ),
                       Expanded(
@@ -213,8 +248,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   });
                                 },
                                 child: bodyData(context, watchlist, index));
-
-                            //bodyData(context, watchlist, index);
                           },
                         ),
                       ),
@@ -249,19 +282,18 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.green,
-                                            textStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                                fontStyle: FontStyle.normal),
                                           ),
                                           onPressed: () {
                                             showOrderpadpopup(context, true);
                                           },
                                           child: TextWidget(
-                                            "BUY",
+                                            AppConstants.buy,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .titleLarge,
+                                                .titleLarge
+                                                ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .scaffoldBackgroundColor),
                                           ),
                                         ),
                                         const SizedBox(
@@ -270,19 +302,18 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.red,
-                                            textStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                                fontStyle: FontStyle.normal),
                                           ),
                                           onPressed: () {
                                             showOrderpadpopup(context, false);
                                           },
                                           child: TextWidget(
-                                            "SELL",
+                                            AppConstants.sell,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .titleLarge,
+                                                .titleLarge
+                                                ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .scaffoldBackgroundColor),
                                           ),
                                         ),
                                       ],
@@ -315,13 +346,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                       children: [
                         horizontalListView(
                           fontSize: 14,
-                          values: [
-                            "Overview",
-                            "Technicals",
-                            "Futures",
-                            "Options",
-                            "News"
-                          ],
+                          values: AppConstants.quoteTablist,
                           selectedIndex: selectedindex.value,
                           isEnabled: true,
                           isRectShape: false,
@@ -377,7 +402,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                         vertical: 10,
                                                         horizontal: 10),
                                                 child: TextWidget(
-                                                  "Details",
+                                                  AppConstants.details,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .titleLarge
@@ -411,41 +436,19 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                       ],
                                     )
                                   : index == 1
-                                      ? const TextWidget("Technical")
+                                      ? TextWidget(
+                                          AppConstants.quoteTablist[index])
                                       : index == 3
-                                          ? const TextWidget("Futures")
+                                          ? TextWidget(
+                                              AppConstants.quoteTablist[index])
                                           : index == 4
-                                              ? const TextWidget("Technical")
-                                              : const TextWidget("News");
+                                              ? TextWidget(AppConstants
+                                                  .quoteTablist[index])
+                                              : TextWidget(AppConstants
+                                                  .quoteTablist[index]);
                             })
                       ],
-                    ) /* DefaultTabController(
-                    length: 2,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const TabBar(
-                          tabs: [
-                            Tab(icon: Text('Tab ONE')),
-                            Tab(icon: Text('Tab TWO')),
-                          ],
-                        ),
-                        Expanded(
-                          child: TabBarView(
-                            children: [
-                              Container(
-                                child: const Text("tab 1"),
-                              ),
-                              Container(
-                                child: const Text("tab 2"),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ), */
-                    )
+                    ))
               ],
             ),
           ),
@@ -505,9 +508,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   }
 
   Container bodyData(BuildContext context, Data watchlist, int index) {
-/*     double changePer = random.nextDouble() * 100 - 50.25;//haircut
-    double per = random.nextDouble() * 100 - 50.25;//isin */
-
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -626,9 +626,9 @@ class ErrorsWidget extends StatelessWidget {
         Icon(
           Icons.error,
           size: 60,
-          color: Colors.red[900],
+          color: Theme.of(context).snackBarTheme.closeIconColor,
         ),
-        const Text("Unknown Error")
+        const TextWidget(AppConstants.unknownError)
       ],
     ));
   }

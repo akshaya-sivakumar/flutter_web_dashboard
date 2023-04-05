@@ -32,6 +32,7 @@ class _PopupWindowState extends State<PopupWindow> {
       TextEditingController(text: "0");
   List productList = ["Delivery", "Intraday", "E-margin", "Cover"];
   String selectedProducttype = "";
+  String selectedValidity = "DAY";
   @override
   void initState() {
     selectedProducttype = productList[0];
@@ -169,12 +170,40 @@ class _PopupWindowState extends State<PopupWindow> {
                                   )
                                 ],
                               ),
-                              MaterialSwitch(
-                                inactiveTrackColor: Colors.green,
-                                activeTrackColor: Colors.red,
-                                activeColor: Colors.white,
-                                value: !widget.buySelected,
-                                onChanged: (value) {},
+                              Stack(
+                                alignment: Alignment.centerRight,
+                                children: [
+                                  MaterialSwitch(
+                                    inactiveTrackColor: Colors.green,
+                                    activeTrackColor: Colors.red,
+                                    activeColor: Colors.white,
+                                    value: !widget.buySelected,
+                                    onChanged: (value) {},
+                                  ),
+                                  widget.buySelected
+                                      ? Positioned(
+                                          right: 13,
+                                          child: TextWidget("Buy",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 12,
+                                                      color: Colors.white)))
+                                      : Positioned(
+                                          left: 13,
+                                          child: TextWidget("Sell",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.white)))
+                                ],
                               )
                             ],
                           ),
@@ -278,12 +307,108 @@ class _PopupWindowState extends State<PopupWindow> {
                               )
                             ],
                           ),
-                        )
+                        ),
+                        validityWidget(context)
                       ],
                     ),
                   )));
         });
       },
+    );
+  }
+
+  Padding validityWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, left: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextWidget(
+            "Validity",
+            style:
+                Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 12),
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 10, top: 10),
+            height: 40,
+            width: 170,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: Theme.of(context).canvasColor)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: 56.5,
+                    alignment: Alignment.center,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: selectedValidity == "DAY"
+                            ? Theme.of(context).primaryColor
+                            : Colors.transparent,
+                        border: Border(
+                            right: BorderSide(
+                                color: Theme.of(context).canvasColor))),
+                    child: TextWidget("DAY",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                                color: selectedValidity == "DAY"
+                                    ? Colors.white
+                                    : Colors.black)),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    color: selectedValidity == "IOC"
+                        ? Theme.of(context).primaryColor
+                        : Colors.transparent,
+                    width: 55,
+                    alignment: Alignment.center,
+                    height: 40,
+                    child: TextWidget("IOC",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                                color: selectedValidity == "IOC"
+                                    ? Colors.white
+                                    : Colors.black)),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: 56.5,
+                    alignment: Alignment.center,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: selectedValidity == "GTC"
+                            ? Theme.of(context).primaryColor
+                            : Colors.transparent,
+                        border: Border(
+                            left: BorderSide(
+                                color: Theme.of(context).canvasColor))),
+                    child: TextWidget("GTC",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                                color: selectedValidity == "GTC"
+                                    ? Colors.white
+                                    : Colors.black)),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard_web/constants/sbi_constants.dart';
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
 
 import '../constants/appwidget_size.dart';
 
@@ -32,7 +32,7 @@ ThemeData darkTheme() {
     canvasColor: appAccentcolor,
     dialogBackgroundColor: appBackgroundcolorSecondary,
     scaffoldBackgroundColor: appBackgroundcolorSecondary,
-    fontFamily: SbiConstants.fontName,
+    fontFamily: AppConstants.fontName,
     primaryTextTheme: TextTheme(
       titleLarge: TextStyle(
         letterSpacing: 0,
