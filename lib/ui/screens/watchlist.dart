@@ -77,9 +77,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      searchBox(searchController, "", "Search..", () {
-                        
-                      }),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: AppWidgetSize.dimen_20),
@@ -171,34 +168,41 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           ValueListenableBuilder<String>(
                               valueListenable: selectedmyList,
                               builder: (context, snapshot, _) {
-                                return CustomDropdownButton(
-                                  iconSize: AppWidgetSize.dimen_15,
-                                  icon: const Icon(
-                                      Icons.keyboard_arrow_down_sharp),
-                                  value: snapshot,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: AppWidgetSize.dimen_13),
-                                  underline: const Divider(
-                                    color: Colors.transparent,
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                      canvasColor: Theme.of(context)
+                                          .scaffoldBackgroundColor),
+                                  child: CustomDropdownButton(
+                                    iconSize: AppWidgetSize.dimen_15,
+                                    icon: const Icon(
+                                        Icons.keyboard_arrow_down_sharp),
+                                    value: snapshot,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: AppWidgetSize.dimen_13),
+                                    underline: const Divider(
+                                      color: Colors.transparent,
+                                    ),
+                                    dropdownColor: Colors.red,
+                                    items: AppConstants.myListData.map((item) {
+                                      return DropdownMenuItem(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      selectedmyList.value = value;
+                                      watchlistSelected.value = false;
+                                      selectedsymbol = null;
+                                      watchlistBloc
+                                          .add(SortWatchlist(atoz, value));
+                                    },
                                   ),
-                                  dropdownColor: Colors.red,
-                                  items: AppConstants.myListData.map((item) {
-                                    return DropdownMenuItem(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    selectedmyList.value = value;
-                                    watchlistBloc
-                                        .add(SortWatchlist(atoz, value));
-                                  },
                                 );
                               }),
                           PopupMenuButton(
@@ -274,6 +278,13 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                             ],
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        child: searchBox(searchController, "", "Search..", () {
+                          watchlistBloc.add(SortWatchlist(
+                              atoz, selectedmyList.value,
+                              searchName: searchController.text));
+                        }),
                       ),
                       Expanded(
                         child: ListView.builder(
@@ -646,10 +657,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: AppWidgetSize.dimen_2),
                     child: TextWidget(
-                      "${watchlist.symbols[index].haircut}(${watchlist.symbols[index].isin}%)",
+                      "${watchlist.symbols[index].change}(${watchlist.symbols[index].changePer}%)",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontSize: AppWidgetSize.dimen_13,
-                          color: watchlist.symbols[index].haircut.contains("-")
+                          color: watchlist.symbols[index].change.contains("-")
                               ? Theme.of(context).snackBarTheme.closeIconColor
                               : Colors.green),
                     ),

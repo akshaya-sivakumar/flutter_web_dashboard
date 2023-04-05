@@ -149,63 +149,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      MouseRegion(
-                        onEnter: (_) => expanded.value = true,
-                        onExit: (_) => expanded.value = false,
-                        child: ValueListenableBuilder<bool>(
-                            valueListenable: expanded,
-                            builder: (context, snapshot, _) {
-                              return BlocBuilder<ThemeBloc, ThemeState>(
-                                builder: (context, state) {
-                                  return NavigationRail(
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
-                                      selectedIndex: widget.selectedindex,
-                                      unselectedLabelTextStyle:
-                                          GoogleFonts.salsa(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                      selectedLabelTextStyle: GoogleFonts.salsa(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                      groupAlignment: groupAligment,
-                                      extended: expanded.value,
-                                      minWidth: AppWidgetSize.dimen_70,
-                                      useIndicator: true,
-                                      indicatorColor:
-                                          Theme.of(context).primaryColorLight,
-                                      onDestinationSelected: (int index) {
-                                        if (index == 3) {
-                                          logoutDialog();
-                                        } else {
-                                          appRoute.pushNamed(
-                                              '/dashboard?index=$index');
-                                        }
-                                      },
-                                      labelType: labelType,
-                                      destinations: navigationIcons
-                                          .map((e) => NavigationRailDestination(
-                                                icon: SizedBox(
-                                                  height:
-                                                      AppWidgetSize.dimen_35,
-                                                  child: e.icon,
-                                                ),
-                                                selectedIcon: SizedBox(
-                                                  height:
-                                                      AppWidgetSize.dimen_35,
-                                                  child: state.theme
-                                                      ? e.selectedDarkicon
-                                                      : e.selectedLighticon,
-                                                ),
-                                                label: Text(
-                                                  e.label,
-                                                ),
-                                              ))
-                                          .toList());
-                                },
-                              );
-                            }),
-                      ),
+                      railWidget(),
 
                       // This is the main content.
                       widget.child,
@@ -256,6 +200,58 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                 ),
                 body: widget.child);
       }),
+    );
+  }
+
+  MouseRegion railWidget() {
+    return MouseRegion(
+      onEnter: (_) => expanded.value = true,
+      onExit: (_) => expanded.value = false,
+      child: ValueListenableBuilder<bool>(
+          valueListenable: expanded,
+          builder: (context, snapshot, _) {
+            return BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, state) {
+                return NavigationRail(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    selectedIndex: widget.selectedindex,
+                    unselectedLabelTextStyle: GoogleFonts.salsa(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                    selectedLabelTextStyle: GoogleFonts.salsa(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                    groupAlignment: groupAligment,
+                    extended: expanded.value,
+                    minWidth: AppWidgetSize.dimen_70,
+                    useIndicator: true,
+                    indicatorColor: Theme.of(context).primaryColorLight,
+                    onDestinationSelected: (int index) {
+                      if (index == 3) {
+                        logoutDialog();
+                      } else {
+                        appRoute.pushNamed('/dashboard?index=$index');
+                      }
+                    },
+                    labelType: labelType,
+                    destinations: navigationIcons
+                        .map((e) => NavigationRailDestination(
+                              icon: SizedBox(
+                                height: AppWidgetSize.dimen_35,
+                                child: e.icon,
+                              ),
+                              selectedIcon: SizedBox(
+                                height: AppWidgetSize.dimen_35,
+                                child: state.theme
+                                    ? e.selectedDarkicon
+                                    : e.selectedLighticon,
+                              ),
+                              label: Text(
+                                e.label,
+                              ),
+                            ))
+                        .toList());
+              },
+            );
+          }),
     );
   }
 

@@ -33,7 +33,19 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
   FutureOr<void> sortingWatchlist(event, emit) async {
     emit(WatchlistLoad());
     try {
-      List<Symbols> storeswatchlist = AppUtils().getWatchlist();
+      List<Symbols> storeswatchlist = AppUtils()
+          .getWatchlist()
+          .where((element) => element.watchlistName == event.watchlistName)
+          .toList();
+
+      if (event.searchName != null && event.searchName != "") {
+        storeswatchlist = storeswatchlist
+            .where((element) => element.dispSym
+                .toLowerCase()
+                .contains(event.searchName.toLowerCase()))
+            .toList();
+      }
+
       WatchlistModel watchlistmodel = WatchlistModel(
           response: Response(appID: "", data: Data(symbols: storeswatchlist)));
 
@@ -43,10 +55,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
           : storeswatchlist.sort((a, b) =>
               b.dispSym.toLowerCase().compareTo(a.dispSym.toLowerCase()));
 
-      emit(WatchlistDone(watchlistmodel
-        ..response.data.symbols = watchlistmodel.response.data.symbols
-            .where((element) => element.watchlistName == event.watchlistName)
-            .toList()));
+      emit(WatchlistDone(watchlistmodel..response.data.symbols));
     } catch (e) {
       emit(WatchlistError());
       throw ("error");

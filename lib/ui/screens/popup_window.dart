@@ -168,7 +168,7 @@ class _PopupWindowState extends State<PopupWindow> {
                                                       AppWidgetSize.dimen_13),
                                         ),
                                         TextWidget(
-                                          " ${widget.symbol.haircut}(${widget.symbol.isin}%)",
+                                          " ${widget.symbol.change}(${widget.symbol.changePer}%)",
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleMedium

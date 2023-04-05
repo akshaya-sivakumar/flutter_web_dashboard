@@ -9,6 +9,7 @@ class FetchWatchlist extends WatchlistEvent {
 
 class SortWatchlist extends WatchlistEvent {
   bool atoz = true;
-   String watchlistName;
-  SortWatchlist(this.atoz,this.watchlistName);
+  String watchlistName;
+  String searchName;
+  SortWatchlist(this.atoz, this.watchlistName, {this.searchName = ""});
 }

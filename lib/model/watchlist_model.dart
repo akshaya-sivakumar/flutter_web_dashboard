@@ -64,8 +64,8 @@ class Symbols {
       required this.companyName,
       required this.dispSym,
       required this.excToken,
-      required this.haircut,
-      required this.isin,
+      required this.change,
+      required this.changePer,
       required this.mCap,
       required this.sector,
       required this.sym,
@@ -75,8 +75,8 @@ class Symbols {
   late final String companyName;
   late final String dispSym;
   late final String excToken;
-  late final String haircut;
-  late final String isin;
+  late final String change;
+  late final String changePer;
   late final String mCap;
   late final String sector;
   late final Sym sym;
@@ -91,8 +91,10 @@ class Symbols {
     companyName = json['companyName'];
     dispSym = json['dispSym'];
     excToken = json['excToken'];
-    haircut = (random.nextDouble() * 100 - 50.25).toStringAsFixed(2);
-    isin = (random.nextDouble() * 100 - 50.25).toStringAsFixed(2);
+    change = json["change"] ??
+        (random.nextDouble() * 100 - 50.25).toStringAsFixed(2);
+    changePer = json["changePer"] ??
+        (random.nextDouble() * 100 - 50.25).toStringAsFixed(2);
     mCap = json['mCap'];
     sector = json['sector'];
     sym = Sym.fromJson(json['sym']);
@@ -105,8 +107,8 @@ class Symbols {
     data['companyName'] = companyName;
     data['dispSym'] = dispSym;
     data['excToken'] = excToken;
-    data['haircut'] = haircut;
-    data['isin'] = isin;
+    data['change'] = change;
+    data['changePer'] = changePer;
     data['mCap'] = mCap;
     data['sector'] = sector;
     data['sym'] = sym.toJson();
