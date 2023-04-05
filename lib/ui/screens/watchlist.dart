@@ -32,6 +32,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   ValueNotifier<int> selectedindex = ValueNotifier<int>(0);
   ValueNotifier<bool> watchlistSelected = ValueNotifier<bool>(false);
   bool atoz = false;
+  bool ztoa = false;
+  bool none = true;
   @override
   void initState() {
     watchlistBloc = BlocProvider.of<WatchlistBloc>(context);
@@ -160,7 +162,36 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 .titleLarge
                                 ?.copyWith(fontSize: 15),
                           ),
-                          IconButton(
+                          PopupMenuButton(
+                            // Callback that sets the selected popup menu item.
+                            onSelected: (item) {
+                              /*  print("atoz $atoz");
+                              atoz = item;
+                              setState(() {}); */
+                            },
+
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry>[
+                              PopupMenuItem(
+                                onTap: () {
+                                  atoz = true;
+                                  watchlistBloc.add(SortWatchlist(atoz));
+                                },
+                                value: atoz,
+                                child: const Text('A - Z'),
+                              ),
+                              PopupMenuItem(
+                                onTap: () {
+                                  atoz = false;
+                                  watchlistBloc.add(SortWatchlist(atoz));
+                                  print("atoz $atoz");
+                                },
+                                value: !atoz,
+                                child: const Text('Z - A'),
+                              ),
+                            ],
+                          ),
+                          /*  IconButton(
                               onPressed: () {
                                 atoz = !atoz;
                                 watchlistBloc.add(SortWatchlist(atoz));
@@ -168,7 +199,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                               icon: const Icon(
                                 Icons.sort,
                                 size: 20,
-                              ))
+                              )) */
                         ],
                       ),
                       Expanded(
@@ -226,44 +257,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                 fontStyle: FontStyle.normal),
                                           ),
                                           onPressed: () {
-                                            showAlignedDialog(
-                                                barrierColor:
-                                                    Colors.transparent,
-                                                context: context,
-                                                builder: (context) {
-                                                  return PointerInterceptor(
-                                                    intercepting: true,
-                                                    child: PopupWindow(
-                                                        symbol:
-                                                            selectedsymbol!),
-                                                  );
-                                                },
-                                                followerAnchor:
-                                                    Alignment.topRight,
-                                                isGlobal: true,
-                                                transitionsBuilder:
-                                                    (BuildContext context,
-                                                        Animation<double>
-                                                            animation,
-                                                        Animation<double>
-                                                            secondaryAnimation,
-                                                        Widget child) {
-                                                  return SlideTransition(
-                                                    position: Tween(
-                                                            begin: const Offset(
-                                                                1, 0),
-                                                            end: const Offset(
-                                                                0, 0))
-                                                        .animate(animation),
-                                                    child: FadeTransition(
-                                                      opacity: CurvedAnimation(
-                                                        parent: animation,
-                                                        curve: Curves.easeOut,
-                                                      ),
-                                                      child: child,
-                                                    ),
-                                                  );
-                                                });
+                                            showOrderpadpopup(context, true);
                                           },
                                           child: TextWidget(
                                             "BUY",
@@ -283,7 +277,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                 fontSize: 10,
                                                 fontStyle: FontStyle.normal),
                                           ),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            showOrderpadpopup(context, false);
+                                          },
                                           child: TextWidget(
                                             "SELL",
                                             style: Theme.of(context)
@@ -458,6 +454,35 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         ],
       ),
     );
+  }
+
+  void showOrderpadpopup(BuildContext context, bool buySelected) {
+    showAlignedDialog(
+        barrierColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return PointerInterceptor(
+            intercepting: true,
+            child:
+                PopupWindow(buySelected: buySelected, symbol: selectedsymbol!),
+          );
+        },
+        followerAnchor: Alignment.topRight,
+        isGlobal: true,
+        transitionsBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation, Widget child) {
+          return SlideTransition(
+            position: Tween(begin: const Offset(1, 0), end: const Offset(0, 0))
+                .animate(animation),
+            child: FadeTransition(
+              opacity: CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeOut,
+              ),
+              child: child,
+            ),
+          );
+        });
   }
 
   Column detailColumn(String title, String value) {

@@ -271,7 +271,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            //  appRoute.pushNamed("/dashboard?index=0");
+                            // appRoute.pushNamed("/dashboard?index=0");
                             if (formKey.currentState!.validate()) {
                               LoaderWidget().showLoader(context,
                                   text: AppConstants.pleaseWait);

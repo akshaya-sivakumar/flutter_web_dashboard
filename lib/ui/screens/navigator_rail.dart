@@ -103,141 +103,148 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
   late List<NavigationIcon> navigationIcons;
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxWidth > 730
-          ? Scaffold(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async {
+        logoutDialog();
+        return false;
+      },
+      child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        return constraints.maxWidth > 730
+            ? Scaffold(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(1),
-                    child: Divider(
-                      height: 1,
-                      color: Theme.of(context).dividerColor,
-                    )),
-                toolbarHeight: 40,
-                automaticallyImplyLeading: false,
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        BlocProvider.of<ThemeBloc>(context)
-                            .add(ThemechangeEvent(!theme));
-                      },
-                      icon: window.localStorage["flutter.isDark"] == "true"
-                          ? AppImages.darkThemeIcon(context,
-                              color: Colors.white, width: 50, height: 50)
-                          : AppImages.lightThemeIcon(context,
-                              color: Colors.black, width: 50, height: 50))
-                ],
-              ),
-              body: Center(
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    MouseRegion(
-                      onEnter: (_) => expanded.value = true,
-                      onExit: (_) => expanded.value = false,
-                      child: ValueListenableBuilder<bool>(
-                          valueListenable: expanded,
-                          builder: (context, snapshot, _) {
-                            return NavigationRail(
-                                backgroundColor: Theme.of(context).primaryColor,
-                                selectedIndex: widget.selectedindex,
-                                unselectedLabelTextStyle: GoogleFonts.salsa(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                                selectedLabelTextStyle: GoogleFonts.salsa(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                                groupAlignment: groupAligment,
-                                extended: expanded.value,
-                                minWidth: 70,
-                                useIndicator: true,
-                                indicatorColor:
-                                    Theme.of(context).primaryColorLight,
-                                onDestinationSelected: (int index) {
-                                  if (index == 3) {
-                                    logoutDialog();
-                                    /*  AppUtils().clearsession();
-                                    appRoute.push(const Registration()); */
-                                  } else {
-                                    appRoute
-                                        .pushNamed('/dashboard?index=$index');
-                                  }
-                                },
-                                labelType: labelType,
-                                destinations: navigationIcons
-                                    .map((e) => NavigationRailDestination(
-                                          icon: SizedBox(
-                                            height: 35,
-                                            child: e.icon,
-                                          ),
-                                          selectedIcon: SizedBox(
-                                            height: 35,
-                                            child: window.sessionStorage[
-                                                        "isDark"] !=
-                                                    "true"
-                                                ? e.selectedLighticon
-                                                : e.selectedDarkicon,
-                                          ),
-                                          label: Text(
-                                            e.label,
-                                          ),
-                                        ))
-                                    .toList());
-                          }),
-                    ),
-
-                    // This is the main content.
-                    widget.child,
+                appBar: AppBar(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  bottom: PreferredSize(
+                      preferredSize: const Size.fromHeight(1),
+                      child: Divider(
+                        height: 1,
+                        color: Theme.of(context).dividerColor,
+                      )),
+                  toolbarHeight: 40,
+                  automaticallyImplyLeading: false,
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          BlocProvider.of<ThemeBloc>(context)
+                              .add(ThemechangeEvent(!theme));
+                        },
+                        icon: window.localStorage["flutter.isDark"] == "true"
+                            ? AppImages.darkThemeIcon(context,
+                                color: Colors.white, width: 50, height: 50)
+                            : AppImages.lightThemeIcon(context,
+                                color: Colors.black, width: 50, height: 50))
                   ],
                 ),
-              ),
-            )
-          : Scaffold(
-              bottomNavigationBar: BottomNavigationBar(
-                unselectedIconTheme: const IconThemeData(color: Colors.white),
-                selectedIconTheme: const IconThemeData(color: Colors.red),
-                unselectedLabelStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: Colors.white),
-                selectedItemColor: Colors.red,
-                showUnselectedLabels: false,
-                selectedLabelStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: Colors.red),
-                backgroundColor: Colors.green[900],
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.list,
-                      size: 40,
-                    ),
-                    label: "Watchlist",
+                body: Center(
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      MouseRegion(
+                        onEnter: (_) => expanded.value = true,
+                        onExit: (_) => expanded.value = false,
+                        child: ValueListenableBuilder<bool>(
+                            valueListenable: expanded,
+                            builder: (context, snapshot, _) {
+                              return NavigationRail(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  selectedIndex: widget.selectedindex,
+                                  unselectedLabelTextStyle: GoogleFonts.salsa(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  selectedLabelTextStyle: GoogleFonts.salsa(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  groupAlignment: groupAligment,
+                                  extended: expanded.value,
+                                  minWidth: 70,
+                                  useIndicator: true,
+                                  indicatorColor:
+                                      Theme.of(context).primaryColorLight,
+                                  onDestinationSelected: (int index) {
+                                    if (index == 3) {
+                                      logoutDialog();
+                                      /*  AppUtils().clearsession();
+                                      appRoute.push(const Registration()); */
+                                    } else {
+                                      appRoute
+                                          .pushNamed('/dashboard?index=$index');
+                                    }
+                                  },
+                                  labelType: labelType,
+                                  destinations: navigationIcons
+                                      .map((e) => NavigationRailDestination(
+                                            icon: SizedBox(
+                                              height: 35,
+                                              child: e.icon,
+                                            ),
+                                            selectedIcon: SizedBox(
+                                              height: 35,
+                                              child: window.sessionStorage[
+                                                          "isDark"] !=
+                                                      "true"
+                                                  ? e.selectedLighticon
+                                                  : e.selectedDarkicon,
+                                            ),
+                                            label: Text(
+                                              e.label,
+                                            ),
+                                          ))
+                                      .toList());
+                            }),
+                      ),
+
+                      // This is the main content.
+                      widget.child,
+                    ],
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.bookmark_border,
-                      size: 40,
+                ),
+              )
+            : Scaffold(
+                bottomNavigationBar: BottomNavigationBar(
+                  unselectedIconTheme: const IconThemeData(color: Colors.white),
+                  selectedIconTheme: const IconThemeData(color: Colors.red),
+                  unselectedLabelStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.white),
+                  selectedItemColor: Colors.red,
+                  showUnselectedLabels: false,
+                  selectedLabelStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.red),
+                  backgroundColor: Colors.green[900],
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.list,
+                        size: 40,
+                      ),
+                      label: "Watchlist",
                     ),
-                    label: 'About',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.account_circle,
-                      size: 40,
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.bookmark_border,
+                        size: 40,
+                      ),
+                      label: 'About',
                     ),
-                    label: 'Profile',
-                  ),
-                ],
-                currentIndex: widget.selectedindex,
-                onTap: (index) {},
-              ),
-              body: widget.child);
-    });
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.account_circle,
+                        size: 40,
+                      ),
+                      label: 'Profile',
+                    ),
+                  ],
+                  currentIndex: widget.selectedindex,
+                  onTap: (index) {},
+                ),
+                body: widget.child);
+      }),
+    );
   }
 
   void logoutDialog() {

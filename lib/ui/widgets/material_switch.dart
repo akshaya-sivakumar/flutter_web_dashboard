@@ -1044,14 +1044,14 @@ class _SwitchConfigM2 with _SwitchConfig {
   final double _kSwitchMinSize = kMinInteractiveDimension - 8.0;
 
   @override
-  double get activeThumbRadius => 8.0;
+  double get activeThumbRadius => 10.0;
 
   @override
   MaterialStateProperty<Color> get iconColor =>
       MaterialStateProperty.all<Color>(Colors.transparent);
 
   @override
-  double get inactiveThumbRadius => 8.0;
+  double get inactiveThumbRadius => 10.0;
 
   @override
   double get pressedThumbRadius => 8.0;
@@ -1067,25 +1067,25 @@ class _SwitchConfigM2 with _SwitchConfig {
       trackWidth - 2 * (trackHeight / 2.0) + _kSwitchMinSize;
 
   @override
-  double get thumbRadiusWithIcon => 10.0;
+  double get thumbRadiusWithIcon => 25.0;
 
   @override
   List<BoxShadow>? get thumbShadow => kElevationToShadow[1];
 
   @override
-  double get trackHeight => 22.0;
+  double get trackHeight => 30.0;
 
   @override
   MaterialStateProperty<Color?>? get trackOutlineColor => null;
 
   @override
-  double get trackWidth => 45.0;
+  double get trackWidth => 60.0;
 
   @override
   double get thumbOffset => 0.5;
 
   @override
-  Size get transitionalThumbSize => const Size(20, 20);
+  Size get transitionalThumbSize => const Size(25, 25);
 
   @override
   int get toggleDuration => 200;
