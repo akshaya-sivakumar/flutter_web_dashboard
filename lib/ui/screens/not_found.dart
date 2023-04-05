@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/ui/widgets/text_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,20 +14,12 @@ class NotFoundScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: Container(
-          decoration: const BoxDecoration(
-              /*  image: DecorationImage(
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.lightGreen.withOpacity(0.2),
-                    BlendMode.modulate,
-                  ),
-                  image: const AssetImage("lib/assets/icons/404page.png")) */
-              ),
+          decoration: const BoxDecoration(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextWidget(
-                "OOPS!!\n Nothing here... ",
+                AppConstants.notfounstatement,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,

@@ -68,6 +68,7 @@ class AppConstants {
   static const String buySmall = 'Buy';
   static const String sellSmall = 'Sell';
    static const String product = 'Product';
+   static const String notfounstatement = "OOPS!!\n Nothing here... ";
 
   static List quoteTablist = [
     "Overview",
