@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
+import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
 
 var showPassword = true;
@@ -28,15 +30,16 @@ TextField searchBox(controller, label, hint, function) {
                     // color: AppColors.themeColor,
                   )),
         label: Text(label),
-        hintText: hint == "" ? 'Enter here' : hint,
+        hintText: hint == "" ? AppConstants.enterHere : hint,
         hintStyle: TextStyle(
-            fontSize: 13,
+            fontSize: AppWidgetSize.dimen_13,
             color: Theme.of(appRoute.navigatorKey.currentContext!).canvasColor),
         labelStyle: TextStyle(
-            fontSize: 14,
+            fontSize: AppWidgetSize.dimen_14,
             color: Theme.of(appRoute.navigatorKey.currentContext!).canvasColor),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        contentPadding: EdgeInsets.symmetric(
+            vertical: AppWidgetSize.dimen_20,
+            horizontal: AppWidgetSize.dimen_10),
         border: OutlineInputBorder(
             borderSide: BorderSide(
                 width: 0.4,

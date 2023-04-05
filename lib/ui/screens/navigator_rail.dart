@@ -135,12 +135,12 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                             icon: state.theme
                                 ? AppImages.darkThemeIcon(context,
                                     color: Colors.white,
-                                    width: AppWidgetSize.dimen_50,
-                                    height: AppWidgetSize.dimen_50)
+                                    width: AppWidgetSize.dimen_40,
+                                    height: AppWidgetSize.dimen_40)
                                 : AppImages.lightThemeIcon(context,
                                     color: Colors.black,
-                                    width: AppWidgetSize.dimen_50,
-                                    height: AppWidgetSize.dimen_50));
+                                    width: AppWidgetSize.dimen_40,
+                                    height: AppWidgetSize.dimen_40));
                       },
                     )
                   ],
