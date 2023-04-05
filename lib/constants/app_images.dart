@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AppImages {
   static Color getColor(BuildContext context, Color color) {
-    return (color != null) ? color : Theme.of(context).primaryColor;
+    return color;
   }
 
   static SvgPicture getSVGImage(
@@ -263,8 +263,6 @@ class AppImages {
     return getSVGImage('lib/assets/images/edit_watchlist.svg', context,
         color: color, width: width ?? 20, height: height ?? 20);
   }
-
-
 
   static SvgPicture darkThemeIcon(BuildContext context,
       {required Color color, required double width, required double height}) {
