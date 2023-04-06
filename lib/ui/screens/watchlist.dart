@@ -147,8 +147,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 : Container();
                           }),
                       FutureBuilder(
-                        future:
-                            Future.delayed(const Duration(milliseconds: 10)),
+                        future: Future.delayed(const Duration(milliseconds: 0)),
                         builder: (context, snapshot) {
                           return snapshot.connectionState ==
                                   ConnectionState.done

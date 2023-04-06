@@ -23,8 +23,6 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
         }
 
         sortingWatchlist(SortWatchlist(true, event.watchlistName), emit);
-
-        // emit(WatchlistDone(watchlist));
       } catch (e) {
         emit(WatchlistError());
         throw ("error");
@@ -45,11 +43,6 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
               .where((element) => element.watchlistName == event.watchlistName)
               .toList() ??
           [];
-
-      /*  List<Symbols> storeswatchlist = AppUtils()
-          .getWatchlist()
-          .where((element) => element.watchlistName == event.watchlistName)
-          .toList(); */
 
       if (event.searchName != null && event.searchName != "") {
         storeswatchlist = storeswatchlist
