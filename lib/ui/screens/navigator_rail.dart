@@ -104,52 +104,47 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
   late List<NavigationIcon> navigationIcons;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          print("params");
-          return false;
-        },
-        child: Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(1),
-                child: Divider(
-                  height: AppWidgetSize.dimen_1,
-                  color: Theme.of(context).dividerColor,
-                )),
-            toolbarHeight: AppWidgetSize.dimen_40,
-            automaticallyImplyLeading: false,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    BlocProvider.of<ThemeBloc>(context)
-                        .add(ThemechangeEvent(!theme));
-                  },
-                  icon: AppUtils.isDarktheme
-                      ? AppImages.darkThemeIcon(context,
-                          color: Colors.white,
-                          width: AppWidgetSize.dimen_50,
-                          height: AppWidgetSize.dimen_50)
-                      : AppImages.lightThemeIcon(context,
-                          color: Colors.black,
-                          width: AppWidgetSize.dimen_50,
-                          height: AppWidgetSize.dimen_50))
-            ],
-          ),
-          body: Stack(
-            children: <Widget>[
-              // This is the main content.
-              Padding(
-                  padding: const EdgeInsets.only(
-                    left: 80,
-                  ),
-                  child: widget.child),
-              railWidget()
-            ],
-          ),
-        ));
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1),
+            child: Divider(
+              height: AppWidgetSize.dimen_1,
+              color: Theme.of(context).dividerColor,
+            )),
+        toolbarHeight: AppWidgetSize.dimen_40,
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+              onPressed: () {
+                BlocProvider.of<ThemeBloc>(context)
+                    .add(ThemechangeEvent(!theme));
+              },
+              icon: AppUtils.isDarktheme
+                  ? AppImages.darkThemeIcon(context,
+                      color: Colors.white,
+                      width: AppWidgetSize.dimen_50,
+                      height: AppWidgetSize.dimen_50)
+                  : AppImages.lightThemeIcon(context,
+                      color: Colors.black,
+                      width: AppWidgetSize.dimen_50,
+                      height: AppWidgetSize.dimen_50))
+        ],
+      ),
+      body: Stack(
+        children: <Widget>[
+          // This is the main content.
+          Padding(
+              padding: const EdgeInsets.only(
+                left: 80,
+              ),
+              child: widget.child),
+          railWidget()
+        ],
+      ),
+    );
   }
 
   MouseRegion railWidget() {

@@ -6,12 +6,8 @@ import 'package:flutter_dashboard_web/ui/screens/not_found.dart';
 import 'package:flutter_dashboard_web/ui/screens/orders.dart';
 import 'package:flutter_dashboard_web/ui/screens/portfolio.dart';
 import 'package:flutter_dashboard_web/ui/screens/watchlist.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 
-import '../../auto_route/router.gr.dart';
 import '../../main.dart';
-import '../../utils/app_utils.dart';
-import '../widgets/text_widget.dart';
 
 @RoutePage(name: "dashboard")
 class DashboardScreen extends StatefulWidget {
@@ -45,6 +41,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ? const PortfolioScreen()
                 : const NotFoundScreen();
   }
-
-  
 }

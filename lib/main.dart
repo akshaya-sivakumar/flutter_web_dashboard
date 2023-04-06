@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/theme/dart_theme.dart';
@@ -43,42 +42,8 @@ class _MyAppState extends State<MyApp> {
           title: 'Dashboard',
           theme: state.theme == true ? darkTheme() : lightTheme(),
           routerConfig: appRoute.config(initialRoutes: [const Registration()]),
-          /* routerDelegate: appRoute.delegate(
-              //  navigatorObservers: () => [MyObserver()],
-
-              /*  initialDeepLink: AppUtils().isLoginned()
-                ? "/dashboard?index=0"
-                : "/registration", */
-              //initialRoutes: [const Registration()]
-              //initialDeepLink: "/registration"
-              ), */
-          // routeInformationParser: appRoute.defaultRouteParser(),
         );
       },
     );
-  }
-}
-
-class MyObserver extends AutoRouterObserver {
-  @override
-  void didPush(Route route, Route? previousRoute) {
-    print(
-        'New route pushed: ${route.settings.name} - ${previousRoute?.settings.name}');
-  }
-
-  // only override to observer tab routes
-  @override
-  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    print('Tab route visited: ${route.name} - ${previousRoute?.name} ');
-  }
-
-  @override
-  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
-    print('Tab route re-visited: ${route.name} - ${previousRoute.name}');
-  }
-
-  @override
-  void didPop(Route route, Route? previousRoute) {
-    'New route pushed: ${route.settings.name} - ${previousRoute?.settings.name}';
   }
 }
