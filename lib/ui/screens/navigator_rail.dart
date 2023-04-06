@@ -106,7 +106,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          logoutDialog();
+          print("params");
           return false;
         },
         child: Scaffold(

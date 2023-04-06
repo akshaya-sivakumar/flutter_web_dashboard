@@ -102,7 +102,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           OtpvalidationRequest(
               request: Request(
                   data: Data(
-                      mobNo: phoneNo.text,
+                      mobNo: "+91${phoneNo.text}",
                       otp: _otpCode ?? "",
                       userType: AppConstants.usertype),
                   appID: AppConstants.appIdOtp))));
@@ -272,7 +272,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         reg.RegistrationRequest(
                                             request: reg.Request(
                                                 data: reg.Data(
-                                                    mobNo: phoneNo.text),
+                                                    mobNo:
+                                                        "+91${phoneNo.text}"),
                                                 appID: AppConstants.appId))));
                               } else {}
                             },
@@ -409,7 +410,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           context.read<RegistrationBloc>().add(
                               RegistrationRequestEvent(reg.RegistrationRequest(
                                   request: reg.Request(
-                                      data: reg.Data(mobNo: phoneNo.text),
+                                      data:
+                                          reg.Data(mobNo: "+91${phoneNo.text}"),
                                       appID: AppConstants.appId))));
                         },
                         child: TextWidget(
