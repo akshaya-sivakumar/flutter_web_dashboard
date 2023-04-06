@@ -63,7 +63,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           log(state.response.response.infoMsg);
           LoaderWidget().showLoader(context, stopLoader: true);
 
-          _showMyDialog();
+          _showMyDialog(context);
         }
         if (state is RegistrationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
@@ -75,14 +75,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         if (state is OtpvalidationDone) {
           LoaderWidget().showLoader(context, stopLoader: true);
           appRoute.pop(context);
-          appRoute.pushNamed(AppRoutes.dashboardRoute);
+          appRoute.pushNamed(AppRoutes.watchlistRoute);
         }
         if (state is OtpvalidationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
           Apptoast().toastWidget(state.error);
         }
       });
-    registrationBloc.add(AgreeEvent(false));
   }
 
   _onOtpCallBack(String otpCode, bool isAutofill) {
@@ -93,14 +92,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     LoaderWidget().showLoader(context, text: AppConstants.pleaseWait);
     FocusScope.of(context).requestFocus(FocusNode());
     Timer(const Duration(milliseconds: 4000), () {
-      context.read<OtpvalidationBloc>().add(OtpvalidationRequestEvent(
-          OtpvalidationRequest(
-              request: Request(
-                  data: Data(
-                      mobNo: "+91${phoneNo.text}",
-                      otp: _otpCode ?? "",
-                      userType: AppConstants.usertype),
-                  appID: AppConstants.appIdOtp))));
+      otpvalidationBloc.add(OtpvalidationRequestEvent(OtpvalidationRequest(
+          request: Request(
+              data: Data(
+                  mobNo: "+91${phoneNo.text}",
+                  otp: _otpCode ?? "",
+                  userType: AppConstants.usertype),
+              appID: AppConstants.appIdOtp))));
     });
   }
 
@@ -259,14 +257,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               if (formKey.currentState!.validate()) {
                                 LoaderWidget().showLoader(context,
                                     text: AppConstants.pleaseWait);
-                                context.read<RegistrationBloc>().add(
-                                    RegistrationRequestEvent(
-                                        reg.RegistrationRequest(
-                                            request: reg.Request(
-                                                data: reg.Data(
-                                                    mobNo:
-                                                        "+91${phoneNo.text}"),
-                                                appID: AppConstants.appId))));
+                                registrationBloc.add(RegistrationRequestEvent(
+                                    reg.RegistrationRequest(
+                                        request: reg.Request(
+                                            data: reg.Data(
+                                                mobNo: "+91${phoneNo.text}"),
+                                            appID: AppConstants.appId))));
                               } else {}
                             },
                             child: Container(
@@ -301,9 +297,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
+  _showMyDialog(cxt) async {
+    return showDialog(
+      context: cxt,
       barrierColor: Colors.black.withOpacity(0.5),
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -397,12 +393,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         onPressed: () {
                           LoaderWidget().showLoader(context,
                               text: AppConstants.pleaseWait);
-                          context.read<RegistrationBloc>().add(
-                              RegistrationRequestEvent(reg.RegistrationRequest(
-                                  request: reg.Request(
-                                      data:
-                                          reg.Data(mobNo: "+91${phoneNo.text}"),
-                                      appID: AppConstants.appId))));
+                          Timer(const Duration(milliseconds: 4000), () {
+                            registrationBloc.add(RegistrationRequestEvent(
+                                reg.RegistrationRequest(
+                                    request: reg.Request(
+                                        data: reg.Data(
+                                            mobNo: "+91${phoneNo.text}"),
+                                        appID: AppConstants.appId))));
+                          });
                         },
                         child: TextWidget(
                           AppConstants.resendOtp,

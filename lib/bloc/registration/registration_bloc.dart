@@ -19,8 +19,5 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         emit(RegistrationError(e.toString()));
       }
     });
-    on<AgreeEvent>((event, emit) async {
-      emit(AgreeState(event.agree));
-    });
   }
 }

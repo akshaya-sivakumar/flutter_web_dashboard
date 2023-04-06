@@ -8,8 +8,4 @@ class RegistrationRequestEvent extends RegistrationEvent {
   RegistrationRequestEvent(this.registrationRequest);
 }
 
-class AgreeEvent extends RegistrationEvent {
-  final bool agree;
 
-  AgreeEvent(this.agree);
-}
