@@ -61,7 +61,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
       NavigationIcon(
           AppImages.watchlist(
             context,
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: Theme.of(context).accentIconTheme.color!,
           ),
           AppImages.watchlistSelected(),
           AppImages.watchlistSelectedDark(),
@@ -69,7 +69,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
       NavigationIcon(
           AppImages.orderbook(
             context,
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: Theme.of(context).accentIconTheme.color!,
           ),
           AppImages.ordersSelected(),
           AppImages.ordersSelectedDark(),
@@ -77,7 +77,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
       NavigationIcon(
           AppImages.portfolio(
             context,
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: Theme.of(context).accentIconTheme.color!,
           ),
           AppImages.portfolioSelected(),
           AppImages.portfolioSelectedDark(),
@@ -104,149 +104,113 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
   late List<NavigationIcon> navigationIcons;
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxWidth > 730
-          ? Scaffold(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              appBar: AppBar(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(1),
-                    child: Divider(
-                      height: AppWidgetSize.dimen_1,
-                      color: Theme.of(context).dividerColor,
-                    )),
-                toolbarHeight: AppWidgetSize.dimen_40,
-                automaticallyImplyLeading: false,
-                actions: [
-                  BlocBuilder<ThemeBloc, ThemeState>(
-                    builder: (context, state) {
-                      return IconButton(
-                          onPressed: () {
-                            BlocProvider.of<ThemeBloc>(context)
-                                .add(ThemechangeEvent(!theme));
-                          },
-                          icon: state.theme
-                              ? AppImages.darkThemeIcon(context,
-                                  color: Colors.white,
-                                  width: AppWidgetSize.dimen_40,
-                                  height: AppWidgetSize.dimen_40)
-                              : AppImages.lightThemeIcon(context,
-                                  color: Colors.black,
-                                  width: AppWidgetSize.dimen_40,
-                                  height: AppWidgetSize.dimen_40));
-                    },
-                  )
-                ],
-              ),
-              body: Center(
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    railWidget(),
-
-                    // This is the main content.
-                    widget.child,
-                  ],
-                ),
-              ),
-            )
-          : Scaffold(
-              bottomNavigationBar: BottomNavigationBar(
-                unselectedIconTheme: const IconThemeData(color: Colors.white),
-                selectedIconTheme: const IconThemeData(color: Colors.red),
-                unselectedLabelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppWidgetSize.dimen_15,
-                    color: Colors.white),
-                selectedItemColor: Colors.red,
-                showUnselectedLabels: false,
-                selectedLabelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppWidgetSize.dimen_15,
-                    color: Colors.red),
-                backgroundColor: Colors.green[900],
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.list,
-                      size: AppWidgetSize.dimen_40,
-                    ),
-                    label: "Watchlist",
+    return WillPopScope(
+        onWillPop: () async {
+          logoutDialog();
+          return false;
+        },
+        child: Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1),
+                child: Divider(
+                  height: AppWidgetSize.dimen_1,
+                  color: Theme.of(context).dividerColor,
+                )),
+            toolbarHeight: AppWidgetSize.dimen_40,
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    BlocProvider.of<ThemeBloc>(context)
+                        .add(ThemechangeEvent(!theme));
+                  },
+                  icon: AppUtils.isDarktheme
+                      ? AppImages.darkThemeIcon(context,
+                          color: Colors.white,
+                          width: AppWidgetSize.dimen_50,
+                          height: AppWidgetSize.dimen_50)
+                      : AppImages.lightThemeIcon(context,
+                          color: Colors.black,
+                          width: AppWidgetSize.dimen_50,
+                          height: AppWidgetSize.dimen_50))
+            ],
+          ),
+          body: Stack(
+            children: <Widget>[
+              // This is the main content.
+              Padding(
+                  padding: const EdgeInsets.only(
+                    left: 80,
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.bookmark_border,
-                      size: AppWidgetSize.dimen_40,
-                    ),
-                    label: 'About',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.account_circle,
-                      size: AppWidgetSize.dimen_40,
-                    ),
-                    label: 'Profile',
-                  ),
-                ],
-                currentIndex: widget.selectedindex,
-                onTap: (index) {},
-              ),
-              body: widget.child);
-    });
+                  child: widget.child),
+              railWidget()
+            ],
+          ),
+        ));
   }
 
   MouseRegion railWidget() {
     return MouseRegion(
-      onEnter: (_) => expanded.value = true,
-      onExit: (_) => expanded.value = false,
-      child: ValueListenableBuilder<bool>(
+        onEnter: (_) => expanded.value = true,
+        onExit: (_) => expanded.value = false,
+        child: ValueListenableBuilder<bool>(
           valueListenable: expanded,
           builder: (context, snapshot, _) {
-            return BlocBuilder<ThemeBloc, ThemeState>(
-              builder: (context, state) {
-                return NavigationRail(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    selectedIndex: widget.selectedindex,
-                    unselectedLabelTextStyle: GoogleFonts.salsa(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                    selectedLabelTextStyle: GoogleFonts.salsa(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                    groupAlignment: groupAligment,
-                    extended: expanded.value,
-                    minWidth: AppWidgetSize.dimen_70,
-                    useIndicator: true,
-                    indicatorColor: Theme.of(context).primaryColorLight,
-                    onDestinationSelected: (int index) {
-                      if (index == 3) {
-                        logoutDialog();
-                      } else {
-                        appRoute.pushNamed('/dashboard?index=$index');
-                      }
-                    },
-                    labelType: labelType,
-                    destinations: navigationIcons
-                        .map((e) => NavigationRailDestination(
-                              icon: SizedBox(
-                                height: AppWidgetSize.dimen_35,
-                                child: e.icon,
-                              ),
-                              selectedIcon: SizedBox(
-                                height: AppWidgetSize.dimen_35,
-                                child: state.theme
-                                    ? e.selectedDarkicon
-                                    : e.selectedLighticon,
-                              ),
-                              label: Text(
-                                e.label,
-                              ),
-                            ))
-                        .toList());
-              },
+            return SizedBox(
+              width: snapshot ? 170 : 80,
+              //constraints: const BoxConstraints(maxWidth: 170),
+              child: NavigationRail(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  selectedIndex: widget.selectedindex,
+                  unselectedLabelTextStyle: GoogleFonts.salsa(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                  selectedLabelTextStyle: GoogleFonts.salsa(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                  groupAlignment: groupAligment,
+                  extended: expanded.value,
+                  minWidth: AppWidgetSize.dimen_80,
+                  /* useIndicator: true,
+                  
+                  indicatorColor: Theme.of(context).primaryColorLight, */
+                  onDestinationSelected: (int index) {
+                    if (index == 3) {
+                      logoutDialog();
+                    } else {
+                      appRoute.pushNamed('/dashboard?index=$index');
+                    }
+                  },
+                  labelType: snapshot
+                      ? NavigationRailLabelType.none
+                      : NavigationRailLabelType.selected,
+                  destinations: navigationIcons
+                      .map((e) => NavigationRailDestination(
+                            icon: SizedBox(
+                              height: AppWidgetSize.dimen_35,
+                              child: e.icon,
+                            ),
+                            selectedIcon: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColorLight,
+                                  borderRadius: BorderRadius.circular(30)),
+                              height: AppWidgetSize.dimen_40,
+                              child: AppUtils.isDarktheme
+                                  ? e.selectedDarkicon
+                                  : e.selectedLighticon,
+                            ),
+                            label: snapshot
+                                ? Text(
+                                    e.label,
+                                  )
+                                : const SizedBox.shrink(),
+                          ))
+                      .toList()),
             );
-          }),
-    );
+          },
+        ));
   }
 
   void logoutDialog() {

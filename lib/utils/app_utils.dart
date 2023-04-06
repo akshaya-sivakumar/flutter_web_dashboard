@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 
 class AppUtils {
+  static bool isDarktheme = false;
+
   bool isLoginned() {
     return (window.sessionStorage["login"] != null &&
             window.sessionStorage["login"] != "")

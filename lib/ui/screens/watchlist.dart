@@ -9,10 +9,10 @@ import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/screens/popup_window.dart';
 import 'package:flutter_dashboard_web/ui/widgets/search_widget.dart';
 import 'package:flutter_dashboard_web/ui/widgets/swap_widget.dart';
+import 'package:flutter_dashboard_web/utils/app_utils.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:webviewx/webviewx.dart';
 
-import '../../bloc/theme/theme_bloc.dart';
 import '../../bloc/watchlist/watchlist_bloc.dart';
 import '../../constants/appwidget_size.dart';
 import '../widgets/horizontal_list_view.dart';
@@ -71,9 +71,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 watchlist = state.watchlist.response.data;
 
                 return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppWidgetSize.dimen_15),
-                  width: MediaQuery.of(context).size.width * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.3 - 80,
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -382,27 +380,16 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   )
                                 : Container();
                           }),
-                      /*  BlocBuilder<ThemeBloc, ThemeState>(
-                        builder: (context, state) {
-                          return Column(
-                            children: [
-                              if (state.theme)
-                                WebViewX(
+                      FutureBuilder(
+                        future:
+                            Future.delayed(const Duration(milliseconds: 10)),
+                        builder: (context, snapshot) {
+                          return snapshot.connectionState ==
+                                  ConnectionState.done
+                              ? WebViewX(
                                   javascriptMode: JavascriptMode.unrestricted,
                                   initialContent:
-                                      "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6 +
-                                          AppWidgetSize.dimen_70,
-                                  height: MediaQuery.of(context).size.height *
-                                          0.55 -
-                                      AppWidgetSize.dimen_20,
-                                ),
-                              if (!state.theme)
-                                WebViewX(
-                                  javascriptMode: JavascriptMode.unrestricted,
-                                  initialContent:
-                                      "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=light&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                                      "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${AppUtils.isDarktheme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
                                   width:
                                       MediaQuery.of(context).size.width * 0.6 +
                                           AppWidgetSize.dimen_70,
@@ -410,45 +397,15 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                           0.55 -
                                       AppWidgetSize.dimen_20,
                                 )
-                            ],
-                          );
-                        },
-                      ) */
-                      BlocBuilder<ThemeBloc, ThemeState>(
-                        builder: (context, state) {
-                          return FutureBuilder(
-                              future: Future.delayed(
-                                  const Duration(milliseconds: 50)),
-                              builder: (context, snapshot) {
-                                return snapshot.connectionState ==
-                                        ConnectionState.done
-                                    ? WebViewX(
-                                        javascriptMode:
-                                            JavascriptMode.unrestricted,
-                                        initialContent:
-                                            "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                    0.6 +
-                                                AppWidgetSize.dimen_70,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                    0.55 -
-                                                AppWidgetSize.dimen_20,
-                                      )
-                                    : SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                    0.6 +
-                                                AppWidgetSize.dimen_70,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                    0.55 -
-                                                AppWidgetSize.dimen_20,
-                                        child: const Center(
-                                            child:
-                                                CircularProgressIndicator()));
-                              });
+                              : SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6 +
+                                          AppWidgetSize.dimen_70,
+                                  height: MediaQuery.of(context).size.height *
+                                          0.55 -
+                                      AppWidgetSize.dimen_20,
+                                  child: const Center(
+                                      child: CircularProgressIndicator()));
                         },
                       ),
                     ],
@@ -761,7 +718,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Widget loadData(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width * 0.3,
+      width: MediaQuery.of(context).size.width * 0.3 - 80,
       child: Center(
           child: CircularProgressIndicator(
         color: Theme.of(context).primaryColor,
@@ -775,17 +732,19 @@ class ErrorsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.3 - 80,
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.error,
-          size: AppWidgetSize.dimen_60,
-          color: Theme.of(context).snackBarTheme.closeIconColor,
-        ),
-        const TextWidget(AppConstants.unknownError)
-      ],
-    ));
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error,
+              size: AppWidgetSize.dimen_60,
+              color: Theme.of(context).snackBarTheme.closeIconColor,
+            ),
+            const TextWidget(AppConstants.unknownError)
+          ],
+        ));
   }
 }

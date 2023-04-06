@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/theme/dart_theme.dart';
 import 'package:flutter_dashboard_web/theme/light_theme.dart';
+import 'package:flutter_dashboard_web/utils/app_utils.dart';
 
 import 'auto_route/router.dart';
 import 'auto_route/router.gr.dart';
 import 'bloc/theme/theme_bloc.dart';
+
+
 
 final appRoute = AppRouter();
 void main() {
@@ -36,6 +39,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
+        AppUtils.isDarktheme = state.theme;
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Dashboard',
