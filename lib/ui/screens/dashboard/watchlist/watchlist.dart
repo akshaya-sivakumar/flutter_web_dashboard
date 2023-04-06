@@ -745,7 +745,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           hoverbutton(
             index,
             contex,
-            "B",
+            AppConstants.hoverBuy,
             () {
               selectedsymbol = watchlist.symbols[index];
               showOrderpadpopup(contex);
@@ -759,8 +759,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           SizedBox(
             width: AppWidgetSize.dimen_5,
           ),
-          hoverbutton(index, contex, "S", () {
+          hoverbutton(index, contex, AppConstants.hoverSell, () {
             selectedsymbol = watchlist.symbols[index];
+            buySelected.value = false;
             showOrderpadpopup(contex);
           },
               Theme.of(context).snackBarTheme.closeIconColor,

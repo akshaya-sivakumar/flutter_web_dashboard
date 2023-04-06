@@ -16,6 +16,9 @@ class AppConstants {
   static const String detail = "Details";
     static const String dashboard = "Dashboard";
 
+    static const String hoverBuy = "B";
+     static const String hoverSell = "S";
+
   static const String mobileValidation = "Enter Valid mobile No";
 
   static const String pageNotfound = "Page Not Found";
