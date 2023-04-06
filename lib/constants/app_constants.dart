@@ -16,7 +16,7 @@ class AppConstants {
   static const String detail = "Details";
     static const String dashboard = "Dashboard";
 
-  static const String mobileValidation = "Please enter valid mobile number";
+  static const String mobileValidation = "Enter Valid mobile No";
 
   static const String pageNotfound = "Page Not Found";
   static const String isDark = "isDark";

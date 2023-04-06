@@ -218,7 +218,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value == "" || value == null) {
-                                return "Enter Valid mobile No";
+                                return AppConstants.mobileValidation;
                               }
                               return null;
                             },
@@ -240,17 +240,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   vertical: AppWidgetSize.dimen_20,
                                   horizontal: AppWidgetSize.dimen_10),
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(
+                                      AppWidgetSize.dimen_10),
                                   borderSide: BorderSide(
                                       width: 0,
                                       color: Theme.of(context).canvasColor)),
                               enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(
+                                      AppWidgetSize.dimen_10),
                                   borderSide: BorderSide(
                                       width: 0,
                                       color: Theme.of(context).canvasColor)),
                               focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(
+                                      AppWidgetSize.dimen_10),
                                   borderSide: BorderSide(
                                       width: 0,
                                       color: Theme.of(context).canvasColor)),
@@ -275,7 +278,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(
+                                    AppWidgetSize.dimen_15),
                                 color: Theme.of(context).primaryColor,
                               ),
                               alignment: Alignment.center,
@@ -314,7 +318,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         return AlertDialog(
           shape: RoundedRectangleBorder(
               side: BorderSide(color: Theme.of(context).primaryColor),
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(AppWidgetSize.dimen_10)),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -357,7 +361,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           autoFocus: true,
                           codeLength: otpCodeLength,
                           alignment: MainAxisAlignment.center,
-                          defaultBoxSize: 46.0,
+                          defaultBoxSize: AppWidgetSize.dimen_46,
                           margin: AppWidgetSize.dimen_10,
                           selectedBoxSize: AppWidgetSize.dimen_46,
                           textStyle:
