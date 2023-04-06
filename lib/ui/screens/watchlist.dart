@@ -37,7 +37,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       ValueNotifier<String>(AppConstants.myListData[0]);
   ValueNotifier<int> selectedindex = ValueNotifier<int>(0);
   ValueNotifier<bool> watchlistSelected = ValueNotifier<bool>(false);
-  bool atoz = false;
+  bool atoz = true;
   TextEditingController searchController = TextEditingController();
 
   @override
