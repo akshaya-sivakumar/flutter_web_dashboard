@@ -187,15 +187,21 @@ class _PopupWindowState extends State<PopupWindow> {
                               Stack(
                                 alignment: Alignment.centerRight,
                                 children: [
-                                  MaterialSwitch(
-                                    inactiveTrackColor: HexColor("#03ad7a"),
-                                    activeTrackColor: Theme.of(context)
-                                        .snackBarTheme
-                                        .closeIconColor,
-                                    activeColor: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    value: !widget.buySelected,
-                                    onChanged: (value) {},
+                                  Theme(
+                                    data: ThemeData(
+                                        scaffoldBackgroundColor:
+                                            Theme.of(context)
+                                                .scaffoldBackgroundColor),
+                                    child: MaterialSwitch(
+                                      inactiveTrackColor: HexColor("#03ad7a"),
+                                      activeTrackColor: Theme.of(context)
+                                          .snackBarTheme
+                                          .closeIconColor,
+                                      activeColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      value: !widget.buySelected,
+                                      onChanged: (value) {},
+                                    ),
                                   ),
                                   widget.buySelected
                                       ? Positioned(

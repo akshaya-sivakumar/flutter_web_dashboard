@@ -213,7 +213,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                             icon: Icon(
                               Icons.sort,
                               size: AppWidgetSize.dimen_20,
-                              color: Theme.of(context).primaryColor,
+                              color:
+                                  Theme.of(context).textTheme.titleLarge?.color,
                             ),
                             onSelected: (item) {},
                             itemBuilder: (BuildContext context) =>

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
 
@@ -31,7 +30,7 @@ TextField searchBox(controller, label, hint, function) {
                         .primaryColor,
                   )),
         label: Text(label),
-        hintText: hint == "" ? AppConstants.enterHere : hint,
+        hintText: "Search...",
         hintStyle: TextStyle(
             fontSize: AppWidgetSize.dimen_13,
             color: Theme.of(appRoute.navigatorKey.currentContext!).canvasColor),
