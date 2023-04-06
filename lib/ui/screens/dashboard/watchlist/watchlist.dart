@@ -101,7 +101,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                       children: [
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green,
+                                            backgroundColor:
+                                                Theme.of(context).focusColor,
                                           ),
                                           onPressed: () {
                                             buySelected.value = true;
@@ -124,7 +125,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                         ),
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.red,
+                                            backgroundColor: Theme.of(context)
+                                                .snackBarTheme
+                                                .closeIconColor,
                                           ),
                                           onPressed: () {
                                             buySelected.value = false;
@@ -739,50 +742,48 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       right: AppWidgetSize.dimen_10,
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () {
+          hoverbutton(
+            index,
+            contex,
+            "B",
+            () {
               selectedsymbol = watchlist.symbols[index];
               showOrderpadpopup(contex);
             },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).focusColor,
-                shape: BoxShape.circle,
-              ),
-              child: TextWidget(
-                "B",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: AppWidgetSize.dimen_15,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
+            Theme.of(context).focusColor,
+            Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontSize: AppWidgetSize.dimen_15,
+                color: Theme.of(context).scaffoldBackgroundColor,
+                fontWeight: FontWeight.w600),
           ),
-          const SizedBox(
-            width: 5,
+          SizedBox(
+            width: AppWidgetSize.dimen_5,
           ),
-          GestureDetector(
-            onTap: () {
-              selectedsymbol = watchlist.symbols[index];
-              showOrderpadpopup(contex);
-            },
-            child: Container(
-              padding: EdgeInsets.all(AppWidgetSize.dimen_10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).snackBarTheme.closeIconColor,
-                shape: BoxShape.circle,
-              ),
-              child: TextWidget(
-                "S",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: AppWidgetSize.dimen_15,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
+          hoverbutton(index, contex, "S", () {
+            selectedsymbol = watchlist.symbols[index];
+            showOrderpadpopup(contex);
+          },
+              Theme.of(context).snackBarTheme.closeIconColor,
+              Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontSize: AppWidgetSize.dimen_15,
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  fontWeight: FontWeight.w600)),
         ],
+      ),
+    );
+  }
+
+  GestureDetector hoverbutton(int index, BuildContext contex, String title,
+      Function()? onTap, Color? color, TextStyle? style) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+        ),
+        child: TextWidget(title, style: style),
       ),
     );
   }
