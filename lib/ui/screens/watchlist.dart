@@ -37,6 +37,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       ValueNotifier<String>(AppConstants.myListData[0]);
   ValueNotifier<int> selectedindex = ValueNotifier<int>(0);
   ValueNotifier<bool> watchlistSelected = ValueNotifier<bool>(false);
+  ValueNotifier<bool> buySelected = ValueNotifier<bool>(true);
   bool atoz = true;
   TextEditingController searchController = TextEditingController();
 
@@ -338,7 +339,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                             backgroundColor: Colors.green,
                                           ),
                                           onPressed: () {
-                                            showOrderpadpopup(context, true);
+                                            buySelected.value = true;
+                                            showOrderpadpopup(
+                                              context,
+                                            );
                                           },
                                           child: TextWidget(
                                             AppConstants.buy,
@@ -358,7 +362,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                             backgroundColor: Colors.red,
                                           ),
                                           onPressed: () {
-                                            showOrderpadpopup(context, false);
+                                            buySelected.value = false;
+                                            showOrderpadpopup(
+                                              context,
+                                            );
                                           },
                                           child: TextWidget(
                                             AppConstants.sell,
@@ -375,6 +382,38 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   )
                                 : Container();
                           }),
+                      /*  BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, state) {
+                          return Column(
+                            children: [
+                              if (state.theme)
+                                WebViewX(
+                                  javascriptMode: JavascriptMode.unrestricted,
+                                  initialContent:
+                                      "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6 +
+                                          AppWidgetSize.dimen_70,
+                                  height: MediaQuery.of(context).size.height *
+                                          0.55 -
+                                      AppWidgetSize.dimen_20,
+                                ),
+                              if (!state.theme)
+                                WebViewX(
+                                  javascriptMode: JavascriptMode.unrestricted,
+                                  initialContent:
+                                      "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=light&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6 +
+                                          AppWidgetSize.dimen_70,
+                                  height: MediaQuery.of(context).size.height *
+                                          0.55 -
+                                      AppWidgetSize.dimen_20,
+                                )
+                            ],
+                          );
+                        },
+                      ) */
                       BlocBuilder<ThemeBloc, ThemeState>(
                         builder: (context, state) {
                           return FutureBuilder(
@@ -555,15 +594,29 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     );
   }
 
-  void showOrderpadpopup(BuildContext context, bool buySelected) {
+  void showOrderpadpopup(BuildContext context) {
     showAlignedDialog(
         barrierColor: Colors.transparent,
         context: context,
         builder: (context) {
-          return PointerInterceptor(
-            intercepting: true,
-            child:
-                PopupWindow(buySelected: buySelected, symbol: selectedsymbol!),
+          return Container(
+            margin: EdgeInsets.only(top: AppWidgetSize.dimen_41),
+            child: PointerInterceptor(
+              intercepting: true,
+              child: ValueListenableBuilder(
+                  valueListenable: buySelected,
+                  builder: (context, snapshot, _) {
+                    return PopupWindow(
+                      buySelected: buySelected.value,
+                      symbol: selectedsymbol!,
+                      onChanged: (value) {
+                        buySelected.value = !value;
+
+                        print("buySelected$value");
+                      },
+                    );
+                  }),
+            ),
           );
         },
         followerAnchor: Alignment.topRight,

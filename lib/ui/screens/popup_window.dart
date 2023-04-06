@@ -16,10 +16,12 @@ import '../widgets/textfield_widget.dart';
 class PopupWindow extends StatefulWidget {
   final Symbols symbol;
   final bool buySelected;
+  final Function(bool)? onChanged;
   const PopupWindow({
     super.key,
     required this.symbol,
     required this.buySelected,
+    this.onChanged,
   });
 
   @override
@@ -48,7 +50,6 @@ class _PopupWindowState extends State<PopupWindow> {
       builder: (context, state) {
         return StatefulBuilder(builder: (context, setstate) {
           return Container(
-              margin: EdgeInsets.only(top: AppWidgetSize.dimen_41),
               width: MediaQuery.of(context).size.width * 0.3,
               height: MediaQuery.of(context).size.height,
               color: state.theme
@@ -199,8 +200,10 @@ class _PopupWindowState extends State<PopupWindow> {
                                           .closeIconColor,
                                       activeColor: Theme.of(context)
                                           .scaffoldBackgroundColor,
+                                      inactiveThumbColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       value: !widget.buySelected,
-                                      onChanged: (value) {},
+                                      onChanged: widget.onChanged,
                                     ),
                                   ),
                                   widget.buySelected

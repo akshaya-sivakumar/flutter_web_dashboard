@@ -233,8 +233,8 @@ ThemeData darkTheme() {
       ),
     ),
     snackBarTheme: const SnackBarThemeData(
-      backgroundColor: snackbarBackgroundColor,
-    ),
+        backgroundColor: snackbarBackgroundColor,
+        closeIconColor: appErrorcolor),
     /*  colorScheme: ColorScheme(error: appErrorcolor),
     colorScheme: ColorScheme(background: appBackgroundcolor), */
     switchTheme: SwitchThemeData(
