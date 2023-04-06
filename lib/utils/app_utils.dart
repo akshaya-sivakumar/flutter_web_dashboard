@@ -92,6 +92,7 @@ class AppUtils {
                         ),
                         onPressed: () {
                           AppUtils().clearsession();
+                          appRoute.removeUntil((route) => false);
                           appRoute.replaceAll([const Registration()]);
                         },
                         child: TextWidget(

@@ -75,13 +75,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         if (state is OtpvalidationDone) {
           LoaderWidget().showLoader(context, stopLoader: true);
           appRoute.pop(context);
+          clearPinfield();
           appRoute.pushNamed(AppRoutes.watchlistRoute);
         }
         if (state is OtpvalidationError) {
+          clearPinfield();
           LoaderWidget().showLoader(context, stopLoader: true);
           Apptoast().toastWidget(state.error);
         }
       });
+  }
+
+  void clearPinfield() {
+    _otpCode = "";
+    textEditingController.clear();
+    valueNotifier.value = "";
   }
 
   _onOtpCallBack(String otpCode, bool isAutofill) {
@@ -326,6 +334,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               GestureDetector(
                   onTap: () {
                     appRoute.pop();
+                    clearPinfield();
                   },
                   child: const Icon(Icons.close))
             ],
