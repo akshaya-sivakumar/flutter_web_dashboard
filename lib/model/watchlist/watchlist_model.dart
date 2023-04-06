@@ -80,7 +80,7 @@ class Symbols {
   late final String mCap;
   late final String sector;
   late final Sym sym;
-  late final bool ttEligibility;
+  bool ttEligibility = false;
   late final String watchlistName;
   Random random = Random();
 
