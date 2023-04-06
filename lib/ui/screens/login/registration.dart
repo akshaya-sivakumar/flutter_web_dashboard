@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dashboard_web/constants/app_routes.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
 import 'package:flutter_dashboard_web/ui/widgets/show_toast.dart';
@@ -13,6 +14,7 @@ import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 import '../../../bloc/otp_validation/otp_validation_bloc.dart';
 import '../../../bloc/registration/registration_bloc.dart';
 import '../../../constants/app_constants.dart';
+import '../../../constants/app_images.dart';
 import '../../../model/login_request.dart';
 import '../../../model/registration_request.dart' as reg;
 import '../../widgets/loader_widget.dart';
@@ -75,7 +77,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         if (state is OtpvalidationDone) {
           LoaderWidget().showLoader(context, stopLoader: true);
           appRoute.pop(context);
-          appRoute.pushNamed("/dashboard?index=0");
+          appRoute.pushNamed(AppRoutes.dashboardRoute);
         }
         if (state is OtpvalidationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
@@ -87,11 +89,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   _onOtpCallBack(String otpCode, bool isAutofill) {
     _otpCode = otpCode;
-    if (otpCode.length == otpCodeLength) {
-      //   LoaderWidget().showLoader(context, text: "Please wait..");
-
-      //  _verifyOtpCode();
-    }
   }
 
   _verifyOtpCode() {
@@ -152,10 +149,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   ],
                                   color: Theme.of(context).primaryColor),
                             ),
-                            Image.asset(
-                              "lib/assets/icons/login_illus.png",
-                              width: MediaQuery.of(context).size.width * 0.6,
-                            ),
+                            AppImages.loginIllustration()
                           ],
                         ),
                       ),
