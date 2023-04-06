@@ -222,11 +222,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               }
                               return null;
                             },
-                            style: TextStyle(fontSize: AppWidgetSize.dimen_16),
+                            style: TextStyle(
+                                fontSize: AppWidgetSize.dimen_16,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor),
                             obscureText: false,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              //labelText: "Mobile Number",
                               hintText: AppConstants.mobilenumber,
                               filled: true,
                               fillColor: Colors.white54.withOpacity(0.6),
@@ -367,7 +369,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           textStyle:
                               TextStyle(fontSize: AppWidgetSize.dimen_16),
                           defaultDecoration: _pinPutDecoration.copyWith(
-                              border: Border.all(color: Colors.grey)),
+                              border: Border.all(
+                                  color: Theme.of(context).canvasColor)),
                           selectedDecoration: _pinPutDecoration,
                           onChange: (code) {
                             valueNotifier.value = code;
