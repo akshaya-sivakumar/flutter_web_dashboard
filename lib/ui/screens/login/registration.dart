@@ -45,7 +45,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController phoneNo = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  //===otp=======
   int otpCodeLength = 4;
   String? _otpCode;
 
@@ -69,7 +68,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         if (state is RegistrationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
           Apptoast().toastWidget(state.error);
-          //   Fluttertoast.showToast(msg: state.error, backgroundColor: Colors.red);
         }
       });
     otpvalidationBloc = BlocProvider.of<OtpvalidationBloc>(context)
@@ -306,10 +304,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
-
       barrierColor: Colors.black.withOpacity(0.5),
-      barrierDismissible:
-          false, //this means the user must tap a button to exit the Alert Dialog
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(

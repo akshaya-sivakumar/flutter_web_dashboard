@@ -14,6 +14,7 @@ class AppConstants {
   static const String buy = "BUY";
   static const String name = "Name";
   static const String detail = "Details";
+    static const String dashboard = "Dashboard";
 
   static const String mobileValidation = "Please enter valid mobile number";
 
