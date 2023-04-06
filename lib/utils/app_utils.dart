@@ -26,32 +26,21 @@ class AppUtils {
   }
 
   storeLogin(String sessionid) {
-    window.sessionStorage["login"] = sessionid;
+    window.sessionStorage[AppConstants.loginKey] = sessionid;
   }
 
   clearsession() {
-    window.sessionStorage["login"] = "";
-  }
-
-  storeWatchlist(List<Symbols> symbols) {
-    window.localStorage["watchlist"] = json.encode(symbols);
-  }
-
-  List<Symbols> getWatchlist() {
-    List data = json.decode(window.localStorage["watchlist"] ?? "[]");
-
-    return data.map((e) => Symbols.fromJson(e)).toList();
+    window.sessionStorage[AppConstants.loginKey] = "";
   }
 
   WatchlistModel? getfromCrypto() {
     final encrypt.Encrypter encrypter = encrypt.Encrypter(
-        encrypt.AES(encrypt.Key.fromUtf8("flutterwebsample")));
-    final encryptedDataString = window.localStorage['watchlistresponse'];
+        encrypt.AES(encrypt.Key.fromUtf8(AppConstants.encryptKey)));
+    final encryptedDataString = window.localStorage[AppConstants.watchlistKey];
     encrypt.Encrypted encryptedData =
         encrypt.Encrypted.fromBase64(encryptedDataString ?? "");
     if (encryptedData.bytes.isEmpty) return null;
     final decryptedData = encrypter.decrypt(encryptedData, iv: iv);
-  
 
     return WatchlistModel.fromJson(
         json.decode(decryptedData == "" ? "{}" : decryptedData));
@@ -59,11 +48,10 @@ class AppUtils {
 
   setinCrypto(WatchlistModel data) {
     final encrypt.Encrypter encrypter = encrypt.Encrypter(
-        encrypt.AES(encrypt.Key.fromUtf8("flutterwebsample")));
+        encrypt.AES(encrypt.Key.fromUtf8(AppConstants.encryptKey)));
     encrypt.Encrypted encryptedData =
         encrypter.encrypt(json.encode(data.toJson()), iv: iv);
-    window.localStorage['watchlistresponse'] = encryptedData.base64;
-   
+    window.localStorage[AppConstants.watchlistKey] = encryptedData.base64;
   }
 
   logoutDialog(context, {bool fromNavigation = false}) {

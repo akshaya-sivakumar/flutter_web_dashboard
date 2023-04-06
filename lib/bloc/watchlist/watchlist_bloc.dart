@@ -22,8 +22,6 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
           watchlist = AppUtils().getfromCrypto();
         }
 
-        AppUtils().storeWatchlist(watchlist?.response.data.symbols ?? []);
-
         sortingWatchlist(SortWatchlist(true, event.watchlistName), emit);
 
         // emit(WatchlistDone(watchlist));
