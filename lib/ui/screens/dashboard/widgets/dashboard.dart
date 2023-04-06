@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/bloc/watchlist/watchlist_bloc.dart';
-import 'package:flutter_dashboard_web/ui/screens/not_found.dart';
-import 'package:flutter_dashboard_web/ui/screens/orders.dart';
-import 'package:flutter_dashboard_web/ui/screens/portfolio.dart';
-import 'package:flutter_dashboard_web/ui/screens/watchlist.dart';
+import 'package:flutter_dashboard_web/ui/screens/dashboard/orders/orders.dart';
+import 'package:flutter_dashboard_web/ui/screens/dashboard/portfolio/portfolio.dart';
+import 'package:flutter_dashboard_web/ui/screens/dashboard/watchlist/watchlist.dart';
+import 'package:flutter_dashboard_web/ui/screens/pageNotfound/not_found.dart';
 
-import '../../main.dart';
+import '../../../../main.dart';
 
 @RoutePage(name: "dashboard")
 class DashboardScreen extends StatefulWidget {

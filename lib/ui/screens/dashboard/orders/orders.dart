@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'navigator_rail.dart';
+import '../widgets/navigator_rail.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});

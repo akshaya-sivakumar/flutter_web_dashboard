@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/app_utils.dart';
+
 class AppConstants {
   static const String enterMobileNo = "Enter the Mobile Number to Login";
 
@@ -14,7 +16,6 @@ class AppConstants {
   static const String buy = "BUY";
   static const String name = "Name";
   static const String detail = "Details";
-  
 
   static const String mobileValidation = "Please enter valid mobile number";
 
@@ -40,7 +41,7 @@ class AppConstants {
   static const String orders = "Orders";
   static const String portfolio = "Portfolio";
   static const String logout = "Logout";
-    static const String logoutCap = "LOGOUT";
+  static const String logoutCap = "LOGOUT";
   static const String confirmLogout = "Confirm Logout !!!";
   static const String logoutStatement = "Are you sure you want to logout?";
   static const String cancel = "CANCEL";
@@ -93,6 +94,8 @@ class AppConstants {
   Color active = const Color(0xFF3C19C0);
 
   static const String loginKey = "login";
-   static const String watchlistKey = 'watchlistresponse';
-    static const String encryptKey = "flutterwebsample";
+  static const String watchlistKey = 'watchlistresponse';
+  static const String encryptKey = "flutterwebsample";
+  String weburl =
+      "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${AppUtils.isDarktheme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL";
 }

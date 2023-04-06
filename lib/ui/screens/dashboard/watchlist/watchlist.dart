@@ -6,19 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
-import 'package:flutter_dashboard_web/ui/screens/popup_window.dart';
+import 'package:flutter_dashboard_web/ui/screens/dashboard/watchlist/order_pad.dart';
 import 'package:flutter_dashboard_web/ui/widgets/search_widget.dart';
 import 'package:flutter_dashboard_web/ui/widgets/swap_widget.dart';
-import 'package:flutter_dashboard_web/utils/app_utils.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:webviewx/webviewx.dart';
 
-import '../../bloc/watchlist/watchlist_bloc.dart';
-import '../../constants/appwidget_size.dart';
-import '../widgets/horizontal_list_view.dart';
-import '../widgets/market_depth_widget.dart';
-import '../widgets/text_widget.dart';
-import 'navigator_rail.dart';
+import '../../../../bloc/watchlist/watchlist_bloc.dart';
+import '../../../../constants/appwidget_size.dart';
+import '../../../widgets/horizontal_list_view.dart';
+import '../../../widgets/market_depth_widget.dart';
+import '../../../widgets/text_widget.dart';
+import '../../../widgets/error_widget.dart';
+import '../widgets/navigator_rail.dart';
 
 class WatchlistScreen extends StatefulWidget {
   const WatchlistScreen({super.key});
@@ -147,14 +147,14 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 : Container();
                           }),
                       FutureBuilder(
-                        future: Future.delayed(const Duration(milliseconds: 0)),
+                        future:
+                            Future.delayed(const Duration(milliseconds: 10)),
                         builder: (context, snapshot) {
                           return snapshot.connectionState ==
                                   ConnectionState.done
                               ? WebViewX(
                                   javascriptMode: JavascriptMode.unrestricted,
-                                  initialContent:
-                                      "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${AppUtils.isDarktheme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                                  initialContent: AppConstants().weburl,
                                   width:
                                       MediaQuery.of(context).size.width * 0.6 +
                                           AppWidgetSize.dimen_70,
@@ -182,9 +182,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         top: AppWidgetSize.dimen_10,
                         left: AppWidgetSize.dimen_10),
                     padding: EdgeInsets.only(left: AppWidgetSize.dimen_20),
-                    width: MediaQuery.of(context).size.width * 0.6 +
+                    width: AppWidgetSize.fullWidth(context) * 0.6 +
                         AppWidgetSize.dimen_70,
-                    height: MediaQuery.of(context).size.height * 0.35 -
+                    height: AppWidgetSize.fullHeight(context) * 0.35 -
                         AppWidgetSize.dimen_20,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -219,9 +219,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                         const MarketDepthwidget(),
                                         SizedBox(
                                           width: AppWidgetSize.dimen_10,
-                                          height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
+                                          height: AppWidgetSize.fullHeight(
+                                                      context) *
                                                   0.3 -
                                               AppWidgetSize.dimen_30,
                                           child: DottedLine(
@@ -240,10 +239,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.28,
+                                          width:
+                                              AppWidgetSize.fullWidth(context) *
+                                                  0.28,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -318,7 +316,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
   Container doneStateWidget(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.3 - AppWidgetSize.dimen_80,
+      width: AppWidgetSize.fullWidth(context) * 0.3 - AppWidgetSize.dimen_80,
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -540,7 +538,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
               child: ValueListenableBuilder(
                   valueListenable: buySelected,
                   builder: (context, snapshot, _) {
-                    return PopupWindow(
+                    return OrderPadWindow(
                       buySelected: buySelected.value,
                       symbol: selectedsymbol!,
                       onChanged: (value) {
@@ -692,34 +690,12 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
   Widget loadData(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width * 0.3 - AppWidgetSize.dimen_80,
+      height: AppWidgetSize.fullHeight(context),
+      width: AppWidgetSize.fullWidth(context) * 0.3 - AppWidgetSize.dimen_80,
       child: Center(
           child: CircularProgressIndicator(
         color: Theme.of(context).primaryColor,
       )),
     );
-  }
-}
-
-class ErrorsWidget extends StatelessWidget {
-  const ErrorsWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-        width: MediaQuery.of(context).size.width * 0.3 - AppWidgetSize.dimen_80,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.error,
-              size: AppWidgetSize.dimen_60,
-              color: Theme.of(context).snackBarTheme.closeIconColor,
-            ),
-            const TextWidget(AppConstants.unknownError)
-          ],
-        ));
   }
 }

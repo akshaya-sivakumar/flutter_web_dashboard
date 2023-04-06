@@ -205,8 +205,10 @@ class AppWidgetSize {
     return MediaQuery.of(context).viewPadding;
   }
 
-  static double screenHeight(BuildContext context, {double dividedBy = 1}) {
-    return (screenSize(context).height - safeAreaSpace) / dividedBy;
+  static double screenHeight(BuildContext context,
+      {double dividedBy = 1, double multiplier = 1}) {
+    return ((screenSize(context).height - safeAreaSpace) / dividedBy) *
+        multiplier;
   }
 
   static double screenWidth(BuildContext context, {double dividedBy = 1}) {
@@ -221,8 +223,8 @@ class AppWidgetSize {
     return screenWidth(context, dividedBy: 2);
   }
 
-  static double fullHeight(BuildContext context) {
-    return screenHeight(context, dividedBy: 1);
+  static double fullHeight(BuildContext context, {double multiplier = 1}) {
+    return screenHeight(context, dividedBy: 1, multiplier: multiplier);
   }
 
   static double halfHeight(BuildContext context) {

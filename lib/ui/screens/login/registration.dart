@@ -10,13 +10,13 @@ import 'package:flutter_dashboard_web/ui/widgets/show_toast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
-import '../../bloc/otp_validation/otp_validation_bloc.dart';
-import '../../bloc/registration/registration_bloc.dart';
-import '../../constants/app_constants.dart';
-import '../../model/login_request.dart';
-import '../../model/registration_request.dart' as reg;
-import '../widgets/loader_widget.dart';
-import '../widgets/text_widget.dart';
+import '../../../bloc/otp_validation/otp_validation_bloc.dart';
+import '../../../bloc/registration/registration_bloc.dart';
+import '../../../constants/app_constants.dart';
+import '../../../model/login_request.dart';
+import '../../../model/registration_request.dart' as reg;
+import '../../widgets/loader_widget.dart';
+import '../../widgets/text_widget.dart';
 
 @RoutePage(name: "registration")
 class RegistrationScreen extends StatefulWidget implements AutoRouteWrapper {

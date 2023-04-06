@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'navigator_rail.dart';
+import '../widgets/navigator_rail.dart';
 
 class PortfolioScreen extends StatefulWidget {
   const PortfolioScreen({super.key});

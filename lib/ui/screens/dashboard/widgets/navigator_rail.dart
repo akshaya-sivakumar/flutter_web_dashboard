@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../bloc/theme/theme_bloc.dart';
-import '../../constants/app_images.dart';
-import '../../constants/appwidget_size.dart';
-import '../../main.dart';
-import '../../utils/app_utils.dart';
+import '../../../../bloc/theme/theme_bloc.dart';
+import '../../../../constants/app_images.dart';
+import '../../../../constants/appwidget_size.dart';
+import '../../../../main.dart';
+import '../../../../utils/app_utils.dart';
 
 class NavigationIcon {
   final Widget icon;

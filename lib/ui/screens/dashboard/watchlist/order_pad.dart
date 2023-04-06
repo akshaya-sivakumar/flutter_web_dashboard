@@ -9,15 +9,15 @@ import 'package:flutter_dashboard_web/ui/widgets/circular_toggle.dart';
 import 'package:flutter_dashboard_web/ui/widgets/text_widget.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../bloc/theme/theme_bloc.dart';
-import '../widgets/material_switch.dart';
-import '../widgets/textfield_widget.dart';
+import '../../../../bloc/theme/theme_bloc.dart';
+import '../../../widgets/material_switch.dart';
+import '../../../widgets/textfield_widget.dart';
 
-class PopupWindow extends StatefulWidget {
+class OrderPadWindow extends StatefulWidget {
   final Symbols symbol;
   final bool buySelected;
   final Function(bool)? onChanged;
-  const PopupWindow({
+  const OrderPadWindow({
     super.key,
     required this.symbol,
     required this.buySelected,
@@ -25,10 +25,10 @@ class PopupWindow extends StatefulWidget {
   });
 
   @override
-  State<PopupWindow> createState() => _PopupWindowState();
+  State<OrderPadWindow> createState() => _OrderPadWindowState();
 }
 
-class _PopupWindowState extends State<PopupWindow> {
+class _OrderPadWindowState extends State<OrderPadWindow> {
   TextEditingController qtycontroller = TextEditingController(text: "0");
   TextEditingController pricecontroller = TextEditingController(text: "0");
   TextEditingController disQtycontroller = TextEditingController(text: "0");
