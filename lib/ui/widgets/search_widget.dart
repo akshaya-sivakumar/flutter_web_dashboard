@@ -25,9 +25,10 @@ TextField searchBox(controller, label, hint, function) {
                     Icons.search,
                     color: Colors.grey,
                   )
-                : const Icon(
+                : Icon(
                     Icons.cancel,
-                    // color: AppColors.themeColor,
+                    color: Theme.of(appRoute.navigatorKey.currentContext!)
+                        .primaryColor,
                   )),
         label: Text(label),
         hintText: hint == "" ? AppConstants.enterHere : hint,

@@ -45,7 +45,11 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     watchlistBloc = BlocProvider.of<WatchlistBloc>(context);
 
     watchlistBloc.add(FetchWatchlist(selectedmyList.value));
-
+    /*  ThemeBloc().stream.listen((event) {
+      print(event.theme);
+     
+    });
+ */
     super.initState();
   }
 
@@ -186,7 +190,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                     underline: const Divider(
                                       color: Colors.transparent,
                                     ),
-                                    dropdownColor: Colors.red,
                                     items: AppConstants.myListData.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
@@ -206,6 +209,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                 );
                               }),
                           PopupMenuButton(
+                            position: PopupMenuPosition.under,
                             icon: Icon(
                               Icons.sort,
                               size: AppWidgetSize.dimen_20,
@@ -229,8 +233,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                           .textTheme
                                           .titleLarge
                                           ?.copyWith(
-                                              fontSize: AppWidgetSize.dimen_15,
-                                              fontWeight: FontWeight.w600),
+                                            fontSize: AppWidgetSize.dimen_15,
+                                          ),
                                     ),
                                     if (atoz)
                                       Padding(
@@ -260,8 +264,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                           .textTheme
                                           .titleLarge
                                           ?.copyWith(
-                                              fontSize: AppWidgetSize.dimen_17,
-                                              fontWeight: FontWeight.w600),
+                                            fontSize: AppWidgetSize.dimen_15,
+                                          ),
                                     ),
                                     if (!atoz)
                                       Padding(
@@ -376,14 +380,39 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           }),
                       BlocBuilder<ThemeBloc, ThemeState>(
                         builder: (context, state) {
-                          return WebViewX(
-                            initialContent:
-                                "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
-                            width: MediaQuery.of(context).size.width * 0.6 +
-                                AppWidgetSize.dimen_70,
-                            height: MediaQuery.of(context).size.height * 0.55 -
-                                AppWidgetSize.dimen_20,
-                          );
+                          return FutureBuilder(
+                              future: Future.delayed(
+                                  const Duration(milliseconds: 50)),
+                              builder: (context, snapshot) {
+                                return snapshot.connectionState ==
+                                        ConnectionState.done
+                                    ? WebViewX(
+                                        javascriptMode:
+                                            JavascriptMode.unrestricted,
+                                        initialContent:
+                                            "https://www.tradingview.com/widgetembed/?frameElementId=tradingview_9c2ce&symbol=NASDAQ%3AAAPL&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=${state.theme ? "dark" : "light"}&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=NASDAQ%3AAAPL",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                    0.6 +
+                                                AppWidgetSize.dimen_70,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                    0.55 -
+                                                AppWidgetSize.dimen_20,
+                                      )
+                                    : SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                    0.6 +
+                                                AppWidgetSize.dimen_70,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                    0.55 -
+                                                AppWidgetSize.dimen_20,
+                                        child: const Center(
+                                            child:
+                                                CircularProgressIndicator()));
+                              });
                         },
                       ),
                     ],
@@ -402,15 +431,22 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        horizontalListView(
-                          fontSize: AppWidgetSize.dimen_14,
-                          values: AppConstants.quoteTablist,
-                          selectedIndex: selectedindex.value,
-                          isEnabled: true,
-                          isRectShape: false,
-                          callback: (value, index) {},
-                          highlighterColor: Theme.of(context).primaryColor,
-                          context: context,
+                        ValueListenableBuilder<int>(
+                          valueListenable: selectedindex,
+                          builder: (context, stateValue, _) {
+                            return horizontalListView(
+                              fontSize: AppWidgetSize.dimen_14,
+                              values: AppConstants.quoteTablist,
+                              selectedIndex: stateValue,
+                              isEnabled: true,
+                              isRectShape: false,
+                              callback: (value, index) {
+                                selectedindex.value = index;
+                              },
+                              highlighterColor: Theme.of(context).primaryColor,
+                              context: context,
+                            );
+                          },
                         ),
                         ValueListenableBuilder<int>(
                             valueListenable: selectedindex,

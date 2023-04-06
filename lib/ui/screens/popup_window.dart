@@ -34,7 +34,8 @@ class _PopupWindowState extends State<PopupWindow> {
       TextEditingController(text: "0");
   List productList = ["Delivery", "Intraday", "E-margin", "Cover"];
   String selectedProducttype = "";
-  String selectedValidity = "DAY";
+  ValueNotifier<String> selectedValidity = ValueNotifier<String>("DAY");
+
   @override
   void initState() {
     selectedProducttype = productList[0];
@@ -336,111 +337,129 @@ class _PopupWindowState extends State<PopupWindow> {
     );
   }
 
-  Padding validityWidget(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: AppWidgetSize.dimen_20, left: AppWidgetSize.dimen_20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextWidget(
-            AppConstants.validity,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(fontSize: AppWidgetSize.dimen_12),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-                right: AppWidgetSize.dimen_10, top: AppWidgetSize.dimen_10),
-            height: AppWidgetSize.dimen_40,
-            width: AppWidgetSize.dimen_170,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppWidgetSize.dimen_5),
-                border: Border.all(color: Theme.of(context).canvasColor)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  validityWidget(BuildContext context) {
+    return ValueListenableBuilder<String>(
+        valueListenable: selectedValidity,
+        builder: (context, snapshot, _) {
+          return Padding(
+            padding: EdgeInsets.only(
+                top: AppWidgetSize.dimen_20, left: AppWidgetSize.dimen_15),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: 56.5,
-                    alignment: Alignment.center,
-                    height: AppWidgetSize.dimen_40,
-                    decoration: BoxDecoration(
-                        color: selectedValidity == AppConstants.day
-                            ? Theme.of(context).primaryColor
-                            : Colors.transparent,
-                        border: Border(
-                            right: BorderSide(
-                                color: Theme.of(context).canvasColor))),
-                    child: TextWidget(AppConstants.day,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                                color: selectedValidity == AppConstants.day
-                                    ? Theme.of(context).scaffoldBackgroundColor
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.color)),
+                TextWidget(
+                  AppConstants.validity,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontSize: AppWidgetSize.dimen_12),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      right: AppWidgetSize.dimen_10,
+                      top: AppWidgetSize.dimen_10),
+                  height: AppWidgetSize.dimen_40,
+                  width: AppWidgetSize.dimen_170,
+                  decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(AppWidgetSize.dimen_5),
+                      border: Border.all(color: Theme.of(context).canvasColor)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          selectedValidity.value = AppConstants.day;
+                        },
+                        child: Container(
+                          width: 56.5,
+                          alignment: Alignment.center,
+                          height: AppWidgetSize.dimen_40,
+                          decoration: BoxDecoration(
+                              color: selectedValidity.value == AppConstants.day
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.transparent,
+                              border: Border(
+                                  right: BorderSide(
+                                      color: Theme.of(context).canvasColor))),
+                          child: TextWidget(AppConstants.day,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      color: selectedValidity.value ==
+                                              AppConstants.day
+                                          ? Theme.of(context)
+                                              .scaffoldBackgroundColor
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.color)),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          selectedValidity.value = AppConstants.ioc;
+                        },
+                        child: Container(
+                          color: selectedValidity.value == AppConstants.ioc
+                              ? Theme.of(context).primaryColor
+                              : Colors.transparent,
+                          width: AppWidgetSize.dimen_55,
+                          alignment: Alignment.center,
+                          height: AppWidgetSize.dimen_40,
+                          child: TextWidget(AppConstants.ioc,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      color: selectedValidity.value ==
+                                              AppConstants.ioc
+                                          ? Theme.of(context)
+                                              .scaffoldBackgroundColor
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.color)),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          selectedValidity.value = AppConstants.gtc;
+                        },
+                        child: Container(
+                          width: 56.5,
+                          alignment: Alignment.center,
+                          height: AppWidgetSize.dimen_40,
+                          decoration: BoxDecoration(
+                              color: selectedValidity.value == AppConstants.gtc
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.transparent,
+                              border: Border(
+                                  left: BorderSide(
+                                      color: Theme.of(context).canvasColor))),
+                          child: TextWidget(AppConstants.gtc,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      color: selectedValidity.value ==
+                                              AppConstants.gtc
+                                          ? Theme.of(context)
+                                              .scaffoldBackgroundColor
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.color)),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    color: selectedValidity == AppConstants.ioc
-                        ? Theme.of(context).primaryColor
-                        : Colors.transparent,
-                    width: AppWidgetSize.dimen_55,
-                    alignment: Alignment.center,
-                    height: AppWidgetSize.dimen_40,
-                    child: TextWidget(AppConstants.ioc,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                                color: selectedValidity == AppConstants.ioc
-                                    ? Theme.of(context).scaffoldBackgroundColor
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.color)),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: 56.5,
-                    alignment: Alignment.center,
-                    height: AppWidgetSize.dimen_40,
-                    decoration: BoxDecoration(
-                        color: selectedValidity == AppConstants.gtc
-                            ? Theme.of(context).primaryColor
-                            : Colors.transparent,
-                        border: Border(
-                            left: BorderSide(
-                                color: Theme.of(context).canvasColor))),
-                    child: TextWidget(AppConstants.gtc,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                                color: selectedValidity == AppConstants.gtc
-                                    ? Theme.of(context).scaffoldBackgroundColor
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.color)),
-                  ),
-                )
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }

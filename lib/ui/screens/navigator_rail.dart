@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
@@ -44,7 +45,21 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
   void initState() {
     getTheme();
 
+    BackButtonInterceptor.add(myInterceptor, ifNotYetIntercepted: true);
+
     super.initState();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    //print("backed $navigationIcons");
+    if (stopDefaultButtonEvent) return false;
+    return true;
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
   }
 
   getTheme() {
@@ -104,103 +119,97 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
   late List<NavigationIcon> navigationIcons;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        logoutDialog();
-        return false;
-      },
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        return constraints.maxWidth > 730
-            ? Scaffold(
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxWidth > 730
+          ? Scaffold(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              appBar: AppBar(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                appBar: AppBar(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(1),
-                      child: Divider(
-                        height: AppWidgetSize.dimen_1,
-                        color: Theme.of(context).dividerColor,
-                      )),
-                  toolbarHeight: AppWidgetSize.dimen_40,
-                  automaticallyImplyLeading: false,
-                  actions: [
-                    BlocBuilder<ThemeBloc, ThemeState>(
-                      builder: (context, state) {
-                        return IconButton(
-                            onPressed: () {
-                              BlocProvider.of<ThemeBloc>(context)
-                                  .add(ThemechangeEvent(!theme));
-                            },
-                            icon: state.theme
-                                ? AppImages.darkThemeIcon(context,
-                                    color: Colors.white,
-                                    width: AppWidgetSize.dimen_40,
-                                    height: AppWidgetSize.dimen_40)
-                                : AppImages.lightThemeIcon(context,
-                                    color: Colors.black,
-                                    width: AppWidgetSize.dimen_40,
-                                    height: AppWidgetSize.dimen_40));
-                      },
-                    )
-                  ],
-                ),
-                body: Center(
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      railWidget(),
+                bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(1),
+                    child: Divider(
+                      height: AppWidgetSize.dimen_1,
+                      color: Theme.of(context).dividerColor,
+                    )),
+                toolbarHeight: AppWidgetSize.dimen_40,
+                automaticallyImplyLeading: false,
+                actions: [
+                  BlocBuilder<ThemeBloc, ThemeState>(
+                    builder: (context, state) {
+                      return IconButton(
+                          onPressed: () {
+                            BlocProvider.of<ThemeBloc>(context)
+                                .add(ThemechangeEvent(!theme));
+                          },
+                          icon: state.theme
+                              ? AppImages.darkThemeIcon(context,
+                                  color: Colors.white,
+                                  width: AppWidgetSize.dimen_40,
+                                  height: AppWidgetSize.dimen_40)
+                              : AppImages.lightThemeIcon(context,
+                                  color: Colors.black,
+                                  width: AppWidgetSize.dimen_40,
+                                  height: AppWidgetSize.dimen_40));
+                    },
+                  )
+                ],
+              ),
+              body: Center(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    railWidget(),
 
-                      // This is the main content.
-                      widget.child,
-                    ],
-                  ),
-                ),
-              )
-            : Scaffold(
-                bottomNavigationBar: BottomNavigationBar(
-                  unselectedIconTheme: const IconThemeData(color: Colors.white),
-                  selectedIconTheme: const IconThemeData(color: Colors.red),
-                  unselectedLabelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppWidgetSize.dimen_15,
-                      color: Colors.white),
-                  selectedItemColor: Colors.red,
-                  showUnselectedLabels: false,
-                  selectedLabelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppWidgetSize.dimen_15,
-                      color: Colors.red),
-                  backgroundColor: Colors.green[900],
-                  items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.list,
-                        size: AppWidgetSize.dimen_40,
-                      ),
-                      label: "Watchlist",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.bookmark_border,
-                        size: AppWidgetSize.dimen_40,
-                      ),
-                      label: 'About',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.account_circle,
-                        size: AppWidgetSize.dimen_40,
-                      ),
-                      label: 'Profile',
-                    ),
+                    // This is the main content.
+                    widget.child,
                   ],
-                  currentIndex: widget.selectedindex,
-                  onTap: (index) {},
                 ),
-                body: widget.child);
-      }),
-    );
+              ),
+            )
+          : Scaffold(
+              bottomNavigationBar: BottomNavigationBar(
+                unselectedIconTheme: const IconThemeData(color: Colors.white),
+                selectedIconTheme: const IconThemeData(color: Colors.red),
+                unselectedLabelStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppWidgetSize.dimen_15,
+                    color: Colors.white),
+                selectedItemColor: Colors.red,
+                showUnselectedLabels: false,
+                selectedLabelStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppWidgetSize.dimen_15,
+                    color: Colors.red),
+                backgroundColor: Colors.green[900],
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.list,
+                      size: AppWidgetSize.dimen_40,
+                    ),
+                    label: "Watchlist",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.bookmark_border,
+                      size: AppWidgetSize.dimen_40,
+                    ),
+                    label: 'About',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.account_circle,
+                      size: AppWidgetSize.dimen_40,
+                    ),
+                    label: 'Profile',
+                  ),
+                ],
+                currentIndex: widget.selectedindex,
+                onTap: (index) {},
+              ),
+              body: widget.child);
+    });
   }
 
   MouseRegion railWidget() {

@@ -31,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> with AutoRouteAware {
       // AutoRouteAware state and the scoped routeData
       _observer?.subscribe(this, context.routeData);
     } */
+
     super.initState();
   }
 
