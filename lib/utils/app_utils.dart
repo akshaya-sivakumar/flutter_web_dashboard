@@ -2,6 +2,7 @@ import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard_web/model/watchlist_model.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -14,6 +15,7 @@ import '../main.dart';
 import '../ui/widgets/text_widget.dart';
 
 class AppUtils {
+  final iv = encrypt.IV.fromBase64("Some_Key");
   static bool isDarktheme = false;
 
   bool isLoginned() {
@@ -39,6 +41,29 @@ class AppUtils {
     List data = json.decode(window.localStorage["watchlist"] ?? "[]");
 
     return data.map((e) => Symbols.fromJson(e)).toList();
+  }
+
+  WatchlistModel? getfromCrypto() {
+    final encrypt.Encrypter encrypter = encrypt.Encrypter(
+        encrypt.AES(encrypt.Key.fromUtf8("flutterwebsample")));
+    final encryptedDataString = window.localStorage['watchlistresponse'];
+    encrypt.Encrypted encryptedData =
+        encrypt.Encrypted.fromBase64(encryptedDataString ?? "");
+    if (encryptedData.bytes.isEmpty) return null;
+    final decryptedData = encrypter.decrypt(encryptedData, iv: iv);
+  
+
+    return WatchlistModel.fromJson(
+        json.decode(decryptedData == "" ? "{}" : decryptedData));
+  }
+
+  setinCrypto(WatchlistModel data) {
+    final encrypt.Encrypter encrypter = encrypt.Encrypter(
+        encrypt.AES(encrypt.Key.fromUtf8("flutterwebsample")));
+    encrypt.Encrypted encryptedData =
+        encrypter.encrypt(json.encode(data.toJson()), iv: iv);
+    window.localStorage['watchlistresponse'] = encryptedData.base64;
+   
   }
 
   logoutDialog(context, {bool fromNavigation = false}) {

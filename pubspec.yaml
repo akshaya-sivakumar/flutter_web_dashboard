@@ -53,6 +53,7 @@ dependencies:
   fluttertoast: ^8.2.1
   pointer_interceptor: ^0.9.3+4
   back_button_interceptor: ^6.0.2
+  encrypt: ^5.0.1
 
 
 dev_dependencies:

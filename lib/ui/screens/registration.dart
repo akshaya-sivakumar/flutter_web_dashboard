@@ -348,7 +348,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding:
                       EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_7),
                   child: TextWidget(
-                    AppConstants.otpVerified + phoneNo.text,
+                    "${AppConstants.otpVerified}+91${phoneNo.text}",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),

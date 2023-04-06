@@ -13,10 +13,16 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
   WatchlistBloc() : super(WatchlistInitial()) {
     on<FetchWatchlist>((event, emit) async {
       emit(WatchlistLoad());
+      WatchlistModel? watchlist;
       try {
-        final watchlist = await WatchlistRepository().data();
+        if (AppUtils().getfromCrypto() == null) {
+          watchlist = await WatchlistRepository().data();
+          AppUtils().setinCrypto(watchlist);
+        } else {
+          watchlist = AppUtils().getfromCrypto();
+        }
 
-        AppUtils().storeWatchlist(watchlist.response.data.symbols);
+        AppUtils().storeWatchlist(watchlist?.response.data.symbols ?? []);
 
         sortingWatchlist(SortWatchlist(true, event.watchlistName), emit);
 
@@ -34,9 +40,18 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     emit(WatchlistLoad());
     try {
       List<Symbols> storeswatchlist = AppUtils()
+              .getfromCrypto()
+              ?.response
+              .data
+              .symbols
+              .where((element) => element.watchlistName == event.watchlistName)
+              .toList() ??
+          [];
+
+      /*  List<Symbols> storeswatchlist = AppUtils()
           .getWatchlist()
           .where((element) => element.watchlistName == event.watchlistName)
-          .toList();
+          .toList(); */
 
       if (event.searchName != null && event.searchName != "") {
         storeswatchlist = storeswatchlist
