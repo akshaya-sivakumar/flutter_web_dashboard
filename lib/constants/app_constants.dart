@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import '../utils/app_utils.dart';
 
 class AppConstants {
@@ -77,6 +75,8 @@ class AppConstants {
     "News"
   ];
 
+  static const List productList = ["Delivery", "Intraday", "E-margin", "Cover"];
+
   static List<String> myListData = [
     "My List1",
     "My List2",
@@ -84,14 +84,16 @@ class AppConstants {
     "My List4",
   ];
 
+  static const String prevClose = "Prev.Close";
+  static const String prevCloseValue = "202.70";
+    static const String open = "Open";
+  static const String openValue = "205.90";
+     static const String high = "High";
+  static const String highValue = "206.20";
+     static const String low = "Low";
+  static const String lowValue = "197.35";
+
   static const String fontName = 'opensans';
-
-  static const String darkMode = 'Dark Mode';
-
-  Color light = const Color(0xFFF7F8FC);
-  Color lightGrey = const Color(0xFFA4A6B3);
-  Color dark = const Color(0xFF363740);
-  Color active = const Color(0xFF3C19C0);
 
   static const String loginKey = "login";
   static const String watchlistKey = 'watchlistresponse';

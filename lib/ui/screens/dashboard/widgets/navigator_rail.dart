@@ -111,18 +111,17 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
               },
               icon: AppUtils.isDarktheme
                   ? AppImages.darkThemeIcon(context,
-                      color: Colors.white,
+                      color: Theme.of(context).textTheme.titleLarge!.color!,
                       width: AppWidgetSize.dimen_50,
                       height: AppWidgetSize.dimen_50)
                   : AppImages.lightThemeIcon(context,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.titleLarge!.color!,
                       width: AppWidgetSize.dimen_50,
                       height: AppWidgetSize.dimen_50))
         ],
       ),
       body: Stack(
         children: <Widget>[
-          // This is the main content.
           Padding(
               padding: const EdgeInsets.only(
                 left: 80,
@@ -142,8 +141,8 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           valueListenable: expanded,
           builder: (context, snapshot, _) {
             return SizedBox(
-              width: snapshot ? 170 : 80,
-              //constraints: const BoxConstraints(maxWidth: 170),
+              width:
+                  snapshot ? AppWidgetSize.dimen_170 : AppWidgetSize.dimen_80,
               child: NavigationRail(
                   backgroundColor: Theme.of(context).primaryColor,
                   selectedIndex: widget.selectedindex,
@@ -154,9 +153,6 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                   groupAlignment: groupAligment,
                   extended: expanded.value,
                   minWidth: AppWidgetSize.dimen_80,
-                  /* useIndicator: true,
-                  
-                  indicatorColor: Theme.of(context).primaryColorLight, */
                   onDestinationSelected: (int index) {
                     if (index == 3) {
                       AppUtils().logoutDialog(context);
@@ -174,14 +170,13 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                               child: e.icon,
                             ),
                             selectedIcon: Container(
-                              padding: const EdgeInsets.all(5),
+                              padding: EdgeInsets.all(AppWidgetSize.dimen_5),
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
-                                  borderRadius: BorderRadius.circular(30)),
+                                  borderRadius: BorderRadius.circular(
+                                      AppWidgetSize.dimen_30)),
                               height: AppWidgetSize.dimen_40,
-                              child: AppUtils.isDarktheme
-                                  ? e.selectedDarkicon
-                                  : e.selectedLighticon,
+                              child: e.selectedLighticon,
                             ),
                             label: snapshot
                                 ? Text(

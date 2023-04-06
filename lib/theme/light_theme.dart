@@ -23,10 +23,13 @@ const Color labelColor = Color(0xFF666666);
 const Color appInputFillcolor = Color(0xFFF1F1F1);
 const Color snackbarBackgroundColor = Color(0xFFDEDEDE);
 const Color appFocusInputBorderColor = Color(0xFFEAEBEC);
+const Color cardColor = Color(0xFFf1f1f6);
+const Color focusColor = Color(0xFF03ad7a);
 
 ThemeData lightTheme() {
   return ThemeData(
-    //cursorColor: appPrimarycolor,
+    focusColor: focusColor,
+    cardColor: cardColor,
     brightness: Brightness.light,
     primaryColor: appPrimarycolor,
     primaryColorLight: appPrimaryLightcolor,

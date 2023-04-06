@@ -14,10 +14,10 @@ import 'package:webviewx/webviewx.dart';
 
 import '../../../../bloc/watchlist/watchlist_bloc.dart';
 import '../../../../constants/appwidget_size.dart';
+import '../../../widgets/error_widget.dart';
 import '../../../widgets/horizontal_list_view.dart';
 import '../../../widgets/market_depth_widget.dart';
 import '../../../widgets/text_widget.dart';
-import '../../../widgets/error_widget.dart';
 import '../widgets/navigator_rail.dart';
 
 class WatchlistScreen extends StatefulWidget {
@@ -156,19 +156,19 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   javascriptMode: JavascriptMode.unrestricted,
                                   initialContent: AppConstants().weburl,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6 +
+                                      AppWidgetSize.fullWidth(context) * 0.6 +
                                           AppWidgetSize.dimen_70,
-                                  height: MediaQuery.of(context).size.height *
-                                          0.55 -
-                                      AppWidgetSize.dimen_20,
+                                  height:
+                                      AppWidgetSize.fullHeight(context) * 0.55 -
+                                          AppWidgetSize.dimen_20,
                                 )
                               : SizedBox(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6 +
+                                      AppWidgetSize.fullWidth(context) * 0.6 +
                                           AppWidgetSize.dimen_70,
-                                  height: MediaQuery.of(context).size.height *
-                                          0.55 -
-                                      AppWidgetSize.dimen_20,
+                                  height:
+                                      AppWidgetSize.fullHeight(context) * 0.55 -
+                                          AppWidgetSize.dimen_20,
                                   child: const Center(
                                       child: CircularProgressIndicator()));
                         },
@@ -277,13 +277,18 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                           .spaceBetween,
                                                   children: [
                                                     detailColumn(
-                                                        "Prev.Close", "202.70"),
+                                                        AppConstants.prevClose,
+                                                        AppConstants
+                                                            .prevCloseValue),
                                                     detailColumn(
-                                                        "Open", "205.90"),
+                                                        AppConstants.open,
+                                                        AppConstants.openValue),
                                                     detailColumn(
-                                                        "High", "206.20"),
+                                                        AppConstants.high,
+                                                        AppConstants.highValue),
                                                     detailColumn(
-                                                        "Low", "197.35"),
+                                                        AppConstants.low,
+                                                        AppConstants.lowValue),
                                                   ],
                                                 ),
                                               )
