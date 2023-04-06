@@ -212,8 +212,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           SizedBox(
                             height: AppWidgetSize.dimen_20,
                           ),
-                          TextField(
+                          TextFormField(
                             controller: phoneNo,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == "" || value == null) {
+                                return "Enter Valid mobile No";
+                              }
+                              return null;
+                            },
                             style: TextStyle(fontSize: AppWidgetSize.dimen_16),
                             obscureText: false,
                             keyboardType: TextInputType.number,
