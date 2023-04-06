@@ -224,8 +224,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             },
                             style: TextStyle(
                                 fontSize: AppWidgetSize.dimen_16,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
+                                color: Theme.of(context).primaryColor),
                             obscureText: false,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
