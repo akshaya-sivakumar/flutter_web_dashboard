@@ -7,8 +7,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../main.dart';
 
-@AutoRouterConfig()
+@AutoRouterConfig(
+  deferredLoading: true,
+  replaceInRouteName: 'Page,Route',
+)
 class AppRouter extends $AppRouter {
+  AppRouter();
   @override
   final List<AutoRoute> routes = [
     CustomRoute(

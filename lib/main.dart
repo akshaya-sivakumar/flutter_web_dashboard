@@ -6,10 +6,7 @@ import 'package:flutter_dashboard_web/theme/light_theme.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
 
 import 'auto_route/router.dart';
-import 'auto_route/router.gr.dart';
 import 'bloc/theme/theme_bloc.dart';
-
-
 
 final appRoute = AppRouter();
 void main() {
@@ -44,16 +41,17 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Dashboard',
           theme: state.theme == true ? darkTheme() : lightTheme(),
-          routerDelegate: appRoute.delegate(
-              navigatorObservers: () => [MyObserver()],
+          routerConfig: appRoute.config(),
+          /* routerDelegate: appRoute.delegate(
+              //  navigatorObservers: () => [MyObserver()],
 
               /*  initialDeepLink: AppUtils().isLoginned()
                 ? "/dashboard?index=0"
                 : "/registration", */
-              initialRoutes: [const Registration()]
+              //initialRoutes: [const Registration()]
               //initialDeepLink: "/registration"
-              ),
-          routeInformationParser: appRoute.defaultRouteParser(),
+              ), */
+          // routeInformationParser: appRoute.defaultRouteParser(),
         );
       },
     );

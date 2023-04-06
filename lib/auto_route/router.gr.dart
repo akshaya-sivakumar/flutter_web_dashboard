@@ -10,9 +10,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i4;
 import 'package:flutter/material.dart' as _i5;
-import 'package:flutter_dashboard_web/ui/screens/dashboard.dart' as _i2;
-import 'package:flutter_dashboard_web/ui/screens/not_found.dart' as _i1;
-import 'package:flutter_dashboard_web/ui/screens/registration.dart' as _i3;
+import 'package:flutter_dashboard_web/ui/screens/dashboard.dart'
+    deferred as _i2;
+import 'package:flutter_dashboard_web/ui/screens/not_found.dart'
+    deferred as _i1;
+import 'package:flutter_dashboard_web/ui/screens/registration.dart'
+    deferred as _i3;
 
 abstract class $AppRouter extends _i4.RootStackRouter {
   $AppRouter([_i5.GlobalKey<_i5.NavigatorState>? navigatorKey])
@@ -23,19 +26,28 @@ abstract class $AppRouter extends _i4.RootStackRouter {
     Notfound.name: (routeData) {
       return _i4.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.NotFoundScreen(),
+        child: _i4.DeferredWidget(
+          _i1.loadLibrary,
+          () => _i1.NotFoundScreen(),
+        ),
       );
     },
     Dashboard.name: (routeData) {
       return _i4.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.DashboardScreen(),
+        child: _i4.DeferredWidget(
+          _i2.loadLibrary,
+          () => _i2.DashboardScreen(),
+        ),
       );
     },
     Registration.name: (routeData) {
       return _i4.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.WrappedRoute(child: const _i3.RegistrationScreen()),
+        child: _i4.DeferredWidget(
+          _i3.loadLibrary,
+          () => _i4.WrappedRoute(child: _i3.RegistrationScreen()),
+        ),
       );
     },
   };

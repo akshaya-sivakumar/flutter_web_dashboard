@@ -29,6 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print("params" + context.routeData.queryParams.get("index"));
     if (context.routeData.queryParams.get("index") == null) {
       appRoute.pushNamed("/dashboard?index=0");
     }
