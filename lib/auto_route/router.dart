@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_dashboard_web/auto_route/router.gr.dart';
+import 'package:flutter_dashboard_web/constants/app_constants.dart';
+import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -39,14 +41,14 @@ class AuthGuard extends AutoRouteGuard {
     } else {
       router.push(const Registration());
       Fluttertoast.showToast(
-          msg: "Session Expired.Please Login again",
+          msg: AppConstants.sessionExpired,
           gravity: ToastGravity.BOTTOM_RIGHT,
           timeInSecForIosWeb: 5,
-          webPosition: "right",
+          webPosition: AppConstants.webPosition,
           webShowClose: true,
           toastLength: Toast.LENGTH_LONG,
-          webBgColor: "linear-gradient(to right, #F8313E, #F8313E)",
-          fontSize: 20.0);
+          webBgColor: AppConstants.webBgColor,
+          fontSize: AppWidgetSize.dimen_20);
     }
   }
 }
