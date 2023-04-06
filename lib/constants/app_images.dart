@@ -105,8 +105,8 @@ class AppImages {
     );
   }
 
-  static Image technicalIssuePortfolioLight() {
+  static Image notfoundImage() {
     return const Image(
-        image: AssetImage('lib/assets/images/technical_issue_light@2x.png'));
+        image: AssetImage("lib/assets/icons/404page.png"),fit: BoxFit.fill,);
   }
 }

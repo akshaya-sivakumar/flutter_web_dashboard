@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
+import 'package:flutter_dashboard_web/constants/app_images.dart';
 import 'package:flutter_dashboard_web/ui/widgets/text_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,10 +29,7 @@ class NotFoundScreen extends StatelessWidget {
               const SizedBox(
                 width: 15,
               ),
-              Image.asset(
-                "lib/assets/icons/404page.png",
-                fit: BoxFit.fill,
-              )
+              AppImages.notfoundImage()
             ],
           ),
         ),
