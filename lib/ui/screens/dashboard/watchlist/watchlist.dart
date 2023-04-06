@@ -5,7 +5,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
-import 'package:flutter_dashboard_web/model/watchlist_model.dart';
+import 'package:flutter_dashboard_web/model/watchlist/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/screens/dashboard/watchlist/order_pad.dart';
 import 'package:flutter_dashboard_web/ui/widgets/search_widget.dart';
 import 'package:flutter_dashboard_web/ui/widgets/swap_widget.dart';

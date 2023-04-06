@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
 
-import '../../model/watchlist_model.dart';
+import '../../model/watchlist/watchlist_model.dart';
 import '../../repo/watchlist_repo.dart';
 
 part 'watchlist_event.dart';

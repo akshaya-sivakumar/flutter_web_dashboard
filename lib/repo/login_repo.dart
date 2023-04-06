@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:core';
 
 import '../constants/api_url.dart';
-import '../model/login_request.dart';
-import '../model/login_response.dart';
+import '../model/login/login_request.dart';
+import '../model/login/login_response.dart';
 import '../resources/api_base_helper.dart';
 
 class OtpvalidationRepository {

@@ -15,8 +15,8 @@ import '../../../bloc/otp_validation/otp_validation_bloc.dart';
 import '../../../bloc/registration/registration_bloc.dart';
 import '../../../constants/app_constants.dart';
 import '../../../constants/app_images.dart';
-import '../../../model/login_request.dart';
-import '../../../model/registration_request.dart' as reg;
+import '../../../model/login/login_request.dart';
+import '../../../model/registration/registration_request.dart' as reg;
 import '../../widgets/loader_widget.dart';
 import '../../widgets/text_widget.dart';
 

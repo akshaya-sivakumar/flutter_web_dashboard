@@ -4,7 +4,7 @@ import 'dart:html';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard_web/model/watchlist_model.dart';
+import 'package:flutter_dashboard_web/model/watchlist/watchlist_model.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 import '../auto_route/router.gr.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
-import 'package:flutter_dashboard_web/model/watchlist_model.dart';
+import 'package:flutter_dashboard_web/model/watchlist/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/widgets/circular_toggle.dart';
 import 'package:flutter_dashboard_web/ui/widgets/text_widget.dart';
 

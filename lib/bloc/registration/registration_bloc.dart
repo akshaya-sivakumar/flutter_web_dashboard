@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../model/registration_request.dart';
-import '../../model/registration_response.dart';
+import '../../model/registration/registration_request.dart';
+import '../../model/registration/registration_response.dart';
 import '../../repo/registration_repo.dart';
 
 part 'registration_event.dart';

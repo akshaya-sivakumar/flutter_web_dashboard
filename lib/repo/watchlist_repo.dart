@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 
 import '../constants/api_url.dart';
-import '../model/watchlist_model.dart';
+import '../model/watchlist/watchlist_model.dart';
 import '../resources/api_base_helper.dart';
 
 class WatchlistRepository {

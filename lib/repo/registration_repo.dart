@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:core';
 
 import '../constants/api_url.dart';
-import '../model/registration_request.dart';
-import '../model/registration_response.dart';
+import '../model/registration/registration_request.dart';
+import '../model/registration/registration_response.dart';
 import '../resources/api_base_helper.dart';
 
 
