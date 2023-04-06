@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static const String watchlistLogin = "MSIL WatchList Login";
   static const String enterMobileNo = "Enter the Mobile Number to Login";
 
   static const String phNo = "Phone Number";
 
-  static const String generateOtp = "Generate OTP";
   static const String otpVerify = "Please enter the OTP to Login";
   static const String otpVerified = "A OTP has been sent to ";
   static const String resendOtp = "Resend OTP";
@@ -16,15 +14,9 @@ class AppConstants {
   static const String buy = "BUY";
   static const String name = "Name";
   static const String detail = "Details";
-  static const String ltp = "LTP";
-  static const String change = "Change";
-  static const String changePercent = "ChangePercent";
-  static const String submit = "Submit";
-  static const String back = "Back";
+  
 
-  static const String success = "Successful!!!";
   static const String mobileValidation = "Please enter valid mobile number";
-  static const String pleaseAgree = "Please agree to our terms and conditons";
 
   static const String pageNotfound = "Page Not Found";
   static const String isDark = "isDark";
@@ -48,6 +40,7 @@ class AppConstants {
   static const String orders = "Orders";
   static const String portfolio = "Portfolio";
   static const String logout = "Logout";
+    static const String logoutCap = "LOGOUT";
   static const String confirmLogout = "Confirm Logout !!!";
   static const String logoutStatement = "Are you sure you want to logout?";
   static const String cancel = "CANCEL";
@@ -71,8 +64,6 @@ class AppConstants {
   static const String notfounstatement = "OOPS!!\n Nothing here... ";
   static const String enterHere = 'Enter here';
   static const String sessionExpired = "Session Expired.Please Login again";
-
-
 
   static const String webPosition = "right";
   static const String webBgColor =

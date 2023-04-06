@@ -251,7 +251,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
                         ),
                         onPressed: () {
                           AppUtils().clearsession();
-                          appRoute.push(const Registration());
+                          appRoute.replaceAll([const Registration()]);
                         },
                         child: TextWidget(
                           AppConstants.logout,

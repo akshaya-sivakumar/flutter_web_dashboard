@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard_web/auto_route/router.gr.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
+import 'package:flutter_dashboard_web/constants/app_routes.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,16 +20,17 @@ class AppRouter extends $AppRouter {
   @override
   final List<AutoRoute> routes = [
     CustomRoute(
-        path: "/registration",
+        path: AppRoutes.registrationRoute,
         page: Registration.page,
         transitionsBuilder: TransitionsBuilders.noTransition,
         durationInMilliseconds: 100,
         guards: [LoginGuard()],
         keepHistory: false,
         reverseDurationInMilliseconds: 0),
-    RedirectRoute(path: "/", redirectTo: "/registration"),
+    RedirectRoute(
+        path: AppRoutes.emptyRoute, redirectTo: AppRoutes.registrationRoute),
     CustomRoute(
-        path: "/dashboard",
+        path: AppRoutes.dashboardRoute,
         page: Dashboard.page,
         transitionsBuilder: TransitionsBuilders.noTransition,
         durationInMilliseconds: 100,
@@ -45,7 +47,6 @@ class AuthGuard extends AutoRouteGuard {
   @override
   Future<void> onNavigation(
       NavigationResolver resolver, StackRouter router) async {
-    print("checking");
     if (AppUtils().isLoginned()) {
       resolver.next(true);
     } else {
@@ -67,11 +68,12 @@ class LoginGuard extends AutoRouteGuard {
   @override
   Future<void> onNavigation(
       NavigationResolver resolver, StackRouter router) async {
-    if (AppUtils().isLoginned() && router.current.path == "/dashboard") {
+    if (AppUtils().isLoginned() &&
+        router.current.path == AppRoutes.dashboardRoute) {
       logoutDialog(appRoute.navigatorKey.currentContext);
     } else if (AppUtils().isLoginned()) {
       // appRoute.replaceNamed("/dashboard?index=0");
-      appRoute.pushNamed("/dashboard?index=0");
+      appRoute.pushNamed(AppRoutes.watchlistRoute);
     } else {
       resolver.next(true);
     }
@@ -85,7 +87,7 @@ class LoginGuard extends AutoRouteGuard {
           intercepting: true,
           child: AlertDialog(
               title: TextWidget(
-                "Confirm Logout !!!",
+                AppConstants.confirmLogout,
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge
@@ -95,7 +97,7 @@ class LoginGuard extends AutoRouteGuard {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextWidget(
-                    "Are you sure you want to logout?",
+                    AppConstants.logoutStatement,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
@@ -117,11 +119,11 @@ class LoginGuard extends AutoRouteGuard {
                         ),
                         onPressed: () {
                           AppUtils().clearsession();
-                          appRoute.removeUntil((route) => true);
+
                           appRoute.replaceAll([const Registration()]);
                         },
                         child: TextWidget(
-                          "LOGOUT",
+                          AppConstants.logoutCap,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
@@ -139,10 +141,10 @@ class LoginGuard extends AutoRouteGuard {
                         onPressed: () {
                           appRoute.pop();
 
-                          appRoute.pushNamed("/dashboard?index=0");
+                          appRoute.pushNamed(AppRoutes.watchlistRoute);
                         },
                         child: TextWidget(
-                          "CANCEL",
+                          AppConstants.cancel,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
