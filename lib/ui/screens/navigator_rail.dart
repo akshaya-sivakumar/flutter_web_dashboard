@@ -107,7 +107,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
           IconButton(
               onPressed: () {
                 BlocProvider.of<ThemeBloc>(context)
-                    .add(ThemechangeEvent(!theme));
+                    .add(ThemechangeEvent(!AppUtils.isDarktheme));
               },
               icon: AppUtils.isDarktheme
                   ? AppImages.darkThemeIcon(context,
