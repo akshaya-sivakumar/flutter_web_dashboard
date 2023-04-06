@@ -185,7 +185,8 @@ class _OrderPadWindowState extends State<OrderPadWindow> {
                                       scaffoldBackgroundColor: Theme.of(context)
                                           .scaffoldBackgroundColor),
                                   child: MaterialSwitch(
-                                    inactiveTrackColor: Theme.of(context).focusColor,
+                                    inactiveTrackColor:
+                                        Theme.of(context).focusColor,
                                     activeTrackColor: Theme.of(context)
                                         .snackBarTheme
                                         .closeIconColor,
