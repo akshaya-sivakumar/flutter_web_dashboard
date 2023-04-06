@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Dashboard',
           theme: state.theme == true ? darkTheme() : lightTheme(),
           routerDelegate: appRoute.delegate(
-              // navigatorObservers: () => [MyObserver()],
+              navigatorObservers: () => [MyObserver()],
 
               /*  initialDeepLink: AppUtils().isLoginned()
                 ? "/dashboard?index=0"

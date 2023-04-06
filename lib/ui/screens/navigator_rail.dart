@@ -1,4 +1,3 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
@@ -45,21 +44,7 @@ class _NavigatorRailwidgetState extends State<NavigatorRailwidget> {
   void initState() {
     getTheme();
 
-    BackButtonInterceptor.add(myInterceptor, ifNotYetIntercepted: true);
-
     super.initState();
-  }
-
-  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    //print("backed $navigationIcons");
-    if (stopDefaultButtonEvent) return false;
-    return true;
-  }
-
-  @override
-  void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
   }
 
   getTheme() {

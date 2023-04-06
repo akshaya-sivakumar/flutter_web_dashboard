@@ -21,45 +21,11 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> with AutoRouteAware {
+class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
-    /* _observer =
-        RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
-    if (_observer != null) {
-      // we subscribe to the observer by passing our
-      // AutoRouteAware state and the scoped routeData
-      _observer?.subscribe(this, context.routeData);
-    } */
-
     super.initState();
   }
-
-/*   @override
-  void didInitTabRoute(TabPageRoute? previousRoute) {}
-
-  // only override if this is a tab page
-  @override
-  void didChangeTabRoute(TabPageRoute previousRoute) {}
-
-  @override
-  void didPopNext() {
-    print("didPopNext");
-  }
-
-  @override
-  void didPushNext() {}
-
-  @override
-  void didPush() {
-    print("didPush");
-  }
-
-  @override
-  void didPop() {
-    /*  logoutDialog(context);
-    return false; */
-  } */
 
   @override
   Widget build(BuildContext context) {
