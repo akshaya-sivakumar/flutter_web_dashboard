@@ -70,241 +70,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
                 watchlist = state.watchlist.response.data;
 
-                return Container(
-                  width: MediaQuery.of(context).size.width * 0.3 - 80,
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: AppWidgetSize.dimen_20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                TextWidget(AppConstants.nifty50,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            fontSize: AppWidgetSize.dimen_14,
-                                            color: Theme.of(context)
-                                                .inputDecorationTheme
-                                                .labelStyle
-                                                ?.color)),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: AppWidgetSize.dimen_5),
-                                  child: Row(
-                                    children: [
-                                      TextWidget(AppConstants.niftyvalue,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge),
-                                      TextWidget(
-                                        AppConstants.niftyPer,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.copyWith(
-                                                fontSize:
-                                                    AppWidgetSize.dimen_13,
-                                                color: Theme.of(context)
-                                                    .snackBarTheme
-                                                    .closeIconColor),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                TextWidget(AppConstants.sensex,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            fontSize: AppWidgetSize.dimen_14,
-                                            color: Theme.of(context)
-                                                .inputDecorationTheme
-                                                .labelStyle
-                                                ?.color)),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: AppWidgetSize.dimen_5),
-                                  child: Row(
-                                    children: [
-                                      TextWidget(AppConstants.sensexvalue,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge),
-                                      TextWidget(
-                                        AppConstants.sensexPer,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.copyWith(
-                                                fontSize:
-                                                    AppWidgetSize.dimen_13,
-                                                color: Theme.of(context)
-                                                    .snackBarTheme
-                                                    .closeIconColor),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ValueListenableBuilder<String>(
-                              valueListenable: selectedmyList,
-                              builder: (context, snapshot, _) {
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                      canvasColor: Theme.of(context)
-                                          .scaffoldBackgroundColor),
-                                  child: CustomDropdownButton(
-                                    iconSize: AppWidgetSize.dimen_15,
-                                    icon: const Icon(
-                                        Icons.keyboard_arrow_down_sharp),
-                                    value: snapshot,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: AppWidgetSize.dimen_13),
-                                    underline: const Divider(
-                                      color: Colors.transparent,
-                                    ),
-                                    items: AppConstants.myListData.map((item) {
-                                      return DropdownMenuItem(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      selectedmyList.value = value;
-                                      watchlistSelected.value = false;
-                                      selectedsymbol = null;
-                                      watchlistBloc
-                                          .add(SortWatchlist(atoz, value));
-                                    },
-                                  ),
-                                );
-                              }),
-                          PopupMenuButton(
-                            position: PopupMenuPosition.under,
-                            icon: Icon(
-                              Icons.sort,
-                              size: AppWidgetSize.dimen_20,
-                              color:
-                                  Theme.of(context).textTheme.titleLarge?.color,
-                            ),
-                            onSelected: (item) {},
-                            itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry>[
-                              PopupMenuItem(
-                                onTap: () {
-                                  atoz = true;
-                                  watchlistBloc.add(SortWatchlist(
-                                      atoz, AppConstants.myListData[0]));
-                                },
-                                value: atoz,
-                                child: Row(
-                                  children: [
-                                    TextWidget(
-                                      AppConstants.atoz,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge
-                                          ?.copyWith(
-                                            fontSize: AppWidgetSize.dimen_15,
-                                          ),
-                                    ),
-                                    if (atoz)
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: AppWidgetSize.dimen_15),
-                                        child: Icon(
-                                          Icons.check_rounded,
-                                          size: AppWidgetSize.dimen_15,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      )
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem(
-                                onTap: () {
-                                  atoz = false;
-                                  watchlistBloc.add(SortWatchlist(
-                                      atoz, AppConstants.myListData[0]));
-                                },
-                                value: !atoz,
-                                child: Row(
-                                  children: [
-                                    TextWidget(
-                                      AppConstants.ztoa,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge
-                                          ?.copyWith(
-                                            fontSize: AppWidgetSize.dimen_15,
-                                          ),
-                                    ),
-                                    if (!atoz)
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: AppWidgetSize.dimen_15),
-                                        child: Icon(Icons.check_rounded,
-                                            size: AppWidgetSize.dimen_17,
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        child: searchBox(searchController, "", "Search..", () {
-                          watchlistBloc.add(SortWatchlist(
-                              atoz, selectedmyList.value,
-                              searchName: searchController.text));
-                        }),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: watchlist.symbols.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedsymbol = watchlist.symbols[index];
-                                  });
-                                },
-                                child: bodyData(context, watchlist, index));
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return doneStateWidget(context);
               }
 
               if (state is WatchlistError) return const ErrorsWidget();
@@ -551,6 +317,218 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     );
   }
 
+  Container doneStateWidget(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.3 - AppWidgetSize.dimen_80,
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    TextWidget(AppConstants.nifty50,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontSize: AppWidgetSize.dimen_14,
+                            color: Theme.of(context)
+                                .inputDecorationTheme
+                                .labelStyle
+                                ?.color)),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_5),
+                      child: Row(
+                        children: [
+                          TextWidget(AppConstants.niftyvalue,
+                              style: Theme.of(context).textTheme.titleLarge),
+                          TextWidget(
+                            AppConstants.niftyPer,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                    fontSize: AppWidgetSize.dimen_13,
+                                    color: Theme.of(context)
+                                        .snackBarTheme
+                                        .closeIconColor),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    TextWidget(AppConstants.sensex,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontSize: AppWidgetSize.dimen_14,
+                            color: Theme.of(context)
+                                .inputDecorationTheme
+                                .labelStyle
+                                ?.color)),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_5),
+                      child: Row(
+                        children: [
+                          TextWidget(AppConstants.sensexvalue,
+                              style: Theme.of(context).textTheme.titleLarge),
+                          TextWidget(
+                            AppConstants.sensexPer,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                    fontSize: AppWidgetSize.dimen_13,
+                                    color: Theme.of(context)
+                                        .snackBarTheme
+                                        .closeIconColor),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ValueListenableBuilder<String>(
+                  valueListenable: selectedmyList,
+                  builder: (context, snapshot, _) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                          canvasColor:
+                              Theme.of(context).scaffoldBackgroundColor),
+                      child: CustomDropdownButton(
+                        iconSize: AppWidgetSize.dimen_15,
+                        icon: const Icon(Icons.keyboard_arrow_down_sharp),
+                        value: snapshot,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: AppWidgetSize.dimen_13),
+                        underline: const Divider(
+                          color: Colors.transparent,
+                        ),
+                        items: AppConstants.myListData.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          selectedmyList.value = value;
+                          watchlistSelected.value = false;
+                          selectedsymbol = null;
+                          watchlistBloc.add(SortWatchlist(atoz, value));
+                        },
+                      ),
+                    );
+                  }),
+              PopupMenuButton(
+                position: PopupMenuPosition.under,
+                icon: Icon(
+                  Icons.sort,
+                  size: AppWidgetSize.dimen_20,
+                  color: Theme.of(context).textTheme.titleLarge?.color,
+                ),
+                onSelected: (item) {},
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  PopupMenuItem(
+                    onTap: () {
+                      atoz = true;
+                      watchlistBloc
+                          .add(SortWatchlist(atoz, AppConstants.myListData[0]));
+                    },
+                    value: atoz,
+                    child: Row(
+                      children: [
+                        TextWidget(
+                          AppConstants.atoz,
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontSize: AppWidgetSize.dimen_15,
+                                  ),
+                        ),
+                        if (atoz)
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: AppWidgetSize.dimen_15),
+                            child: Icon(
+                              Icons.check_rounded,
+                              size: AppWidgetSize.dimen_15,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    onTap: () {
+                      atoz = false;
+                      watchlistBloc
+                          .add(SortWatchlist(atoz, AppConstants.myListData[0]));
+                    },
+                    value: !atoz,
+                    child: Row(
+                      children: [
+                        TextWidget(
+                          AppConstants.ztoa,
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontSize: AppWidgetSize.dimen_15,
+                                  ),
+                        ),
+                        if (!atoz)
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: AppWidgetSize.dimen_15),
+                            child: Icon(Icons.check_rounded,
+                                size: AppWidgetSize.dimen_17,
+                                color: Theme.of(context).primaryColor),
+                          )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            child: searchBox(searchController, "", "Search..", () {
+              watchlistBloc.add(SortWatchlist(atoz, selectedmyList.value,
+                  searchName: searchController.text));
+            }),
+          ),
+          Expanded(
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: watchlist.symbols.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedsymbol = watchlist.symbols[index];
+                      });
+                    },
+                    child: bodyData(context, watchlist, index));
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void showOrderpadpopup(BuildContext context) {
     showAlignedDialog(
         barrierColor: Colors.transparent,
@@ -568,8 +546,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                       symbol: selectedsymbol!,
                       onChanged: (value) {
                         buySelected.value = !value;
-
-                        print("buySelected$value");
                       },
                     );
                   }),
@@ -718,7 +694,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Widget loadData(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width * 0.3 - 80,
+      width: MediaQuery.of(context).size.width * 0.3 - AppWidgetSize.dimen_80,
       child: Center(
           child: CircularProgressIndicator(
         color: Theme.of(context).primaryColor,
@@ -733,7 +709,7 @@ class ErrorsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: MediaQuery.of(context).size.width * 0.3 - 80,
+        width: MediaQuery.of(context).size.width * 0.3 - AppWidgetSize.dimen_80,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
