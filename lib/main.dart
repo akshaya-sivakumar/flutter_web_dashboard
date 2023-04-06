@@ -5,6 +5,7 @@ import 'package:flutter_dashboard_web/theme/dart_theme.dart';
 import 'package:flutter_dashboard_web/theme/light_theme.dart';
 
 import 'auto_route/router.dart';
+import 'auto_route/router.gr.dart';
 import 'bloc/theme/theme_bloc.dart';
 
 final appRoute = AppRouter();
@@ -40,15 +41,14 @@ class _MyAppState extends State<MyApp> {
           title: 'Dashboard',
           theme: state.theme == true ? darkTheme() : lightTheme(),
           routerDelegate: appRoute.delegate(
-              navigatorObservers: () => [AutoRouteObserver()],
+              // navigatorObservers: () => [MyObserver()],
 
               /*  initialDeepLink: AppUtils().isLoginned()
                 ? "/dashboard?index=0"
                 : "/registration", */
-              /* initialRoutes: [
-            AppUtils().isLoginned() ? const Dashboard() : const Registration()
-          ] */
-              initialDeepLink: "/registration"),
+              initialRoutes: [const Registration()]
+              //initialDeepLink: "/registration"
+              ),
           routeInformationParser: appRoute.defaultRouteParser(),
         );
       },
@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-/* class MyObserver extends AutoRouterObserver {
+class MyObserver extends AutoRouterObserver {
   @override
   void didPush(Route route, Route? previousRoute) {
     print(
@@ -78,4 +78,4 @@ class _MyAppState extends State<MyApp> {
   void didPop(Route route, Route? previousRoute) {
     'New route pushed: ${route.settings.name} - ${previousRoute?.settings.name}';
   }
-} */
+}

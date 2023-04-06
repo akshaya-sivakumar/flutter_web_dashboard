@@ -45,11 +45,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     watchlistBloc = BlocProvider.of<WatchlistBloc>(context);
 
     watchlistBloc.add(FetchWatchlist(selectedmyList.value));
-    /*  ThemeBloc().stream.listen((event) {
-      print(event.theme);
-     
-    });
- */
+
     super.initState();
   }
 
