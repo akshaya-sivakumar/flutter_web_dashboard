@@ -331,7 +331,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_20),
+            padding: EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -400,6 +400,18 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   ],
                 )
               ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: AppWidgetSize.dimen_5),
+            child: DottedLine(
+              direction: Axis.horizontal,
+              lineLength: double.infinity,
+              lineThickness: AppWidgetSize.dimen_0_5,
+              dashLength: AppWidgetSize.dimen_4,
+              dashColor: Theme.of(context).dividerColor,
+              dashGapLength: AppWidgetSize.dimen_3,
+              dashGapColor: Colors.transparent,
             ),
           ),
           Row(
@@ -583,16 +595,19 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       children: [
         TextWidget(
           title,
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              fontSize: AppWidgetSize.dimen_12,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).canvasColor,
+              fontFamily: AppConstants.fontName),
         ),
         Padding(
           padding: EdgeInsets.only(top: AppWidgetSize.dimen_5),
           child: TextWidget(
             value,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(fontSize: AppWidgetSize.dimen_11),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontSize: AppWidgetSize.dimen_11,
+                fontFamily: AppConstants.fontName),
           ),
         )
       ],

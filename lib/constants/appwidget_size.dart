@@ -7,6 +7,7 @@ class AppWidgetSize {
 
   static double bodyPadding = 16;
   static double dimen_1 = 1;
+  static double dimen_0_5 = 0.5;
   static double dimen_2 = 2;
   static double dimen_3 = 3;
   static double dimen_4 = 4;
