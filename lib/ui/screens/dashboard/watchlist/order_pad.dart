@@ -253,7 +253,7 @@ class _OrderPadWindowState extends State<OrderPadWindow> {
                             enabledButtonlist: [selectedProducttype],
                             defaultSelected: selectedProducttype.value,
                             activeButtonColor: Theme.of(context).primaryColor,
-                            activeTextColor: Colors.white,
+                            activeTextColor: Theme.of(context).shadowColor,
                             inactiveButtonColor:
                                 Theme.of(context).scaffoldBackgroundColor,
                             inactiveTextColor: Theme.of(context)

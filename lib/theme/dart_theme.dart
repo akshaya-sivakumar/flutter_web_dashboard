@@ -24,9 +24,11 @@ const Color bgColor = Color(0xFFFFFFFF);
 const Color appFocusInputBorderColor = Color(0xFF212335);
 const Color appAccentIconcolor = Color(0xFF9798A1);
 const Color focusColor = Color(0xFF03ad7a);
+const Color shadowColor = Color(0xFFFFFFFF);
 
 ThemeData darkTheme() {
   return ThemeData(
+    shadowColor: shadowColor,
     focusColor: focusColor,
     cardColor: appBackgroundcolor.withOpacity(0.8),
     brightness: Brightness.dark,

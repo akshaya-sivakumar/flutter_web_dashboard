@@ -25,9 +25,11 @@ const Color snackbarBackgroundColor = Color(0xFFDEDEDE);
 const Color appFocusInputBorderColor = Color(0xFFEAEBEC);
 const Color cardColor = Color(0xFFf1f1f6);
 const Color focusColor = Color(0xFF03ad7a);
+const Color shadowColor = Color(0xFFFFFFFF);
 
 ThemeData lightTheme() {
   return ThemeData(
+    shadowColor: shadowColor,
     focusColor: focusColor,
     cardColor: cardColor,
     brightness: Brightness.light,
