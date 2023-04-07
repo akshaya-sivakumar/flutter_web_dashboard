@@ -5,6 +5,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
+import 'package:flutter_dashboard_web/main.dart';
 import 'package:flutter_dashboard_web/model/watchlist/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/screens/dashboard/watchlist/order_pad.dart';
 import 'package:flutter_dashboard_web/ui/widgets/search_widget.dart';
@@ -240,11 +241,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                             dashLength: AppWidgetSize.dimen_4,
                                             dashColor:
                                                 Theme.of(context).dividerColor,
-                                            dashRadius: 0.0,
                                             dashGapLength:
                                                 AppWidgetSize.dimen_4,
                                             dashGapColor: Colors.transparent,
-                                            dashGapRadius: 0.0,
                                           ),
                                         ),
                                         SizedBox(
@@ -300,7 +299,27 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                         AppConstants.lowValue),
                                                   ],
                                                 ),
-                                              )
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical:
+                                                        AppWidgetSize.dimen_10),
+                                                child: DottedLine(
+                                                  direction: Axis.horizontal,
+                                                  lineLength: double.infinity,
+                                                  lineThickness:
+                                                      AppWidgetSize.dimen_0_5,
+                                                  dashLength:
+                                                      AppWidgetSize.dimen_4,
+                                                  dashColor: Theme.of(context)
+                                                      .dividerColor,
+                                                  dashGapLength:
+                                                      AppWidgetSize.dimen_3,
+                                                  dashGapColor:
+                                                      Colors.transparent,
+                                                ),
+                                              ),
+                                              _buildSeekBarWidget()
                                             ],
                                           ),
                                         )
@@ -325,6 +344,70 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  static Widget _buildSeekBarWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(
+              top: AppWidgetSize.dimen_25, left: AppWidgetSize.dimen_36),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextWidget(
+                "52Wk High/Low",
+                style: Theme.of(appRoute.navigatorKey.currentContext!)
+                    .textTheme
+                    .labelSmall
+                    ?.copyWith(
+                        fontSize: AppWidgetSize.dimen_12,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(appRoute.navigatorKey.currentContext!)
+                            .canvasColor,
+                        fontFamily: AppConstants.fontName),
+              ),
+              TextWidget(
+                "Upper/Lower Circuit",
+                style: Theme.of(appRoute.navigatorKey.currentContext!)
+                    .textTheme
+                    .labelSmall
+                    ?.copyWith(
+                        fontSize: AppWidgetSize.dimen_12,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(appRoute.navigatorKey.currentContext!)
+                            .canvasColor,
+                        fontFamily: AppConstants.fontName),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(
+              top: AppWidgetSize.dimen_15, left: AppWidgetSize.dimen_36),
+          height: AppWidgetSize.dimen_8,
+          decoration: BoxDecoration(
+            borderRadius:
+                BorderRadius.all(Radius.circular(AppWidgetSize.dimen_20)),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+              stops: const <double>[
+                0.3,
+                0.7,
+              ],
+              colors: <Color>[
+                Theme.of(appRoute.navigatorKey.currentContext!).focusColor,
+                Theme.of(appRoute.navigatorKey.currentContext!)
+                    .snackBarTheme
+                    .closeIconColor!,
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
