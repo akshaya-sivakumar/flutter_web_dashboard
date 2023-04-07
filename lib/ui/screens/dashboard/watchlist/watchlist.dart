@@ -353,7 +353,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       children: [
         Padding(
           padding: EdgeInsets.only(
-              top: AppWidgetSize.dimen_25, left: AppWidgetSize.dimen_36),
+              top: AppWidgetSize.dimen_25, left: AppWidgetSize.dimen_20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -386,7 +386,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         ),
         Container(
           margin: EdgeInsets.only(
-              top: AppWidgetSize.dimen_15, left: AppWidgetSize.dimen_36),
+              top: AppWidgetSize.dimen_15, left: AppWidgetSize.dimen_20),
           height: AppWidgetSize.dimen_8,
           decoration: BoxDecoration(
             borderRadius:
