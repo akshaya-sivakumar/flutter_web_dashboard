@@ -28,7 +28,7 @@ class WatchlistScreen extends StatefulWidget {
 }
 
 class _WatchlistScreenState extends State<WatchlistScreen> {
-  Symbols? selectedsymbol;
+  WebViewXController? controller;
   late WatchlistBloc watchlistBloc;
   Data searchWatchlist = Data(symbols: []);
   Data watchlist = Data(symbols: []);
@@ -39,6 +39,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   ValueNotifier<bool> watchlistSelected = ValueNotifier<bool>(false);
   ValueNotifier<bool> buySelected = ValueNotifier<bool>(true);
   ValueNotifier<bool> isHover = ValueNotifier<bool>(false);
+  ValueNotifier<Symbols?> selectedsymbol = ValueNotifier<Symbols?>(null);
   bool atoz = true;
   TextEditingController searchController = TextEditingController();
 
@@ -62,9 +63,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           BlocBuilder<WatchlistBloc, WatchlistState>(
             builder: (context, state) {
               if (state is WatchlistDone) {
-                selectedsymbol ??= state.watchlist.response.data.symbols.first;
+                selectedsymbol.value ??=
+                    state.watchlist.response.data.symbols.first;
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  if (selectedsymbol != null && !watchlistSelected.value) {
+                  if (!watchlistSelected.value) {
                     watchlistSelected.value = true;
                   }
                 });
@@ -159,6 +161,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                               ? WebViewX(
                                   javascriptMode: JavascriptMode.unrestricted,
                                   initialContent: AppConstants().weburl,
+                                  onWebViewCreated: (controllers) {
+                                    controller = controllers;
+                                  },
                                   width:
                                       AppWidgetSize.fullWidth(context) * 0.6 +
                                           AppWidgetSize.dimen_70,
@@ -445,7 +450,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         onChanged: (value) {
                           selectedmyList.value = value;
                           watchlistSelected.value = false;
-                          selectedsymbol = null;
+                          selectedsymbol.value = null;
                           watchlistBloc.add(SortWatchlist(atoz, value));
                         },
                       ),
@@ -534,9 +539,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedsymbol = watchlist.symbols[index];
-                      });
+                      selectedsymbol.value = watchlist.symbols[index];
+                      controller?.reload();
                     },
                     child: bodyData(context, watchlist, index));
               },
@@ -561,7 +565,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   builder: (context, snapshot, _) {
                     return OrderPadWindow(
                       buySelected: buySelected.value,
-                      symbol: selectedsymbol!,
+                      symbol: selectedsymbol.value!,
                       onChanged: (value) {
                         buySelected.value = !value;
                       },
@@ -624,130 +628,141 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         watchlist.symbols[index].ttEligibility = false;
         isHover.value = false;
       },
-      child: ValueListenableBuilder<bool>(
-          valueListenable: isHover,
-          builder: (context, snapshot, _) {
-            return Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: AppWidgetSize.dimen_10,
-                    horizontal: AppWidgetSize.dimen_10),
-                margin: EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_5),
-                decoration: BoxDecoration(
-                    color: (selectedsymbol?.companyName ==
-                            watchlist.symbols[index].companyName)
-                        ? Theme.of(context).dividerColor.withOpacity(0.5)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                        color: Theme.of(context).primaryColorLight,
-                        width: 0.3)),
-                alignment: Alignment.center,
-                child: Stack(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          child: Column(
+      child: ValueListenableBuilder(
+          valueListenable: selectedsymbol,
+          builder: (context, snapshots, _) {
+            return ValueListenableBuilder<bool>(
+                valueListenable: isHover,
+                builder: (context, snapshot, _) {
+                  return Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: AppWidgetSize.dimen_10,
+                          horizontal: AppWidgetSize.dimen_10),
+                      margin:
+                          EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_5),
+                      decoration: BoxDecoration(
+                          color: (selectedsymbol.value?.companyName ==
+                                  watchlist.symbols[index].companyName)
+                              ? Theme.of(context).dividerColor.withOpacity(0.5)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: Theme.of(context).primaryColorLight,
+                              width: 0.3)),
+                      alignment: Alignment.center,
+                      child: Stack(
+                        children: [
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  TextWidget(
-                                    watchlist.symbols[index].dispSym.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                            fontSize: AppWidgetSize.dimen_12),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: AppWidgetSize.dimen_8,
-                                        top: AppWidgetSize.dimen_2),
-                                    child: TextWidget(
-                                      watchlist.symbols[index].sym.exc,
-                                      size: AppWidgetSize.dimen_11,
-                                      textalign: TextAlign.end,
-                                      color: Theme.of(context).canvasColor,
+                              SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        TextWidget(
+                                          watchlist.symbols[index].dispSym
+                                              .toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.copyWith(
+                                                  fontSize:
+                                                      AppWidgetSize.dimen_12),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: AppWidgetSize.dimen_8,
+                                              top: AppWidgetSize.dimen_2),
+                                          child: TextWidget(
+                                            watchlist.symbols[index].sym.exc,
+                                            size: AppWidgetSize.dimen_11,
+                                            textalign: TextAlign.end,
+                                            color:
+                                                Theme.of(context).canvasColor,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                height: AppWidgetSize.dimen_5,
-                                color: Colors.transparent,
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: AppWidgetSize.dimen_2),
-                                child: TextWidget(
-                                  watchlist.symbols[index].companyName
-                                      .toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .inputDecorationTheme
-                                              .labelStyle
-                                              ?.color,
-                                          fontSize: AppWidgetSize.dimen_11),
+                                    Divider(
+                                      height: AppWidgetSize.dimen_5,
+                                      color: Colors.transparent,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: AppWidgetSize.dimen_2),
+                                      child: TextWidget(
+                                        watchlist.symbols[index].companyName
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .inputDecorationTheme
+                                                    .labelStyle
+                                                    ?.color,
+                                                fontSize:
+                                                    AppWidgetSize.dimen_11),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        if (!watchlist.symbols[index].ttEligibility)
-                          SizedBox(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Center(
-                                  child: TextWidget(
-                                    watchlist.symbols[index].excToken
-                                        .toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: AppWidgetSize.dimen_14),
-                                  ),
-                                ),
-                                Divider(
-                                  height: AppWidgetSize.dimen_5,
-                                  color: Colors.transparent,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: AppWidgetSize.dimen_2),
-                                  child: TextWidget(
-                                    "${watchlist.symbols[index].change}(${watchlist.symbols[index].changePer}%)",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                            fontSize: AppWidgetSize.dimen_13,
-                                            color: watchlist
-                                                    .symbols[index].change
-                                                    .contains("-")
-                                                ? Theme.of(context)
-                                                    .snackBarTheme
-                                                    .closeIconColor
-                                                : Colors.green),
+                              if (!watchlist.symbols[index].ttEligibility)
+                                SizedBox(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Center(
+                                        child: TextWidget(
+                                          watchlist.symbols[index].excToken
+                                              .toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      AppWidgetSize.dimen_14),
+                                        ),
+                                      ),
+                                      Divider(
+                                        height: AppWidgetSize.dimen_5,
+                                        color: Colors.transparent,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: AppWidgetSize.dimen_2),
+                                        child: TextWidget(
+                                          "${watchlist.symbols[index].change}(${watchlist.symbols[index].changePer}%)",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.copyWith(
+                                                  fontSize:
+                                                      AppWidgetSize.dimen_13,
+                                                  color: watchlist
+                                                          .symbols[index].change
+                                                          .contains("-")
+                                                      ? Theme.of(context)
+                                                          .snackBarTheme
+                                                          .closeIconColor
+                                                      : Colors.green),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 )
-                              ],
-                            ),
-                          )
-                      ],
-                    ),
-                    if (watchlist.symbols[index].ttEligibility)
-                      buysellHoverwidget(context, index)
-                  ],
-                ));
+                            ],
+                          ),
+                          if (watchlist.symbols[index].ttEligibility)
+                            buysellHoverwidget(context, index)
+                        ],
+                      ));
+                });
           }),
     );
   }
@@ -762,7 +777,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             contex,
             AppConstants.hoverBuy,
             () {
-              selectedsymbol = watchlist.symbols[index];
+              controller?.reload();
+              selectedsymbol.value = watchlist.symbols[index];
               showOrderpadpopup(contex);
             },
             Theme.of(context).focusColor,
@@ -775,7 +791,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             width: AppWidgetSize.dimen_5,
           ),
           hoverbutton(index, contex, AppConstants.hoverSell, () {
-            selectedsymbol = watchlist.symbols[index];
+            controller?.reload();
+            selectedsymbol.value = watchlist.symbols[index];
             buySelected.value = false;
             showOrderpadpopup(contex);
           },
