@@ -9,15 +9,16 @@ class AppConstants {
   static const String otpVerified = "A OTP has been sent to ";
   static const String resendOtp = "Resend OTP";
   static const String pleaseWait = "Please wait...";
-
+  static const String nodata = "No Data Available !!!";
+  static const String nosearchdata = "Sorry,no results found!!!";
   static const String sell = "SELL";
   static const String buy = "BUY";
   static const String name = "Name";
   static const String detail = "Details";
-    static const String dashboard = "Dashboard";
+  static const String dashboard = "Dashboard";
 
-    static const String hoverBuy = "B";
-     static const String hoverSell = "S";
+  static const String hoverBuy = "B";
+  static const String hoverSell = "S";
 
   static const String mobileValidation = "Enter Valid mobile No";
 
@@ -90,11 +91,11 @@ class AppConstants {
 
   static const String prevClose = "Prev.Close";
   static const String prevCloseValue = "202.70";
-    static const String open = "Open";
+  static const String open = "Open";
   static const String openValue = "205.90";
-     static const String high = "High";
+  static const String high = "High";
   static const String highValue = "206.20";
-     static const String low = "Low";
+  static const String low = "Low";
   static const String lowValue = "197.35";
 
   static const String fontName = 'opensans';

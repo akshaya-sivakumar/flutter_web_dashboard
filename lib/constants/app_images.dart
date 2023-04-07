@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class AppImages {
   static Color getColor(BuildContext context, Color color) {
@@ -25,6 +26,11 @@ class AppImages {
       height: height,
       key: Key(iconName ?? ""),
     );
+  }
+
+  static nosearchlottie() {
+    return Lottie.asset('lib/assets/icons/nosearch.json',
+        height: AppWidgetSize.dimen_250);
   }
 
   static Image watchlistSelected() {
@@ -107,6 +113,8 @@ class AppImages {
 
   static Image notfoundImage() {
     return const Image(
-        image: AssetImage("lib/assets/icons/404page.png"),fit: BoxFit.fill,);
+      image: AssetImage("lib/assets/icons/404page.png"),
+      fit: BoxFit.fill,
+    );
   }
 }

@@ -5,11 +5,13 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
+import 'package:flutter_dashboard_web/constants/app_images.dart';
 import 'package:flutter_dashboard_web/main.dart';
 import 'package:flutter_dashboard_web/model/watchlist/watchlist_model.dart';
 import 'package:flutter_dashboard_web/ui/screens/dashboard/watchlist/order_pad.dart';
 import 'package:flutter_dashboard_web/ui/widgets/search_widget.dart';
 import 'package:flutter_dashboard_web/ui/widgets/swap_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:webviewx/webviewx.dart';
 
@@ -424,6 +426,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWidget(AppConstants.nifty50,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -456,6 +459,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   ],
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     TextWidget(AppConstants.sensex,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -534,6 +538,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           selectedmyList.value = value;
                           watchlistSelected.value = false;
                           selectedsymbol.value = null;
+                          searchController.clear();
                           watchlistBloc.add(SortWatchlist(atoz, value));
                         },
                       ),
@@ -614,21 +619,40 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   searchName: searchController.text));
             }),
           ),
-          Expanded(
-            child: ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: watchlist.symbols.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      selectedsymbol.value = watchlist.symbols[index];
-                      controller?.reload();
+          watchlist.symbols.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.only(top: AppWidgetSize.dimen_100),
+                  child: Column(
+                    children: [
+                      AppImages.nosearchlottie(),
+                      TextWidget(
+                        (watchlist.symbols.isEmpty &&
+                                searchController.text.isEmpty)
+                            ? AppConstants.nodata
+                            : AppConstants.nosearchdata,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontFamily: GoogleFonts.alumniSans().fontFamily,
+                            fontSize: AppWidgetSize.dimen_20),
+                      ),
+                    ],
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(top: AppWidgetSize.dimen_10),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: watchlist.symbols.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            selectedsymbol.value = watchlist.symbols[index];
+                            controller?.reload();
+                          },
+                          child: bodyData(context, watchlist, index));
                     },
-                    child: bodyData(context, watchlist, index));
-              },
-            ),
-          ),
+                  ),
+                ),
         ],
       ),
     );
