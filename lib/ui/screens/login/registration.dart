@@ -52,6 +52,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late OtpvalidationBloc otpvalidationBloc;
 
   ValueNotifier valueNotifier = ValueNotifier("");
+  ValueNotifier popShowed = ValueNotifier(false);
 
   @override
   void initState() {
@@ -63,7 +64,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           log(state.response.response.infoMsg);
           LoaderWidget().showLoader(context, stopLoader: true);
 
-          _showMyDialog(context);
+          if (!popShowed.value) {
+            _showMyDialog(context);
+          }
+          popShowed.value = true;
         }
         if (state is RegistrationError) {
           LoaderWidget().showLoader(context, stopLoader: true);
@@ -90,6 +94,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _otpCode = "";
     textEditingController.clear();
     valueNotifier.value = "";
+    popShowed.value = false;
   }
 
   _onOtpCallBack(String otpCode, bool isAutofill) {
