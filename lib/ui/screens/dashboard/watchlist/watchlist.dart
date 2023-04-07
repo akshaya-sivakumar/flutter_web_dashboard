@@ -521,7 +521,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             ],
           ),
           SizedBox(
-            child: searchBox(searchController, "", "Search..", () {
+            child: searchBox(searchController, "", "", () {
               watchlistBloc.add(SortWatchlist(atoz, selectedmyList.value,
                   searchName: searchController.text));
             }),

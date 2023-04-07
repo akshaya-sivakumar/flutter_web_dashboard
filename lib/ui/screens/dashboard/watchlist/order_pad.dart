@@ -157,7 +157,12 @@ class _OrderPadWindowState extends State<OrderPadWindow> {
                                         .textTheme
                                         .titleMedium
                                         ?.copyWith(
-                                            color: Colors.green,
+                                            color: widget.symbol.change
+                                                    .contains("-")
+                                                ? Theme.of(context)
+                                                    .snackBarTheme
+                                                    .closeIconColor
+                                                : Theme.of(context).focusColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: AppWidgetSize.dimen_11),
                                   ),
