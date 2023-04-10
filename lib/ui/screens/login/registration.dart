@@ -324,6 +324,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           InkWell(
                             onTap: () async {
                               if (formKey.currentState!.validate()) {
+                                obscuretext.value = true;
                                 loginData = {
                                   AppConstants.usernameKey: phoneNo.text,
                                   AppConstants.passwordKey: password.text
@@ -536,7 +537,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.key),
+                        Icon(
+                          Icons.key,
+                          color: Theme.of(context).primaryColor,
+                        ),
                         TextWidget(
                           " ${store ? AppConstants.save : AppConstants.update} ${AppConstants.password} ?",
                           style: Theme.of(context)
@@ -618,7 +622,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleSmall
-                                    ?.copyWith(),
+                                    ?.copyWith(
+                                      fontSize: AppWidgetSize.dimen_12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                               )),
                           SizedBox(
                             width: AppWidgetSize.dimen_10,
@@ -641,6 +648,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     .textTheme
                                     .titleSmall
                                     ?.copyWith(
+                                        fontSize: AppWidgetSize.dimen_12,
+                                        fontWeight: FontWeight.w500,
                                         color: Theme.of(context)
                                             .scaffoldBackgroundColor),
                               ))
