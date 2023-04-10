@@ -111,6 +111,12 @@ class AppImages {
     );
   }
 
+  static Image inProgress() {
+    return const Image(
+      image: AssetImage("lib/assets/icons/progress.png"),
+    );
+  }
+
   static Image notfoundImage() {
     return const Image(
       image: AssetImage("lib/assets/icons/404page.png"),

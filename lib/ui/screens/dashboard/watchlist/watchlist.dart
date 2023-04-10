@@ -349,6 +349,77 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     );
   }
 
+  static Widget _buildIndicatorLeadingTrailingWidget(
+    bool isLeading,
+    String headline1,
+    String headline2,
+  ) {
+    return Column(
+      crossAxisAlignment:
+          isLeading ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: AppWidgetSize.dimen_10),
+          child: TextWidget(
+            headline1,
+            style: Theme.of(appRoute.navigatorKey.currentContext!)
+                .primaryTextTheme
+                .bodyLarge!
+                .copyWith(
+                  color: Theme.of(appRoute.navigatorKey.currentContext!)
+                      .primaryTextTheme
+                      .bodySmall!
+                      .color,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ),
+        _buildFiftyWeekLabel(
+          headline2,
+          isLeading,
+        ),
+      ],
+    );
+  }
+
+  static Widget _buildFiftyWeekLabel(
+    String value,
+    bool isLeft,
+  ) {
+    return Container(
+      width: AppWidgetSize.dimen_80,
+      constraints: BoxConstraints(maxHeight: AppWidgetSize.dimen_30),
+      decoration: BoxDecoration(
+        borderRadius: isLeft
+            ? BorderRadius.only(
+                topLeft: Radius.circular(AppWidgetSize.dimen_20),
+                bottomLeft: Radius.circular(AppWidgetSize.dimen_20),
+              )
+            : BorderRadius.only(
+                topRight: Radius.circular(AppWidgetSize.dimen_20),
+                bottomRight: Radius.circular(AppWidgetSize.dimen_20),
+              ),
+        color: Theme.of(appRoute.navigatorKey.currentContext!)
+            .snackBarTheme
+            .backgroundColor!
+            .withOpacity(0.5),
+      ),
+      alignment: Alignment.center,
+      child: TextWidget(
+        value,
+        style: Theme.of(appRoute.navigatorKey.currentContext!)
+            .primaryTextTheme
+            .bodySmall!
+            .copyWith(
+              fontWeight: FontWeight.w600,
+            )
+            .copyWith(
+              fontSize: AppWidgetSize.dimen_10,
+            ),
+      ),
+    );
+  }
+
   static Widget _buildSeekBarWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

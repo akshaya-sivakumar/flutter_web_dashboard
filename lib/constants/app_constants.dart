@@ -28,6 +28,7 @@ class AppConstants {
 
   static const String loginCap = "LOGIN";
   static const String login = "Login";
+  static const String orderScreen = "Orders Screen";
   static const String mobilenumber = "Mobile Number";
   static const String atoz = 'A - Z';
   static const String ztoa = 'Z - A';
@@ -39,6 +40,7 @@ class AppConstants {
   static const String sensexPer = " (0.96%)";
   static const String myList = "My List";
   static const String details = "Details";
+  static const String notDeveloped = "Not yet developed!!!";
   static const String unknownError = "Unknown Error";
   static const String watchlist = "Watchlist";
   static const String orders = "Orders";
@@ -97,6 +99,9 @@ class AppConstants {
   static const String highValue = "206.20";
   static const String low = "Low";
   static const String lowValue = "197.35";
+
+  static const String fiftytwoWeek = "52Wk High/Low";
+  static const String upplowCircuit = "Upper/Lower Circuit";
 
   static const String fontName = 'opensans';
 
