@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_routes.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
@@ -231,7 +232,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           SizedBox(
                             height: AppWidgetSize.dimen_20,
                           ),
-                          suggestionField(
+/*                           suggestionField(
                               context, phoneNo, AppConstants.username,
                               (pattern) async {
                             return userList
@@ -269,61 +270,128 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               : Icons.remove_red_eye,
                                           color: Theme.of(context).primaryColor,
                                         )));
-                              }),
-                          /*  TextFormField(
-                            controller: phoneNo,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value == "" || value == null) {
-                                return AppConstants.mobileValidation;
-                              }
-                              return null;
-                            },
-                            style: TextStyle(
-                                fontSize: AppWidgetSize.dimen_16,
-                                color: Theme.of(context).primaryColor),
-                            obscureText: false,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: AppConstants.mobilenumber,
-                              filled: true,
-                              fillColor: Colors.white54.withOpacity(0.6),
-                              hintStyle: TextStyle(
-                                  fontSize: AppWidgetSize.dimen_13,
-                                  color: Theme.of(context).canvasColor),
-                              labelStyle: TextStyle(
-                                  fontSize: AppWidgetSize.dimen_14,
-                                  color: Theme.of(context).canvasColor),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: AppWidgetSize.dimen_20,
-                                  horizontal: AppWidgetSize.dimen_10),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      AppWidgetSize.dimen_10),
-                                  borderSide: BorderSide(
-                                      width: 0,
-                                      color: Theme.of(context).canvasColor)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      AppWidgetSize.dimen_10),
-                                  borderSide: BorderSide(
-                                      width: 0,
-                                      color: Theme.of(context).canvasColor)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      AppWidgetSize.dimen_10),
-                                  borderSide: BorderSide(
-                                      width: 0,
-                                      color: Theme.of(context).canvasColor)),
+                              }), */
+                          AutofillGroup(
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: phoneNo,
+                                  autofillHints: const [AutofillHints.username],
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) {
+                                    if (value == "" || value == null) {
+                                      return AppConstants.mobileValidation;
+                                    }
+                                    return null;
+                                  },
+                                  style: TextStyle(
+                                      fontSize: AppWidgetSize.dimen_16,
+                                      color: Theme.of(context).primaryColor),
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    hintText: "Username",
+                                    filled: true,
+                                    fillColor: Colors.white54.withOpacity(0.6),
+                                    hintStyle: TextStyle(
+                                        fontSize: AppWidgetSize.dimen_13,
+                                        color: Theme.of(context).canvasColor),
+                                    labelStyle: TextStyle(
+                                        fontSize: AppWidgetSize.dimen_14,
+                                        color: Theme.of(context).canvasColor),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: AppWidgetSize.dimen_20,
+                                        horizontal: AppWidgetSize.dimen_10),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            AppWidgetSize.dimen_10),
+                                        borderSide: BorderSide(
+                                            width: 0,
+                                            color:
+                                                Theme.of(context).canvasColor)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            AppWidgetSize.dimen_10),
+                                        borderSide: BorderSide(
+                                            width: 0,
+                                            color:
+                                                Theme.of(context).canvasColor)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            AppWidgetSize.dimen_10),
+                                        borderSide: BorderSide(
+                                            width: 0,
+                                            color:
+                                                Theme.of(context).canvasColor)),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: AppWidgetSize.dimen_30,
+                                ),
+                                TextFormField(
+                                  controller: password,
+                                  autofillHints: const [AutofillHints.password],
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) {
+                                    if (value == "" || value == null) {
+                                      return AppConstants.mobileValidation;
+                                    }
+                                    return null;
+                                  },
+                                  style: TextStyle(
+                                      fontSize: AppWidgetSize.dimen_16,
+                                      color: Theme.of(context).primaryColor),
+                                  obscureText: false,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    hintText: "Password",
+                                    filled: true,
+                                    fillColor: Colors.white54.withOpacity(0.6),
+                                    hintStyle: TextStyle(
+                                        fontSize: AppWidgetSize.dimen_13,
+                                        color: Theme.of(context).canvasColor),
+                                    labelStyle: TextStyle(
+                                        fontSize: AppWidgetSize.dimen_14,
+                                        color: Theme.of(context).canvasColor),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: AppWidgetSize.dimen_20,
+                                        horizontal: AppWidgetSize.dimen_10),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            AppWidgetSize.dimen_10),
+                                        borderSide: BorderSide(
+                                            width: 0,
+                                            color:
+                                                Theme.of(context).canvasColor)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            AppWidgetSize.dimen_10),
+                                        borderSide: BorderSide(
+                                            width: 0,
+                                            color:
+                                                Theme.of(context).canvasColor)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            AppWidgetSize.dimen_10),
+                                        borderSide: BorderSide(
+                                            width: 0,
+                                            color:
+                                                Theme.of(context).canvasColor)),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ), */
+                          ),
                           SizedBox(
                             height: AppWidgetSize.dimen_30,
                           ),
                           InkWell(
                             onTap: () async {
-                              if (formKey.currentState!.validate()) {
+                              TextInput.finishAutofillContext();
+                              appRoute.pushNamed(AppRoutes.watchlistRoute);
+                              /*  if (formKey.currentState!.validate()) {
                                 obscuretext.value = true;
                                 loginData = {
                                   AppConstants.usernameKey: phoneNo.text,
@@ -355,7 +423,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             data: reg.Data(
                                                 mobNo: "+91${phoneNo.text}"),
                                             appID: AppConstants.appId)))); */
-                              } else {}
+                              } else {} */
                             },
                             child: Container(
                               decoration: BoxDecoration(
