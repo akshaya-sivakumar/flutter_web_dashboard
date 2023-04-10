@@ -31,7 +31,7 @@ class AppRouter extends $AppRouter {
         page: Dashboard.page,
         transitionsBuilder: TransitionsBuilders.noTransition,
         durationInMilliseconds: 100,
-        guards: [AuthGuard()],
+        // guards: [AuthGuard()],
         reverseDurationInMilliseconds: 0),
     AutoRoute(
       path: "*",

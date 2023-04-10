@@ -50,6 +50,7 @@ dependencies:
   pointer_interceptor: ^0.9.3+4
   encrypt: ^5.0.1
   lottie: ^2.3.2
+  flutter_typeahead: ^4.3.7
 
 
 dev_dependencies:

@@ -38,6 +38,10 @@ class AppImages {
         image: AssetImage('lib/assets/icons/watchlist_select@3x.png'));
   }
 
+  static Image appIcon() {
+    return const Image(image: AssetImage('lib/assets/icons/appIcon.png'));
+  }
+
   static Image watchlistSelectedDark() {
     return const Image(
         image: AssetImage('lib/assets/icons/watchlist_select_dark@3x.png'));

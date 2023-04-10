@@ -106,6 +106,7 @@ class AppConstants {
   static const String fontName = 'opensans';
 
   static const String loginKey = "login";
+    static const String usersList = "userlist";
   static const String watchlistKey = 'watchlistresponse';
   static const String encryptKey = "flutterwebsample";
   String weburl =

@@ -29,6 +29,36 @@ class AppUtils {
     window.sessionStorage[AppConstants.loginKey] = sessionid;
   }
 
+  List getUserlist() {
+    final encrypt.Encrypter encrypter = encrypt.Encrypter(
+        encrypt.AES(encrypt.Key.fromUtf8(AppConstants.encryptKey)));
+    final encryptedDataString =
+        window.localStorage[AppConstants.usersList] ?? "";
+    encrypt.Encrypted encryptedData =
+        encrypt.Encrypted.fromBase64(encryptedDataString);
+    if (encryptedData.bytes.isEmpty) return [];
+    final decryptedData = encrypter.decrypt(encryptedData, iv: iv);
+    return json.decode(decryptedData);
+  }
+
+  storeUserlist(dynamic userData) {
+    final encrypt.Encrypter encrypter = encrypt.Encrypter(
+        encrypt.AES(encrypt.Key.fromUtf8(AppConstants.encryptKey)));
+
+    List data = getUserlist();
+
+    if (data.isEmpty) {
+      encrypt.Encrypted encryptedData =
+          encrypter.encrypt(json.encode([userData]), iv: iv);
+      window.localStorage[AppConstants.usersList] = encryptedData.base64;
+    } else {
+      data.add(userData);
+      encrypt.Encrypted encryptedData =
+          encrypter.encrypt(json.encode(data), iv: iv);
+      window.localStorage[AppConstants.usersList] = encryptedData.base64;
+    }
+  }
+
   clearsession() {
     window.sessionStorage[AppConstants.loginKey] = "";
   }

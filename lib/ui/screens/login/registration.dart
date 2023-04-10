@@ -3,11 +3,14 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_routes.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
 import 'package:flutter_dashboard_web/ui/widgets/show_toast.dart';
+import 'package:flutter_dashboard_web/utils/app_utils.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
@@ -43,6 +46,7 @@ class RegistrationScreen extends StatefulWidget implements AutoRouteWrapper {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   late RegistrationBloc registrationBloc;
   TextEditingController phoneNo = TextEditingController();
+  TextEditingController password = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   int otpCodeLength = 4;
@@ -53,15 +57,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   ValueNotifier valueNotifier = ValueNotifier("");
   ValueNotifier popShowed = ValueNotifier(false);
+  List userList = [];
 
   @override
   void initState() {
     super.initState();
+    userList = AppUtils().getUserlist();
 
     registrationBloc = BlocProvider.of<RegistrationBloc>(context)
       ..stream.listen((state) async {
         if (state is RegistrationDone) {
           log(state.response.response.infoMsg);
+
           LoaderWidget().showLoader(context, stopLoader: true);
 
           if (!popShowed.value) {
@@ -222,10 +229,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           SizedBox(
                             height: AppWidgetSize.dimen_20,
                           ),
+                          suggestionField(context, phoneNo, "Username",
+                              (pattern) async {
+                            return userList
+                                .where((element) => element["username"]
+                                    .toString()
+                                    .contains(pattern))
+                                .toList();
+                          }),
                           SizedBox(
                             height: AppWidgetSize.dimen_20,
                           ),
-                          TextFormField(
+                          suggestionField(context, password, "Password",
+                              (pattern) async {
+                            return userList
+                                .where((element) => element["password"]
+                                    .toString()
+                                    .contains(pattern))
+                                .toList();
+                          }, obscureText: true),
+                          /*  TextFormField(
                             controller: phoneNo,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -272,22 +295,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       width: 0,
                                       color: Theme.of(context).canvasColor)),
                             ),
-                          ),
+                          ), */
                           SizedBox(
                             height: AppWidgetSize.dimen_30,
                           ),
                           InkWell(
                             onTap: () {
-                              // appRoute.pushNamed("/dashboard?index=0");
+                              //
                               if (formKey.currentState!.validate()) {
-                                LoaderWidget().showLoader(context,
+                                TextInput.finishAutofillContext(
+                                    shouldSave: true);
+                                AppUtils().storeUserlist({
+                                  "username": phoneNo.text,
+                                  "password": password.text
+                                });
+                                // appRoute.pushNamed("/dashboard?index=0");
+                                /*  LoaderWidget().showLoader(context,
                                     text: AppConstants.pleaseWait);
                                 registrationBloc.add(RegistrationRequestEvent(
                                     reg.RegistrationRequest(
                                         request: reg.Request(
                                             data: reg.Data(
                                                 mobNo: "+91${phoneNo.text}"),
-                                            appID: AppConstants.appId))));
+                                            appID: AppConstants.appId)))); */
                               } else {}
                             },
                             child: Container(
@@ -320,6 +350,87 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  TypeAheadField<dynamic> suggestionField(
+      BuildContext context,
+      TextEditingController controller,
+      String hintText,
+      FutureOr<Iterable<dynamic>> Function(String) suggestionsCallback,
+      {bool obscureText = false}) {
+    return TypeAheadField(
+      hideOnEmpty: true,
+      hideOnError: true,
+      getImmediateSuggestions: false,
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: controller,
+        autofocus: true,
+        obscureText: obscureText,
+        style: DefaultTextStyle.of(context)
+            .style
+            .copyWith(fontStyle: FontStyle.italic),
+        decoration: InputDecoration(
+          hintText: hintText,
+          filled: true,
+          fillColor: Colors.white54.withOpacity(0.6),
+          hintStyle: TextStyle(
+              fontSize: AppWidgetSize.dimen_13,
+              color: Theme.of(context).canvasColor),
+          labelStyle: TextStyle(
+              fontSize: AppWidgetSize.dimen_14,
+              color: Theme.of(context).canvasColor),
+          contentPadding: EdgeInsets.symmetric(
+              vertical: AppWidgetSize.dimen_20,
+              horizontal: AppWidgetSize.dimen_10),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppWidgetSize.dimen_10),
+              borderSide:
+                  BorderSide(width: 0, color: Theme.of(context).canvasColor)),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppWidgetSize.dimen_10),
+              borderSide:
+                  BorderSide(width: 0, color: Theme.of(context).canvasColor)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppWidgetSize.dimen_10),
+              borderSide:
+                  BorderSide(width: 0, color: Theme.of(context).canvasColor)),
+        ),
+      ),
+      suggestionsBoxDecoration: SuggestionsBoxDecoration(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        color: Theme.of(context).scaffoldBackgroundColor,
+        constraints: BoxConstraints(
+            maxWidth: 200,
+            maxHeight: userList.isEmpty
+                ? 0
+                : ((AppWidgetSize.dimen_70) * (userList.length))),
+      ),
+      suggestionsCallback: suggestionsCallback,
+      animationDuration: Duration.zero,
+      itemBuilder: (context, suggestion) {
+        return Container(
+          padding: const EdgeInsets.all(4),
+          height: AppWidgetSize.dimen_70,
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color: Theme.of(context).dividerColor, width: 0.3))),
+          child: ListTile(
+            tileColor: Theme.of(context).scaffoldBackgroundColor,
+            leading: AppImages.appIcon(),
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: TextWidget(suggestion["username"]),
+            ),
+            subtitle: const Text('••••••••'),
+          ),
+        );
+      },
+      onSuggestionSelected: (suggestion) {
+        phoneNo.text = suggestion['username'];
+        password.text = suggestion["password"];
+      },
     );
   }
 
@@ -448,5 +559,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       border: Border.all(color: Colors.grey),
       borderRadius: BorderRadius.circular(10.0),
     );
+  }
+
+  @override
+  void dispose() {
+    debugPrint("Form widget disposed");
+    super.dispose();
   }
 }
