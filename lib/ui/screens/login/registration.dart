@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_routes.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
@@ -48,6 +48,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController phoneNo = TextEditingController();
   TextEditingController password = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  Map<String, dynamic> loginData = {};
 
   int otpCodeLength = 4;
   String? _otpCode;
@@ -56,6 +57,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late OtpvalidationBloc otpvalidationBloc;
 
   ValueNotifier valueNotifier = ValueNotifier("");
+  ValueNotifier<bool> obscuretext = ValueNotifier(true);
   ValueNotifier popShowed = ValueNotifier(false);
   List userList = [];
 
@@ -115,7 +117,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       otpvalidationBloc.add(OtpvalidationRequestEvent(OtpvalidationRequest(
           request: Request(
               data: Data(
-                  mobNo: "+91${phoneNo.text}",
+                  mobNo: "${AppConstants.countryCode}${phoneNo.text}",
                   otp: _otpCode ?? "",
                   userType: AppConstants.usertype),
               appID: AppConstants.appIdOtp))));
@@ -229,25 +231,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           SizedBox(
                             height: AppWidgetSize.dimen_20,
                           ),
-                          suggestionField(context, phoneNo, "Username",
+                          suggestionField(
+                              context, phoneNo, AppConstants.username,
                               (pattern) async {
                             return userList
-                                .where((element) => element["username"]
-                                    .toString()
-                                    .contains(pattern))
+                                .where((element) =>
+                                    element[AppConstants.usernameKey]
+                                        .toString()
+                                        .contains(pattern))
                                 .toList();
                           }),
                           SizedBox(
                             height: AppWidgetSize.dimen_20,
                           ),
-                          suggestionField(context, password, "Password",
-                              (pattern) async {
-                            return userList
-                                .where((element) => element["password"]
-                                    .toString()
-                                    .contains(pattern))
-                                .toList();
-                          }, obscureText: true),
+                          ValueListenableBuilder<bool>(
+                              valueListenable: obscuretext,
+                              builder: (context, snapshot, _) {
+                                return suggestionField(
+                                    context, password, AppConstants.password,
+                                    (pattern) async {
+                                  return userList
+                                      .where((element) =>
+                                          element[AppConstants.passwordKey]
+                                              .toString()
+                                              .contains(pattern))
+                                      .toList();
+                                },
+                                    obscureText: obscuretext.value,
+                                    suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          obscuretext.value =
+                                              !obscuretext.value;
+                                        },
+                                        child: Icon(
+                                          obscuretext.value
+                                              ? Icons.remove_red_eye_outlined
+                                              : Icons.remove_red_eye,
+                                          color: Theme.of(context).primaryColor,
+                                        )));
+                              }),
                           /*  TextFormField(
                             controller: phoneNo,
                             autovalidateMode:
@@ -300,16 +322,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             height: AppWidgetSize.dimen_30,
                           ),
                           InkWell(
-                            onTap: () {
-                              //
+                            onTap: () async {
                               if (formKey.currentState!.validate()) {
-                                TextInput.finishAutofillContext(
-                                    shouldSave: true);
-                                AppUtils().storeUserlist({
-                                  "username": phoneNo.text,
-                                  "password": password.text
-                                });
-                                // appRoute.pushNamed("/dashboard?index=0");
+                                loginData = {
+                                  AppConstants.usernameKey: phoneNo.text,
+                                  AppConstants.passwordKey: password.text
+                                };
+
+                                if (AppUtils().isuserexist(loginData)) {
+                                  appRoute.pushNamed(AppRoutes.watchlistRoute);
+                                } else {
+                                  bool save = (userList
+                                      .where((element) {
+                                        return (element[
+                                                    AppConstants.usernameKey] ==
+                                                phoneNo.text &&
+                                            element[AppConstants.passwordKey] !=
+                                                password.text);
+                                      })
+                                      .toList()
+                                      .isEmpty);
+
+                                  await _showStorepopup(context, store: save);
+                                }
+
                                 /*  LoaderWidget().showLoader(context,
                                     text: AppConstants.pleaseWait);
                                 registrationBloc.add(RegistrationRequestEvent(
@@ -358,7 +394,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       TextEditingController controller,
       String hintText,
       FutureOr<Iterable<dynamic>> Function(String) suggestionsCallback,
-      {bool obscureText = false}) {
+      {bool obscureText = false,
+      Widget? suffixIcon}) {
     return TypeAheadField(
       hideOnEmpty: true,
       hideOnError: true,
@@ -371,6 +408,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             .style
             .copyWith(fontStyle: FontStyle.italic),
         decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           hintText: hintText,
           filled: true,
           fillColor: Colors.white54.withOpacity(0.6),
@@ -421,16 +459,210 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             leading: AppImages.appIcon(),
             title: Padding(
               padding: const EdgeInsets.only(bottom: 5),
-              child: TextWidget(suggestion["username"]),
+              child: TextWidget(suggestion[AppConstants.usernameKey]),
             ),
-            subtitle: const Text('••••••••'),
+            subtitle: TextWidget(AppUtils().createDotString(
+                suggestion[AppConstants.passwordKey].toString().length)),
           ),
         );
       },
       onSuggestionSelected: (suggestion) {
-        phoneNo.text = suggestion['username'];
-        password.text = suggestion["password"];
+        phoneNo.text = suggestion[AppConstants.usernameKey];
+        password.text = suggestion[AppConstants.passwordKey];
       },
+    );
+  }
+
+  _showStorepopup(contxt, {bool store = true}) {
+    showAlignedDialog(
+      barrierDismissible: false,
+      context: contxt,
+      followerAnchor: Alignment.topRight,
+      isGlobal: true,
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
+        return SlideTransition(
+          position: Tween(begin: const Offset(1, 0), end: const Offset(0, 0))
+              .animate(animation),
+          child: FadeTransition(
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            ),
+            child: child,
+          ),
+        );
+      },
+      builder: (contxt) {
+        return Container(
+          margin: EdgeInsets.all(AppWidgetSize.dimen_10),
+          width: AppWidgetSize.fullWidth(contxt) * 0.2,
+          height: AppWidgetSize.fullHeight(context) * 0.4,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Container(
+              padding: EdgeInsets.only(bottom: AppWidgetSize.dimen_20),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: AppWidgetSize.dimen_10,
+                        horizontal: AppWidgetSize.dimen_10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              appRoute.pop();
+                              appRoute.pushNamed(AppRoutes.watchlistRoute);
+                            },
+                            child: Icon(
+                              Icons.close,
+                              size: AppWidgetSize.dimen_15,
+                            )),
+                      ],
+                    ),
+                  ),
+                  AppImages.storeImg(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: AppWidgetSize.dimen_10,
+                        bottom: AppWidgetSize.dimen_10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.key),
+                        TextWidget(
+                          " ${store ? AppConstants.save : AppConstants.update} ${AppConstants.password} ?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(
+                                  fontFamily: GoogleFonts.roboto().fontFamily,
+                                  fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextWidget(
+                        AppConstants.username,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(fontSize: 12),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: AppWidgetSize.dimen_10),
+                        height: AppWidgetSize.dimen_50,
+                        width: AppWidgetSize.dimen_130,
+                        child: Center(
+                          child: TextFormField(
+                            initialValue: phoneNo.text,
+                            readOnly: true,
+                            decoration: popupFieldDecor(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextWidget(AppConstants.password,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontSize: 12)),
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        height: 50,
+                        width: 130,
+                        child: Center(
+                          child: TextFormField(
+                            initialValue: password.text,
+                            readOnly: true,
+                            obscureText: true,
+                            decoration: popupFieldDecor(),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: AppWidgetSize.dimen_10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5))),
+                              onPressed: () {
+                                appRoute.pushNamed(AppRoutes.watchlistRoute);
+                              },
+                              child: TextWidget(
+                                AppConstants.nothanks,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(),
+                              )),
+                          SizedBox(
+                            width: AppWidgetSize.dimen_10,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          AppWidgetSize.dimen_5))),
+                              onPressed: () {
+                                AppUtils()
+                                    .storeUserlist(loginData, save: store);
+                                appRoute.pushNamed(AppRoutes.watchlistRoute);
+                              },
+                              child: TextWidget(
+                                "${store ? AppConstants.save : AppConstants.update} ${AppConstants.password}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor),
+                              ))
+                        ]),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  InputDecoration popupFieldDecor() {
+    return InputDecoration(
+      contentPadding: EdgeInsets.symmetric(
+          vertical: AppWidgetSize.dimen_10, horizontal: AppWidgetSize.dimen_5),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppWidgetSize.dimen_2),
+          borderSide:
+              BorderSide(width: 0, color: Theme.of(context).canvasColor)),
     );
   }
 
@@ -537,7 +769,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 reg.RegistrationRequest(
                                     request: reg.Request(
                                         data: reg.Data(
-                                            mobNo: "+91${phoneNo.text}"),
+                                            mobNo:
+                                                "${AppConstants.countryCode}${phoneNo.text}"),
                                         appID: AppConstants.appId))));
                           });
                         },
@@ -559,11 +792,5 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       border: Border.all(color: Colors.grey),
       borderRadius: BorderRadius.circular(10.0),
     );
-  }
-
-  @override
-  void dispose() {
-    debugPrint("Form widget disposed");
-    super.dispose();
   }
 }

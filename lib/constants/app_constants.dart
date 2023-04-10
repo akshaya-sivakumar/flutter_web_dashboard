@@ -2,8 +2,19 @@ import '../utils/app_utils.dart';
 
 class AppConstants {
   static const String enterMobileNo = "Enter the Mobile Number to Login";
-
+  static const String countryCode = "+91";
   static const String phNo = "Phone Number";
+  static const String username = "Username";
+  static const String usernameKey = "username";
+  static const String passwordKey = "password";
+
+
+  static const String password = "Password";
+    static const String passwordHidden = '•';
+  static const String nothanks = "No,Thanks";
+
+  static const String save = "Save";
+  static const String update = "Update";
 
   static const String otpVerify = "Please enter the OTP to Login";
   static const String otpVerified = "A OTP has been sent to ";
@@ -106,7 +117,7 @@ class AppConstants {
   static const String fontName = 'opensans';
 
   static const String loginKey = "login";
-    static const String usersList = "userlist";
+  static const String usersList = "userlist";
   static const String watchlistKey = 'watchlistresponse';
   static const String encryptKey = "flutterwebsample";
   String weburl =

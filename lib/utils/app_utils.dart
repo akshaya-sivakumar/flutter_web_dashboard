@@ -29,11 +29,15 @@ class AppUtils {
     window.sessionStorage[AppConstants.loginKey] = sessionid;
   }
 
+  clearsession() {
+    window.sessionStorage[AppConstants.loginKey] = "";
+  }
+
   List getUserlist() {
     final encrypt.Encrypter encrypter = encrypt.Encrypter(
         encrypt.AES(encrypt.Key.fromUtf8(AppConstants.encryptKey)));
     final encryptedDataString =
-        window.localStorage[AppConstants.usersList] ?? "";
+        (window.localStorage[AppConstants.usersList]) ?? "";
     encrypt.Encrypted encryptedData =
         encrypt.Encrypted.fromBase64(encryptedDataString);
     if (encryptedData.bytes.isEmpty) return [];
@@ -41,7 +45,7 @@ class AppUtils {
     return json.decode(decryptedData);
   }
 
-  storeUserlist(dynamic userData) {
+  storeUserlist(dynamic userData, {bool save = true}) {
     final encrypt.Encrypter encrypter = encrypt.Encrypter(
         encrypt.AES(encrypt.Key.fromUtf8(AppConstants.encryptKey)));
 
@@ -52,6 +56,11 @@ class AppUtils {
           encrypter.encrypt(json.encode([userData]), iv: iv);
       window.localStorage[AppConstants.usersList] = encryptedData.base64;
     } else {
+      if (!save) {
+        data.removeWhere((element) =>
+            element[AppConstants.usernameKey] ==
+            userData[AppConstants.usernameKey]);
+      }
       data.add(userData);
       encrypt.Encrypted encryptedData =
           encrypter.encrypt(json.encode(data), iv: iv);
@@ -59,8 +68,19 @@ class AppUtils {
     }
   }
 
-  clearsession() {
-    window.sessionStorage[AppConstants.loginKey] = "";
+  bool isuserexist(data) {
+    List userList = getUserlist();
+    return userList
+        .where((element) => (element[AppConstants.usernameKey] ==
+                data[AppConstants.usernameKey] &&
+            element[AppConstants.passwordKey] ==
+                data[AppConstants.passwordKey]))
+        .toList()
+        .isNotEmpty;
+  }
+
+  String createDotString(int length) {
+    return AppConstants.passwordHidden * length;
   }
 
   WatchlistModel? getfromCrypto() {
