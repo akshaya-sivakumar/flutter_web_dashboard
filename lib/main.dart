@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_constants.dart';
@@ -10,7 +12,19 @@ import 'auto_route/router.gr.dart';
 import 'bloc/theme/theme_bloc.dart';
 
 final appRoute = AppRouter();
-void main() {
+final FirebaseAuth auth = FirebaseAuth.instance;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    // Replace with actual values
+    options: const FirebaseOptions(
+      authDomain: "flutterdashboard-cab5f.firebaseapp.com",
+      apiKey: "AIzaSyAYkM1F2iXPAoqtbxbJUDVsAiGgymuR8fU",
+      appId: "1:224539913113:web:7267c3ff4fdd2b0359c108",
+      messagingSenderId: "224539913113",
+      projectId: "flutterdashboard-cab5f",
+    ),
+  );
   runApp(BlocProvider(
     create: (context) => ThemeBloc(),
     child: const MyApp(),

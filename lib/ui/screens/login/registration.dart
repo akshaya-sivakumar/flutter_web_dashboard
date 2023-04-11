@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard_web/constants/app_routes.dart';
 import 'package:flutter_dashboard_web/constants/appwidget_size.dart';
 import 'package:flutter_dashboard_web/main.dart';
+import 'package:flutter_dashboard_web/ui/widgets/google_button.dart';
 import 'package:flutter_dashboard_web/ui/widgets/show_toast.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -193,7 +194,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               width: 0.3)),
                       constraints: BoxConstraints(
                           maxWidth: AppWidgetSize.dimen_400,
-                          maxHeight: AppWidgetSize.dimen_400),
+                          maxHeight: AppWidgetSize.dimen_500),
                       padding: EdgeInsets.all(AppWidgetSize.dimen_24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -442,9 +443,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          /*  SizedBox(
                             height: AppWidgetSize.dimen_15,
-                          ),
+                          ), */
+                          const GoogleButton()
                         ],
                       ),
                     ),
