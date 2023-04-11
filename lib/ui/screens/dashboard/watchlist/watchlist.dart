@@ -889,55 +889,55 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   ],
                                 ),
                               ),
-                              if (!watchlist.symbols[index].ttEligibility)
-                                SizedBox(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Center(
-                                        child: TextWidget(
-                                          watchlist.symbols[index].excToken
-                                              .toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize:
-                                                      AppWidgetSize.dimen_14),
-                                        ),
+                              //if (!watchlist.symbols[index].ttEligibility)
+                              SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Center(
+                                      child: TextWidget(
+                                        watchlist.symbols[index].excToken
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize:
+                                                    AppWidgetSize.dimen_14),
                                       ),
-                                      Divider(
-                                        height: AppWidgetSize.dimen_5,
-                                        color: Colors.transparent,
+                                    ),
+                                    Divider(
+                                      height: AppWidgetSize.dimen_5,
+                                      color: Colors.transparent,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: AppWidgetSize.dimen_2),
+                                      child: TextWidget(
+                                        "${watchlist.symbols[index].change}(${watchlist.symbols[index].changePer}%)",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge
+                                            ?.copyWith(
+                                                fontSize:
+                                                    AppWidgetSize.dimen_13,
+                                                color: watchlist
+                                                        .symbols[index].change
+                                                        .contains("-")
+                                                    ? Theme.of(context)
+                                                        .snackBarTheme
+                                                        .closeIconColor
+                                                    : Colors.green),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: AppWidgetSize.dimen_2),
-                                        child: TextWidget(
-                                          "${watchlist.symbols[index].change}(${watchlist.symbols[index].changePer}%)",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge
-                                              ?.copyWith(
-                                                  fontSize:
-                                                      AppWidgetSize.dimen_13,
-                                                  color: watchlist
-                                                          .symbols[index].change
-                                                          .contains("-")
-                                                      ? Theme.of(context)
-                                                          .snackBarTheme
-                                                          .closeIconColor
-                                                      : Colors.green),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
+                                    )
+                                  ],
+                                ),
+                              )
                             ],
                           ),
-                          if (watchlist.symbols[index].ttEligibility)
-                            buysellHoverwidget(context, index)
+                          /*   if (watchlist.symbols[index].ttEligibility)
+                            buysellHoverwidget(context, index) */
                         ],
                       ));
                 });
