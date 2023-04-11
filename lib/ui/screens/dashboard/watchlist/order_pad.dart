@@ -53,7 +53,7 @@ class _OrderPadWindowState extends State<OrderPadWindow> {
             bottomNavigationBar: BottomAppBar(
               color: widget.buySelected
                   ? Theme.of(context).focusColor
-                  : Theme.of(context).snackBarTheme.closeIconColor,
+                  : Theme.of(context).snackBarTheme.actionTextColor,
               child: SizedBox(
                 height: AppWidgetSize.dimen_40,
                 child: Center(
@@ -161,7 +161,7 @@ class _OrderPadWindowState extends State<OrderPadWindow> {
                                                     .contains("-")
                                                 ? Theme.of(context)
                                                     .snackBarTheme
-                                                    .closeIconColor
+                                                    .actionTextColor
                                                 : Theme.of(context).focusColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: AppWidgetSize.dimen_11),
@@ -183,7 +183,7 @@ class _OrderPadWindowState extends State<OrderPadWindow> {
                                     Theme.of(context).focusColor,
                                 activeTrackColor: Theme.of(context)
                                     .snackBarTheme
-                                    .closeIconColor,
+                                    .actionTextColor,
                                 activeColor:
                                     Theme.of(context).scaffoldBackgroundColor,
                                 inactiveThumbColor:

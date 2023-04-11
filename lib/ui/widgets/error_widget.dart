@@ -18,7 +18,7 @@ class ErrorsWidget extends StatelessWidget {
             Icon(
               Icons.error,
               size: AppWidgetSize.dimen_60,
-              color: Theme.of(context).snackBarTheme.closeIconColor,
+              color: Theme.of(context).snackBarTheme.actionTextColor,
             ),
             const TextWidget(AppConstants.unknownError)
           ],

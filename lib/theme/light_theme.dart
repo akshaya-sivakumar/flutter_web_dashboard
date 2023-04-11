@@ -240,7 +240,7 @@ ThemeData lightTheme() {
     ),
     snackBarTheme: const SnackBarThemeData(
         backgroundColor: snackbarBackgroundColor,
-        closeIconColor: appErrorcolor),
+        actionTextColor: appErrorcolor),
     /*  colorScheme: ColorScheme(
         error: appErrorcolor,
         brightness: Brightness.light,

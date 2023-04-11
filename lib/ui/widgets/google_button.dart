@@ -56,7 +56,7 @@ class _GoogleButtonState extends State<GoogleButton> {
                     Colors.blueGrey,
                   ),
                 )
-              : const Row(
+              :  Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

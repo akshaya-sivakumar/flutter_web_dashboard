@@ -132,7 +132,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Theme.of(context)
                                                 .snackBarTheme
-                                                .closeIconColor,
+                                                .actionTextColor,
                                           ),
                                           onPressed: () {
                                             buySelected.value = false;
@@ -475,7 +475,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 Theme.of(appRoute.navigatorKey.currentContext!).focusColor,
                 Theme.of(appRoute.navigatorKey.currentContext!)
                     .snackBarTheme
-                    .closeIconColor!,
+                    .actionTextColor!,
               ],
             ),
           ),
@@ -522,7 +522,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                     fontSize: AppWidgetSize.dimen_13,
                                     color: Theme.of(context)
                                         .snackBarTheme
-                                        .closeIconColor),
+                                        .actionTextColor),
                           ),
                         ],
                       ),
@@ -555,7 +555,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                     fontSize: AppWidgetSize.dimen_13,
                                     color: Theme.of(context)
                                         .snackBarTheme
-                                        .closeIconColor),
+                                        .actionTextColor),
                           ),
                         ],
                       ),
@@ -927,7 +927,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                                           .contains("-")
                                                       ? Theme.of(context)
                                                           .snackBarTheme
-                                                          .closeIconColor
+                                                          .actionTextColor
                                                       : Colors.green),
                                         ),
                                       )
@@ -974,7 +974,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             buySelected.value = false;
             showOrderpadpopup(contex);
           },
-              Theme.of(context).snackBarTheme.closeIconColor,
+              Theme.of(context).snackBarTheme.actionTextColor,
               Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontSize: AppWidgetSize.dimen_15,
                   color: Theme.of(context).scaffoldBackgroundColor,

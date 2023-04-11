@@ -239,11 +239,9 @@ class MaterialSwitchState extends State<MaterialSwitch>
     final Color? effectiveInactiveTrackOutlineColor =
         switchConfig.trackOutlineColor?.resolve(inactiveStates);
 
-    final Icon? effectiveActiveIcon = widget.thumbIcon?.resolve(activeStates) ??
-        switchTheme.thumbIcon?.resolve(activeStates);
+    final Icon? effectiveActiveIcon = widget.thumbIcon?.resolve(activeStates);
     final Icon? effectiveInactiveIcon =
-        widget.thumbIcon?.resolve(inactiveStates) ??
-            switchTheme.thumbIcon?.resolve(inactiveStates);
+        widget.thumbIcon?.resolve(inactiveStates);
 
     final Color effectiveActiveIconColor = effectiveActiveIcon?.color ??
         switchConfig.iconColor.resolve(activeStates);
@@ -322,7 +320,7 @@ class MaterialSwitchState extends State<MaterialSwitch>
         child: buildToggleable(
           mouseCursor: effectiveMouseCursor,
           focusNode: widget.focusNode,
-          onFocusChange: widget.onFocusChange,
+         // onFocusChange: widget.onFocusChange,
           autofocus: widget.autofocus,
           size: _getSwitchSize(context),
           painter: _painter

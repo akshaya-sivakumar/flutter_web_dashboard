@@ -100,7 +100,7 @@ class MarketDepthwidget extends StatelessWidget {
                               ?.copyWith(
                                   color: Theme.of(context)
                                       .snackBarTheme
-                                      .closeIconColor),
+                                      .actionTextColor),
                         ),
                       ),
                       Padding(
@@ -113,7 +113,7 @@ class MarketDepthwidget extends StatelessWidget {
                               ?.copyWith(
                                   color: Theme.of(context)
                                       .snackBarTheme
-                                      .closeIconColor),
+                                      .actionTextColor),
                         ),
                       ),
                       Padding(
@@ -126,7 +126,7 @@ class MarketDepthwidget extends StatelessWidget {
                               ?.copyWith(
                                   color: Theme.of(context)
                                       .snackBarTheme
-                                      .closeIconColor),
+                                      .actionTextColor),
                         ),
                       ),
                       Padding(
