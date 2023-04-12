@@ -446,7 +446,44 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           /*  SizedBox(
                             height: AppWidgetSize.dimen_15,
                           ), */
-                          const GoogleButton()
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                    width: 80,
+                                    child: Divider(
+                                      color: Theme.of(context).dividerColor,
+                                    )),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: TextWidget(
+                                    "or continue with",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                            fontFamily: GoogleFonts.roboto()
+                                                .fontFamily),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: 80,
+                                    child: Divider(
+                                      color: Theme.of(context).dividerColor,
+                                    )),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              GoogleButton(),
+                            ],
+                          )
                         ],
                       ),
                     ),

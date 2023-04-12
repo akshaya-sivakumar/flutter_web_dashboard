@@ -129,6 +129,13 @@ class AppImages {
     );
   }
 
+  static Image googleLogo() {
+    return Image(
+      image: const AssetImage("lib/assets/icons/googleLogo.png"),
+      height: AppWidgetSize.dimen_35,
+    );
+  }
+
   static Image notfoundImage() {
     return const Image(
       image: AssetImage("lib/assets/icons/404page.png"),
