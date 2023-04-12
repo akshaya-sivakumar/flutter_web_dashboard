@@ -33,6 +33,7 @@ class _GoogleButtonState extends State<GoogleButton> {
           });
           await AppUtils().signInWithGoogle().then((result) {
             if (result != null) {
+              AppUtils().storeLogin(result.refreshToken ?? "");
               appRoute.pushNamed(AppRoutes.watchlistRoute);
             }
           }).catchError((error) {
