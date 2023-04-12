@@ -889,6 +889,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   ],
                                 ),
                               ),
+
                               //if (!watchlist.symbols[index].ttEligibility)
                               SizedBox(
                                 child: Column(
