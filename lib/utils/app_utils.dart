@@ -4,7 +4,6 @@ import 'dart:html';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard_web/model/watchlist/watchlist_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -187,58 +186,38 @@ class AppUtils {
   Future<User?> signInWithGoogle() async {
     User? user;
 
-    if (kIsWeb) {
-      GoogleAuthProvider authProvider = GoogleAuthProvider();
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          "276998886366-agp7q1q79bbe1c04bo09o5oqi53e2sq9.apps.googleusercontent.com",
+    );
+
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    print(googleSignInAccount?.email);
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
 
       try {
         final UserCredential userCredential =
-            await auth.signInWithPopup(authProvider);
+            await auth.signInWithCredential(credential);
 
         user = userCredential.user;
+        print("user-${user?.email ?? ""}");
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          print('The account already exists with a different credential.');
+        } else if (e.code == 'invalid-credential') {
+          print('Error occurred while accessing credentials. Try again.');
+        }
       } catch (e) {
         print(e);
       }
-    } else {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
-
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
-
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-
-        try {
-          final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
-
-          user = userCredential.user;
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            print('The account already exists with a different credential.');
-          } else if (e.code == 'invalid-credential') {
-            print('Error occurred while accessing credentials. Try again.');
-          }
-        } catch (e) {
-          print(e);
-        }
-      }
-    }
-
-    if (user != null) {
-      print(user.email);
-      /*   uid = user.uid;
-      name = user.displayName;
-      userEmail = user.email;
-      imageUrl = user.photoURL;
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool('auth', true); */
     }
 
     return user;

@@ -6,6 +6,7 @@ import 'package:flutter_dashboard_web/constants/app_constants.dart';
 import 'package:flutter_dashboard_web/theme/dart_theme.dart';
 import 'package:flutter_dashboard_web/theme/light_theme.dart';
 import 'package:flutter_dashboard_web/utils/app_utils.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'auto_route/router.dart';
 import 'auto_route/router.gr.dart';
@@ -13,6 +14,11 @@ import 'bloc/theme/theme_bloc.dart';
 
 final appRoute = AppRouter();
 final FirebaseAuth auth = FirebaseAuth.instance;
+ final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          "276998886366-agp7q1q79bbe1c04bo09o5oqi53e2sq9.apps.googleusercontent.com",
+    );
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
